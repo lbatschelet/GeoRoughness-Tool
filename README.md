@@ -20,5 +20,5 @@ pip install numpy scipy rasterio
 The simplest way to use the script is to run the GUI version.
 In the GUI version, you can select the DEM file and the output file. The output file should also be a `.tif` file.
 ```bash
-python3 ./roughness_calculator/main_gui.py
+python3 ./roughness_calculator/gui_main.py
 ```
