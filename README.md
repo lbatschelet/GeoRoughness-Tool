@@ -1,7 +1,7 @@
 # DEM Roughness Calculator
 
-This is a simple Python script that calculates the roughness of a Digital Elevation Model (DEM) using 
-the standard deviation of the slope. The script uses the GDAL library to read the DEM and calculate the slope.
+This is a Python script that calculates the roughness of a Digital Elevation Model (DEM) using 
+the standard deviation of the slope.
 
 ## Needed libraries
 
