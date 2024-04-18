@@ -86,4 +86,3 @@ class ApplicationDriver:
             logging.error(f"Invalid output directory: {output_dir}")
             raise FileNotFoundError(f"The directory for the output path does not exist: {output_dir}")
         logging.info(f"Valid output directory: {output_dir}")
-
