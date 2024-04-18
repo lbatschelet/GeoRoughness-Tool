@@ -27,16 +27,38 @@ class ApplicationDriver:
         :param int window_size: The side length of the square window in meters. Default is 1.
         :param int band_number: The band number to be processed. Default is 1.
         :param int high_value_threshold: The threshold for high values to be filtered out. Default is 1.
+        :raises FileNotFoundError: If the input path or output directory is not valid.
         """
         self.setup_logging()
         self.input_path = input_path
-        self.check_input_path()
         self.output_dir = output_dir
-        self.check_output_dir()
-        self.window_size = window_size
+
+        try:
+            self.check_input_path()
+            self.check_output_dir()
+        except FileNotFoundError as e:
+            logging.error(str(e))
+            raise
+
+        # Validate and set window size
+        try:
+            self.window_size = self.check_positive_integer(window_size, "window size")
+        except ValueError as e:
+            logging.error(str(e))
+            self.window_size = 1  # Set default only if window size is invalid
+            logging.info("Default window size set to 1.")
+
+        # Validate and set high value threshold
+        try:
+            self.high_value_threshold = self.check_positive_integer(high_value_threshold, "high value threshold")
+        except ValueError as e:
+            logging.error(str(e))
+            self.high_value_threshold = 1  # Set default only if high value threshold is invalid
+            logging.info("Default high value threshold set to 1.")
+
         self.band_number = band_number
-        self.high_value_threshold = high_value_threshold
-        self.processor = GeoTIFFProcessor(input_path, output_dir, window_size, band_number, high_value_threshold)
+        self.processor = GeoTIFFProcessor(input_path, output_dir, self.window_size, self.band_number,
+                                          self.high_value_threshold)
 
     def run(self):
         """
@@ -92,3 +114,13 @@ class ApplicationDriver:
             logging.error(f"Invalid output directory: {output_dir}")
             raise FileNotFoundError(f"The directory for the output path does not exist: {output_dir}")
         logging.info(f"Valid output directory: {output_dir}")
+
+    def check_positive_integer(self, value, parameter_name):
+        """
+        Validates that the given parameter is a positive integer.
+        Raises ValueError if the validation fails.
+        """
+        if not isinstance(value, int) or value <= 0:
+            raise ValueError(f"{parameter_name} must be a positive integer, got {value}.")
+        logging.info(f"Valid {parameter_name}: {value}")
+        return value

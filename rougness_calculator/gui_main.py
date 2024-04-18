@@ -21,7 +21,7 @@ class ApplicationGUI:
     def __init__(self, master):
         self.master = master
         master.title("GeoTIFF Processor")
-        master.geometry("700x300")  # Increased width to accommodate all elements
+        master.geometry("850x200")  # Increased width to accommodate all elements
 
         # Label and entry for input path
         Label(master, text="Input TIFF Path:").grid(row=0, column=0, sticky='w')
@@ -66,6 +66,7 @@ class ApplicationGUI:
             self.output_dir_entry.insert(0, directory)
 
     def start_processing(self):
+        """ Initiates processing of the TIFF files using ApplicationDriver """
         input_path = self.input_path_entry.get()
         output_dir = self.output_dir_entry.get()
 
@@ -78,15 +79,19 @@ class ApplicationGUI:
         high_value_threshold = self.high_value_threshold_entry.get()
 
         try:
-            # Assuming ApplicationDriver can handle input and output directory
             driver = ApplicationDriver(input_path, output_dir,
                                        int(window_size) if window_size.isdigit() else 1,
                                        int(band_number) if band_number.isdigit() else 1,
                                        int(high_value_threshold) if high_value_threshold.isdigit() else 1)
             driver.run()
             messagebox.showinfo("Success", "Processing completed successfully.")
+        except FileNotFoundError as e:
+            messagebox.showerror("File Not Found", str(e))
+        except ValueError as e:
+            messagebox.showerror("Value Error", str(e))
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
+
 
 def main():
     root = tk.Tk()
