@@ -18,19 +18,25 @@ from geo_tiff_processor import GeoTIFFProcessor
 
 
 class ApplicationDriver:
-    def __init__(self, input_path, output_path):
+    def __init__(self, input_path, output_path, window_size=1, band_number=1, high_value_threshold=1):
         """
         Initializes the ApplicationDriver with the input and output paths.
 
         :param str input_path: The path to the input GeoTIFF file.
         :param str output_path: The path to the output GeoTIFF file.
+        :param int window_size: The side length of the square window in meters. Default is 1.
+        :param int band_number: The band number to be processed. Default is 1.
+        :param int high_value_threshold: The threshold for high values to be filtered out. Default is 1.
         """
         self.setup_logging()
         self.input_path = input_path
         self.check_input_path()
         self.output_path = output_path
         self.check_output_path()
-        self.processor = GeoTIFFProcessor(input_path, output_path)
+        self.window_size = window_size
+        self.band_number = band_number
+        self.high_value_threshold = high_value_threshold
+        self.processor = GeoTIFFProcessor(input_path, output_path, window_size, band_number, high_value_threshold)
 
     def run(self):
         """
