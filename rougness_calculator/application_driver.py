@@ -11,6 +11,19 @@ This enables the separation of concerns and allows for easier testing and mainte
 (i.e. the UI does not need to know how the processing is done, it just needs to know how to call the processing.)
 """
 
+"""
+application_driver.py
+---------------------
+Version: 1.0.0
+Author: Lukas Batschelet
+Date: 18.04.2024
+---------------------
+This module contains the ApplicationDriver class which is responsible for running the application.
+It acts as a sort of interface between the calling User Interface (UI) and the GeoTIFFProcessor class.
+This enables the separation of concerns and allows for easier testing and maintenance of the code.
+(i.e. the UI does not need to know how the processing is done, it just needs to know how to call the processing.)
+"""
+
 import logging
 import os
 
