@@ -9,8 +9,10 @@ This module contains the GeoTIFFProcessor class which is responsible for process
 It provides methods for loading, processing, and saving GeoTIFF files.
 Until now, only a method to calculate the roughness of a GeoTIFF file has been implemented.
 """
-
+import datetime
 import logging
+import os
+
 import numpy as np
 import rasterio
 
@@ -24,18 +26,19 @@ class GeoTIFFProcessor:
     Main class in this module, responsible for processing GeoTIFF files
     .
     :var str input_path: The path to the input GeoTIFF file.
-    :var str output_path: The path to the output GeoTIFF file.
+    :var str output_dir: The path to the output directory.
     :var int window_size: The side length of the square window in meters for which to calculate roughness. Default 1
     :var int band_number: The band number to be processed. Default 1.
     :var int high_value_threshold: The threshold for high values to be filtered out. Default 1.
     :var rasterio.DatasetReader dataset: The rasterio dataset object representing the GeoTIFF file.
     """
-    def __init__(self, input_path, output_path, window_size, band_number, high_value_threshold):
+    def __init__(self, input_path, output_dir, window_size, band_number, high_value_threshold):
         self.input_path = input_path
-        self.output_path = output_path
+        self.output_dir = output_dir
         self.window_size = window_size
         self.band_number = band_number
         self.high_value_threshold = high_value_threshold
+        self.output_path = self.create_output_filename()
         self.dataset = None
 
     def process_tiff(self):
@@ -175,7 +178,7 @@ class GeoTIFFProcessor:
         profile.update(dtype=dtype, nodata=nodata)
         with rasterio.open(self.output_path, 'w', **profile) as dst:
             dst.write(data, 1)
-        logger.info("Processed TIFF file saved.")
+        logging.info(f"Processed TIFF file saved at {self.output_path}")
 
     def get_pixel_size(self):
         """
@@ -186,3 +189,16 @@ class GeoTIFFProcessor:
         """
         transform = self.dataset.transform
         return transform[0], abs(transform[4])
+
+    def create_output_filename(self):
+        """
+        Generates a filename based on the input file, current date, and processing parameters.
+        """
+        # Extract the base name of the input file and remove the extension
+        base_name = os.path.splitext(os.path.basename(self.input_path))[0]
+        # Get current date in YYYYMMDD format
+        current_date = datetime.datetime.now().strftime("%Y%m%d")
+        # Construct the new filename
+        new_filename = f"{current_date}_{base_name}_Surface-Roughness_{self.window_size}-meter.tif"
+        # Construct the full output path
+        return os.path.join(self.output_dir, new_filename)

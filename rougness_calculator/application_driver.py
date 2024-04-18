@@ -18,12 +18,12 @@ from geo_tiff_processor import GeoTIFFProcessor
 
 
 class ApplicationDriver:
-    def __init__(self, input_path, output_path, window_size=1, band_number=1, high_value_threshold=1):
+    def __init__(self, input_path, output_dir, window_size=1, band_number=1, high_value_threshold=1):
         """
         Initializes the ApplicationDriver with the input and output paths.
 
         :param str input_path: The path to the input GeoTIFF file.
-        :param str output_path: The path to the output GeoTIFF file.
+        :param str output_dir: The path to the output directory.
         :param int window_size: The side length of the square window in meters. Default is 1.
         :param int band_number: The band number to be processed. Default is 1.
         :param int high_value_threshold: The threshold for high values to be filtered out. Default is 1.
@@ -31,12 +31,12 @@ class ApplicationDriver:
         self.setup_logging()
         self.input_path = input_path
         self.check_input_path()
-        self.output_path = output_path
-        self.check_output_path()
+        self.output_dir = output_dir
+        self.check_output_dir()
         self.window_size = window_size
         self.band_number = band_number
         self.high_value_threshold = high_value_threshold
-        self.processor = GeoTIFFProcessor(input_path, output_path, window_size, band_number, high_value_threshold)
+        self.processor = GeoTIFFProcessor(input_path, output_dir, window_size, band_number, high_value_threshold)
 
     def run(self):
         """
@@ -47,7 +47,7 @@ class ApplicationDriver:
         """
         logging.info("Starting processing...")
         logging.info(f"Input path: {self.input_path}")
-        logging.info(f"Output path: {self.output_path}")
+        logging.info(f"Output dir: {self.output_dir}")
 
         self.processor.process_tiff()
 
@@ -80,14 +80,14 @@ class ApplicationDriver:
             raise FileNotFoundError(f"No file found at specified input path: {self.input_path}")
         logging.info(f"Valid input path: {self.input_path}")
 
-    def check_output_path(self):
+    def check_output_dir(self):
         """
         Checks if the output directory exists.
         If the output directory does not exist, it logs an error message and raises a FileNotFoundError.
 
         :raises FileNotFoundError: If the output directory does not exist.
         """
-        output_dir = os.path.dirname(self.output_path)
+        output_dir = os.path.dirname(self.output_dir)
         if not os.path.isdir(output_dir):
             logging.error(f"Invalid output directory: {output_dir}")
             raise FileNotFoundError(f"The directory for the output path does not exist: {output_dir}")
