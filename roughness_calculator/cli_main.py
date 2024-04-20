@@ -10,9 +10,9 @@ FOR TESTING PURPOSES ONLY
 This module acts as the testing entry point for the application.
 It is responsible for running the application in a command-line interface (CLI) environment.
 It initializes the ApplicationDriver with the input and output paths and runs the application.
-The final version of the application is intended to be run using the GUI provided in gui_main.py.
+The final version of the application is intended to be run using the GUI provided in dem_roughness_calculator.py.
 """
-from application_driver import ApplicationDriver
+from roughness_calculator.classes.application_driver import ApplicationDriver
 
 
 def main():
@@ -27,6 +27,7 @@ def main():
 
     driver = ApplicationDriver(input_path, output_dir, window_size)
     driver.run()
+    driver.get_quickview()
 
 
 # Run the application in a CLI environment
