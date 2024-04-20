@@ -1,12 +1,10 @@
 """
 dem_roughness_calculator.py
 -----------
-Version: 0.2.0
+Version: 1.1.0
 Author: Lukas Batschelet
 Date: 18.04.2024
 -----------
-THIS IS AN EARLY VERSION OF THE GUI
-FUNCTIONALITY IS LIMITED
 This module contains the ApplicationGUI class which is
 responsible for creating the graphical user interface (GUI) of the application.
 """
@@ -86,6 +84,10 @@ class ApplicationGUI:
         self.high_value_threshold_entry = Entry(options_frame, width=10)
         self.high_value_threshold_entry.grid(row=3, column=1, sticky='w')
 
+        Label(options_frame, text="Categorical Thresholds (comma-separated):").grid(row=4, column=0, sticky='w')
+        self.categorical_thresholds_entry = Entry(options_frame, width=30)
+        self.categorical_thresholds_entry.grid(row=4, column=1, sticky='w')
+
         Button(self.master, text="Start Processing", command=self.start_processing).grid(row=3, column=0, pady=20, sticky="ew")
 
         # Image display label and description
@@ -117,41 +119,30 @@ class ApplicationGUI:
             messagebox.showerror("Error", "Please specify both input and output directory.")
             return
 
-        # Use defaults if fields are empty and handle input conversion
         try:
-            window_size = float(self.window_size_entry.get()) if self.window_size_entry.get() else 1.0
-            if window_size <= 0:
-                raise ValueError("Window size must be a positive number.")
-        except ValueError:
-            messagebox.showerror("Input Error", "Window size must be a positive number.")
-            return
-
-        try:
-            band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else 1
-            if band_number <= 0:
-                raise ValueError("Band number must be a positive integer.")
-        except ValueError:
-            messagebox.showerror("Input Error", "Band number must be a positive integer.")
-            return
-
-        try:
+            window_size = float(self.window_size_entry.get()) if self.window_size_entry.get() else None
+            band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else None
             high_value_threshold = float(
-                self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else 1.0
-            if high_value_threshold <= 0:
-                raise ValueError("High value threshold must be a positive number.")
-        except ValueError:
-            messagebox.showerror("Input Error", "High value threshold must be a positive number.")
-            return
+                self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else None
 
-        try:
-            driver = ApplicationDriver(input_path, output_dir, window_size, band_number, high_value_threshold)
+            # Parse categorical thresholds if provided
+            thresholds_text = self.categorical_thresholds_entry.get()
+            categorical_thresholds = list(map(float, thresholds_text.split(','))) if thresholds_text else None
+
+            if (window_size and window_size <= 0 or band_number and band_number <= 0
+                    or high_value_threshold and high_value_threshold <= 0):
+                raise ValueError("Window size, band number, and high value threshold must be positive numbers.")
+
+            driver = ApplicationDriver(input_path, output_dir, window_size, band_number, high_value_threshold,
+                                       categorical_thresholds)
             driver.run()
-            processed_image = driver.get_processed_image()  # Retrieve the image directly from the driver
-            if processed_image:
-                self.display_image(processed_image)  # Pass the PIL Image directly to display_image
+            preview = driver.get_preview()  # Retrieve the image directly from the driver
+            if preview:
+                self.display_preview(preview)  # Pass the PIL Image directly to display_preview
             else:
-                messagebox.showerror("Display Error", "No image is available to display.")
+                messagebox.showerror("Display Error", "No preview is available to display.")
             messagebox.showinfo("Success", "Processing completed successfully.")
+
         except FileNotFoundError as e:
             messagebox.showerror("File Not Found", str(e))
         except ValueError as e:
@@ -159,13 +150,13 @@ class ApplicationGUI:
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
-    def display_image(self, image):
+    def display_preview(self, image):
         """Display the given PIL Image in the GUI, resized to fit the label."""
         try:
             self.processed_image = image  # Directly use the PIL image passed to the function
             self.resize_and_display_image()  # Call to resize and display the image appropriately
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to display image: {str(e)}")
+            messagebox.showerror("Error", f"Failed to display preview: {str(e)}")
 
     def resize_and_display_image(self):
         """Resize and display the image to fully utilize the label dimensions while maintaining aspect ratio."""

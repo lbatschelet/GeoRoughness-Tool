@@ -1,7 +1,7 @@
 """
 application_driver.py
 ---------------------
-Version: 1.0.0
+Version: 1.1.0
 Author: Lukas Batschelet
 Date: 18.04.2024
 ---------------------
@@ -15,24 +15,28 @@ import logging
 import os
 
 from . import geo_tiff_processor
+from .geo_tiff_processor import GeoTIFFProcessor
 
 
 class ApplicationDriver:
-    def __init__(self, input_path, output_dir, window_size=1, band_number=1, high_value_threshold=1):
+    def __init__(self, input_path, output_dir, window_size=None, band_number=None, high_value_threshold=None,
+                 categorical_thresholds=None):
         """
         Initializes the ApplicationDriver with the input and output paths.
 
         :param str input_path: The path to the input GeoTIFF file.
         :param str output_dir: The path to the output directory.
-        :param int window_size: The side length of the square window in meters. Default is 1.
-        :param int band_number: The band number to be processed. Default is 1.
-        :param int high_value_threshold: The threshold for high values to be filtered out. Default is 1.
+        :param float window_size: The side length of the square window in meters. Default is None.
+        :param int band_number: The band number to be processed. Default is None.
+        :param float high_value_threshold: The threshold for high values to be filtered out. Default is None.
+        :param list categorical_thresholds: List of thresholds for categorizing data. Default is None.
         :raises FileNotFoundError: If the input path or output directory is not valid.
         """
         self.setup_logging()
         self.input_path = input_path
         self.output_dir = output_dir
 
+        # Check required paths
         try:
             self.check_input_path()
             self.check_output_dir()
@@ -40,25 +44,19 @@ class ApplicationDriver:
             logging.error(str(e))
             raise
 
-        # Validate and set window size
-        try:
-            self.window_size = self.check_positive_number(window_size, "window size")
-        except ValueError as e:
-            logging.error(str(e))
-            self.window_size = 1  # Set default only if window size is invalid
-            logging.info("Default window size set to 1.")
+        # Prepare parameters dictionary
+        params = {
+            'window_size': window_size if window_size is not None else None,
+            'band_number': band_number if band_number is not None else None,
+            'high_value_threshold': high_value_threshold if high_value_threshold is not None else None,
+            'categorical_thresholds': categorical_thresholds if categorical_thresholds is not None else None
+        }
 
-        # Validate and set high value threshold
-        try:
-            self.high_value_threshold = self.check_positive_number(high_value_threshold, "high value threshold")
-        except ValueError as e:
-            logging.error(str(e))
-            self.high_value_threshold = 1  # Set default only if high value threshold is invalid
-            logging.info("Default high value threshold set to 1.")
+        # Remove None values to avoid passing them to the processor
+        filtered_params = {k: v for k, v in params.items() if v is not None}
 
-        self.band_number = band_number
-        self.processor = geo_tiff_processor.GeoTIFFProcessor(input_path, output_dir, self.window_size, self.band_number,
-                                                             self.high_value_threshold)
+        # Initialize the processor with filtered parameters
+        self.processor = GeoTIFFProcessor(input_path, output_dir, **filtered_params)
 
     def run(self):
         """
@@ -129,19 +127,19 @@ class ApplicationDriver:
         logging.info(f"Valid {parameter_name}: {value}")
         return value
 
-    def get_processed_image(self):
+    def get_preview(self):
         """
         Retrieves the processed image from the GeoTIFFProcessor for display.
         :return: A PIL Image object of the processed TIFF data, or None if an error occurs.
         """
         try:
-            image = self.processor.get_image_for_display()
+            image = self.processor.get_preview()
             if image:
-                logging.info("Processed image retrieved successfully.")
+                logging.info("Preview retrieved successfully.")
                 return image
             else:
-                logging.error("No image could be retrieved.")
+                logging.error("No preview could be retrieved.")
                 return None
         except Exception as e:
-            logging.error(f"Error retrieving processed image: {str(e)}")
+            logging.error(f"Error retrieving preview: {str(e)}")
             return None

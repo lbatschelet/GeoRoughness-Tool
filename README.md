@@ -3,43 +3,62 @@
 This is a Python script that calculates the roughness of a Digital Elevation Model (DEM) using
 the standard deviation of the height information in a window of a given size.
 
+> [!important]
+> This module is still in development, especially the user interface and general documentation are lacking.
+> If you have any questions or suggestions, feel free to contact me.
+> Errors and bugs can be reported in the issues section of the repository.
+
+
+## Current state
+
+- [ ] [`geo_tiff_processor.py`](./roughness_calculator/geo_tiff_processor.py) - Module for processing GeoTIFF files
+  - [X] Load GeoTIFF file
+  - [X] Read GeoTIFF file metadata
+  - [X] Calculate roughness of GeoTIFF file using a given window size by calculating the standard deviation of the height
+        information in the window
+  - [X] Save GeoTIFF file
+  - [X] Generate pseudocolored preview of GeoTIFF file for GUI
+  - [X] Added following functionality:
+    - [X] Accept `window_size` in meters as parameter.
+    - [X] Accept `band_number` as parameter.
+    - [X] Accept `high_value_threshold` as parameter.
+    - [X] Accept `category_thresholds` as parameter.
+  - [ ] Add tests
+  - [ ] Add documentation
+  - [ ] Add clearer logging
+  - [ ] Add error handling
+  - [ ] Add type hints
+- [ ] [`application_driver.py`](./roughness_calculator/application_driver.py) - Module for running the application
+  - [X] Implement interface to run the application both as a CLI and a GUI
+  - [ ] Add tests
+  - [ ] Add documentation
+  - [ ] Add clearer logging
+  - [ ] Add error handling
+  - [ ] Add type hints
+- [ ] [`dem_roughness_calculator.py`](./roughness_calculator/dem_roughness_calculator.py) - GUI programm
+  - [X] Create GUI to run the programm
+  - [X] Add functionality to load a GeoTIFF file
+  - [X] Add functionality to set the window size for the roughness calculation
+  - [X] Add functionality to set the band number of the GeoTIFF file
+  - [X] Add functionality to set the high value threshold for the roughness calculation
+  - [X] Add functionality to calculate the roughness of the GeoTIFF file
+  - [X] Add functionality to save the result as a new GeoTIFF file
+  - [ ] Add tests
+  - [ ] Add documentation
+  - [ ] Add clearer logging
+  - [ ] Add error handling
+  - [ ] Add type hints
+
 ## How to get going
 
-1. Install `python 3.8` or higher.
-   You can download it from the [official website](https://www.python.org/downloads/).
-2. Check that `pip` is installed. It is a package installer for Python that is usually installed as part of the Python 
-   installation. You can check it by running the following command in your terminal
-   ```bash
-   pip --version
-   ```
-   If it is not installed, you can install it by following the instructions on the 
-   [official website](https://pip.pypa.io/en/stable/installation/).
-3. Check that `git` is installed. It is a version control system.
-   You can check it by running the following command in your terminal
-   ```bash
-   git --version
-   ```
-   If it is not installed, you can install it by following the instructions on the 
-   [official website](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-4. Select a directory where you want to clone the repository.
-   You can do that by running the following command in your terminal:
-      ```bash
-      cd /path/to/your/directory
-      ```
-5. Clone the repository to your local machine.
-   You can do that by running the following command in your terminal:
-   ```bash
-   git clone https://github.com/lbatschelet/dem-roughness-calculator.git
-   ```
-6. Install the required libraries by running the following command in your terminal:
-   ```bash
-   pip install -r requirements.txt
-   ```
-7. Run the script by running the following command in your terminal:
-   ```bash
-   python3 ./roughness_calculator/dem_roughness_calculator.py
-   ```
-   
+For a detailed quide on how to get started with the project, see the
+[Getting Started wiki page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/How-to-get-going) guide.
+This guide will walk you through the steps needed to set up the project and run the GUI version of the application.
+
+For a detailed guide on how to use the CLI version of the application, see the
+[CLI Usage wiki page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/GeoTIFF-Surface-Roughness-Calculator-CLI)
+
+
 ## Functionality
 
 The program allows you to calculate the surface roughness of a Digital Elevation Model (DEM).
