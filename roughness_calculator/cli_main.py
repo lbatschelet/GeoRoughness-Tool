@@ -27,7 +27,6 @@ def main():
 
     driver = ApplicationDriver(input_path, output_dir, window_size)
     driver.run()
-    driver.get_quickview()
 
 # Run the application in a CLI environment
 if __name__ == '__main__':
