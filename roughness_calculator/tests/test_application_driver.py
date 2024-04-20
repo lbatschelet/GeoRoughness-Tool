@@ -5,7 +5,7 @@ from roughness_calculator.classes.application_driver import ApplicationDriver
 class TestApplicationDriver(unittest.TestCase):
     def setUp(self):
         """Set up test variables."""
-        self.input_path = ('/path/to/input.tif')
+        self.input_path = ('20231116_DEM_Sammler_Obermad_0.05m.tif')
         self.output_dir = ('/path/to/output/dir')
 
     def test_default_parameters(self):
