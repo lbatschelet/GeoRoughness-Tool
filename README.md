@@ -23,6 +23,7 @@ the standard deviation of the height information in a window of a given size.
     - [X] Accept `band_number` as parameter.
     - [X] Accept `high_value_threshold` as parameter.
     - [X] Accept `category_thresholds` as parameter.
+  - [ ] Add functionality to only save the file when wanted after seeing the preview.
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
@@ -30,6 +31,7 @@ the standard deviation of the height information in a window of a given size.
   - [ ] Add type hints
 - [ ] [`application_driver.py`](./roughness_calculator/application_driver.py) - Module for running the application
   - [X] Implement interface to run the application both as a CLI and a GUI
+  - [ ] Implement functionality to handover the generated GeoTIFF file to the GUI
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
@@ -43,11 +45,13 @@ the standard deviation of the height information in a window of a given size.
   - [X] Add functionality to set the high value threshold for the roughness calculation
   - [X] Add functionality to calculate the roughness of the GeoTIFF file
   - [X] Add functionality to save the result as a new GeoTIFF file
+  - [ ] implement funcionality to only save the file when wanted after seeing the preview.
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
   - [ ] Add error handling
   - [ ] Add type hints
+
 
 ## How to get going
 
