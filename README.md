@@ -37,7 +37,7 @@ the standard deviation of the height information in a window of a given size.
    ```
 7. Run the script by running the following command in your terminal:
    ```bash
-   python3 ./roughness_calculator/gui_main.py
+   python3 ./roughness_calculator/dem_roughness_calculator.py
    ```
    
 ## Functionality
