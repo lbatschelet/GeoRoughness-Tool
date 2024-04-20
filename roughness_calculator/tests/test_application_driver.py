@@ -5,11 +5,8 @@ from roughness_calculator.classes.application_driver import ApplicationDriver
 class TestApplicationDriver(unittest.TestCase):
     def setUp(self):
         """Set up test variables."""
-        self.input_path = ('/Users/lukasbatschelet/Library/CloudStorage/OneDrive-UniversitaetBern/Studium/FS24/'
-                           'Geoprocessing-II/Projektarbeit_Fotogrammetrie/20240415_Grundlagen/202311xx_Rohdaten/'
-                           '20231116_DEM_Sammler_Obermad_0.05m.tif')
-        self.output_dir = ('/Users/lukasbatschelet/Library/CloudStorage/OneDrive-UniversitaetBern/Studium/FS24/'
-                           'Geoprocessing-II/Projektarbeit_Fotogrammetrie/05_Output')
+        self.input_path = ('/path/to/input.tif')
+        self.output_dir = ('/path/to/output/dir')
 
     def test_default_parameters(self):
         """Test the application with default parameters."""
