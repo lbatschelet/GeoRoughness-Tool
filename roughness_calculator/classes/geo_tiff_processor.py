@@ -1,7 +1,7 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.0.0
+Version: 1.1.0
 Author: Lukas Batschelet
 Date: 18.04.2024
 ---------------------
@@ -15,6 +15,9 @@ import os
 
 import numpy as np
 import rasterio
+from PIL import Image
+import matplotlib.pyplot as plt
+from matplotlib import cm
 
 # Set up logging referring to the logger setup in application_driver.py
 # This allows for consistent logging across the application
@@ -32,12 +35,15 @@ class GeoTIFFProcessor:
     :var int high_value_threshold: The threshold for high values to be filtered out. Default 1.
     :var rasterio.DatasetReader dataset: The rasterio dataset object representing the GeoTIFF file.
     """
-    def __init__(self, input_path, output_dir, window_size, band_number, high_value_threshold):
+    def __init__(self, input_path, output_dir, window_size=1.0, band_number=1, high_value_threshold=1.0,
+                 category_thresholds=None):
+
         self.input_path = input_path
         self.output_dir = output_dir
         self.window_size = window_size
         self.band_number = band_number
         self.high_value_threshold = high_value_threshold
+        self.category_thresholds = category_thresholds
         self.output_path = self.create_output_filename()
         self.dataset = None
 
@@ -50,9 +56,12 @@ class GeoTIFFProcessor:
         if self.dataset:  # Check if the dataset was loaded successfully
             try:
                 self.log_tiff_metadata()
-                data = self.read_band()  # Reads band 1. Is set up to allow for future extension to read other bands.
+                data = self.read_band()  # Reads the specified band.
                 roughness = self.calculate_roughness(data)
-                roughness = self.apply_nodata_and_filter(roughness)  # Filters out zero and high values at the border.
+                roughness = self.apply_nodata(roughness)  # Apply nodata filter first to reset invalid values.
+                roughness = self.apply_filter(roughness)  # Then apply high value threshold filter.
+                if self.category_thresholds:
+                    roughness = self.apply_thresholds(roughness)  # Apply categorical thresholds last.
                 self.save_tiff(roughness)
             finally:
                 self.dataset.close()  # Close the dataset after processing
@@ -155,14 +164,24 @@ class GeoTIFFProcessor:
             logger.error(f"Failed to open GeoTIFF: {e}")
             raise ValueError(f"Invalid GeoTIFF file: {self.input_path}")
 
-    def apply_nodata_and_filter(self, roughness, nodata_value=-9999):
+    def apply_filter(self, roughness, nodata_value=-9999):
+        """
+        Filters out too high values of the roughness array.
+        Most high values are caused by not rectangular tiff files, thus leading to any value to 0 elevation changes.
+        :param roughness: The roughness array.
+        :return: The roughness array with high values filtered out.
+        """
+        roughness[roughness > self.high_value_threshold] = nodata_value
+        return roughness
+
+    def apply_nodata(self, roughness, nodata_value=-9999):
         """
         Applies nodata value and filters out zero and high values that are created at the border of the roughness array.
         :param roughness:
         :param nodata_value: Default is -9999.
         :return: The roughness array with nodata values and filtered out zero and high values.
         """
-        roughness[np.logical_or(roughness == 0, roughness > self.high_value_threshold)] = nodata_value
+        roughness[roughness == 0] = nodata_value
         return roughness
 
     def save_tiff(self, data, nodata=-9999, dtype='float32'):
@@ -202,3 +221,72 @@ class GeoTIFFProcessor:
         new_filename = f"{current_date}_{base_name}_Surface-Roughness_{self.window_size}-meter.tif"
         # Construct the full output path
         return os.path.join(self.output_dir, new_filename)
+
+    def get_preview(self):
+        """
+        Loads the processed TIFF file, applies a pseudocolor colormap, and converts it to a PIL Image as preview for
+        display in the GUI, with nodata values made transparent.
+        :return: PIL Image object preview of the processed TIFF file in a pseudocolored format.
+        """
+        try:
+            with rasterio.open(self.output_path, mode='r') as dataset:  # Open the processed TIFF file
+                data = dataset.read(1)  # Assuming band 1 contains the roughness data
+                nodata_value = dataset.nodatavals[0]  # Retrieve the nodata value from the dataset
+
+                # Normalize the data for color mapping
+                valid_mask = data != nodata_value
+                scaled_data = np.ma.masked_equal(data, nodata_value)  # Mask out nodata values
+                normalized_data = (scaled_data - scaled_data.min()) / (scaled_data.max() - scaled_data.min())
+
+                # Create an RGBA image where nodata values are set to be transparent
+                rgba_image = np.zeros((data.shape[0], data.shape[1], 4), dtype=np.uint8)
+                color_mapped = plt.cm.viridis(normalized_data)  # Apply colormap
+                rgba_image[..., :3] = (color_mapped[..., :3] * 255).astype(np.uint8)  # Set RGB channels
+                rgba_image[..., 3] = (valid_mask * 255).astype(np.uint8)  # Set alpha channel: transparent if nodata
+
+                preview = Image.fromarray(rgba_image, 'RGBA')
+                return preview
+
+        except Exception as e:
+            logger.error(f"Failed to load or process TIFF file for display: {str(e)}")
+            return None
+
+    def apply_thresholds(self, data, nodata_value=-9999):
+        self.sort_thresholds()
+        self.check_max_threshold()
+        self.check_positive_thresholds()
+
+        valid_mask = data != nodata_value
+        categorized_data = np.full(data.shape, nodata_value, dtype=data.dtype)  # Behalte dtype von data
+
+        # Ordne jeden Wert der entsprechenden Kategorie zu, weise den Schwellenwert zu
+        for i, threshold in enumerate(self.category_thresholds):
+            if i == 0:
+                # Behandle den ersten Bereich
+                mask = (data > 0) & (data <= threshold) & valid_mask
+            else:
+                # Behandle alle anderen Bereiche
+                mask = (data > self.category_thresholds[i - 1]) & (data <= threshold) & valid_mask
+            categorized_data[mask] = threshold
+
+        # Behandle Werte, die größer als der höchste Schwellenwert sind, aber unter oder gleich dem high_value_threshold
+        high_value_mask = (data > self.category_thresholds[-1]) & (data <= self.high_value_threshold) & valid_mask
+        categorized_data[high_value_mask] = self.high_value_threshold
+
+        return categorized_data
+
+    def sort_thresholds(self):
+        if self.category_thresholds is not None:
+            if sorted(self.category_thresholds) != self.category_thresholds:
+                self.category_thresholds.sort()
+                raise ValueError("Thresholds were not sorted. They have been sorted now.")
+
+    def check_max_threshold(self):
+        if self.category_thresholds and max(self.category_thresholds) >= self.high_value_threshold:
+            self.category_thresholds = [th for th in self.category_thresholds if th < self.high_value_threshold]
+            raise ValueError("Some thresholds exceeded the high value threshold and were removed.")
+
+    def check_positive_thresholds(self):
+        if self.category_thresholds and any(th <= 0 for th in self.category_thresholds):
+            self.category_thresholds = [th for th in self.category_thresholds if th > 0]
+            raise ValueError("Non-positive thresholds were removed.")

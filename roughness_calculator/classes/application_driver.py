@@ -1,7 +1,7 @@
 """
 application_driver.py
 ---------------------
-Version: 1.0.0
+Version: 1.1.0
 Author: Lukas Batschelet
 Date: 18.04.2024
 ---------------------
@@ -14,25 +14,29 @@ This enables the separation of concerns and allows for easier testing and mainte
 import logging
 import os
 
-from geo_tiff_processor import GeoTIFFProcessor
+from . import geo_tiff_processor
+from .geo_tiff_processor import GeoTIFFProcessor
 
 
 class ApplicationDriver:
-    def __init__(self, input_path, output_dir, window_size=1, band_number=1, high_value_threshold=1):
+    def __init__(self, input_path, output_dir, window_size=None, band_number=None, high_value_threshold=None,
+                 categorical_thresholds=None):
         """
         Initializes the ApplicationDriver with the input and output paths.
 
         :param str input_path: The path to the input GeoTIFF file.
         :param str output_dir: The path to the output directory.
-        :param int window_size: The side length of the square window in meters. Default is 1.
-        :param int band_number: The band number to be processed. Default is 1.
-        :param int high_value_threshold: The threshold for high values to be filtered out. Default is 1.
+        :param float window_size: The side length of the square window in meters. Default is None.
+        :param int band_number: The band number to be processed. Default is None.
+        :param float high_value_threshold: The threshold for high values to be filtered out. Default is None.
+        :param list categorical_thresholds: List of thresholds for categorizing data. Default is None.
         :raises FileNotFoundError: If the input path or output directory is not valid.
         """
         self.setup_logging()
         self.input_path = input_path
         self.output_dir = output_dir
 
+        # Check required paths
         try:
             self.check_input_path()
             self.check_output_dir()
@@ -40,25 +44,19 @@ class ApplicationDriver:
             logging.error(str(e))
             raise
 
-        # Validate and set window size
-        try:
-            self.window_size = self.check_positive_integer(window_size, "window size")
-        except ValueError as e:
-            logging.error(str(e))
-            self.window_size = 1  # Set default only if window size is invalid
-            logging.info("Default window size set to 1.")
+        # Prepare parameters dictionary
+        params = {
+            'window_size': window_size if window_size is not None else None,
+            'band_number': band_number if band_number is not None else None,
+            'high_value_threshold': high_value_threshold if high_value_threshold is not None else None,
+            'categorical_thresholds': categorical_thresholds if categorical_thresholds is not None else None
+        }
 
-        # Validate and set high value threshold
-        try:
-            self.high_value_threshold = self.check_positive_integer(high_value_threshold, "high value threshold")
-        except ValueError as e:
-            logging.error(str(e))
-            self.high_value_threshold = 1  # Set default only if high value threshold is invalid
-            logging.info("Default high value threshold set to 1.")
+        # Remove None values to avoid passing them to the processor
+        filtered_params = {k: v for k, v in params.items() if v is not None}
 
-        self.band_number = band_number
-        self.processor = GeoTIFFProcessor(input_path, output_dir, self.window_size, self.band_number,
-                                          self.high_value_threshold)
+        # Initialize the processor with filtered parameters
+        self.processor = GeoTIFFProcessor(input_path, output_dir, **filtered_params)
 
     def run(self):
         """
@@ -86,7 +84,7 @@ class ApplicationDriver:
         """
         logging.basicConfig(level=logging.DEBUG,  # Sets standard logging level to DEBUG
                             format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-                            filename='app.log',
+                            filename='../app.log',
                             filemode='w')
         logging.info("Logging is configured.")
 
@@ -115,12 +113,33 @@ class ApplicationDriver:
             raise FileNotFoundError(f"The directory for the output path does not exist: {output_dir}")
         logging.info(f"Valid output directory: {output_dir}")
 
-    def check_positive_integer(self, value, parameter_name):
+    def check_positive_number(self, value, parameter_name):
         """
-        Validates that the given parameter is a positive integer.
+        Validates that the given parameter is a positive number.
         Raises ValueError if the validation fails.
         """
-        if not isinstance(value, int) or value <= 0:
-            raise ValueError(f"{parameter_name} must be a positive integer, got {value}.")
+        try:
+            value = float(value)
+            if value <= 0:
+                raise ValueError(f"{parameter_name} must be a positive number, got {value}.")
+        except ValueError:
+            raise ValueError(f"{parameter_name} must be a positive number, got {value}.")
         logging.info(f"Valid {parameter_name}: {value}")
         return value
+
+    def get_preview(self):
+        """
+        Retrieves the processed image from the GeoTIFFProcessor for display.
+        :return: A PIL Image object of the processed TIFF data, or None if an error occurs.
+        """
+        try:
+            image = self.processor.get_preview()
+            if image:
+                logging.info("Preview retrieved successfully.")
+                return image
+            else:
+                logging.error("No preview could be retrieved.")
+                return None
+        except Exception as e:
+            logging.error(f"Error retrieving preview: {str(e)}")
+            return None
