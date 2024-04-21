@@ -1,7 +1,7 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.0.0
+Version: 1.0.1
 Author: Lukas Batschelet
 Date: 21.04.2024
 ---------------------
