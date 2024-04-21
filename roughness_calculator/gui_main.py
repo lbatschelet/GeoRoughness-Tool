@@ -1,7 +1,7 @@
 """
 gui_main.py
 -----------
-Version: 1.0.4
+Version: 1.0.5
 Author: Lukas Batschelet
 Date: 21.04.2024
 -----------
@@ -38,7 +38,7 @@ class ApplicationGUI:
         """
         try:
             self.master = master
-            self.master.title("GeoTIFF Processor")
+            self.master.title("Surface Roughness Calculator")
 
             # Set initial geometry based on screen size and make it resizable
             # Get screen dimensions
@@ -80,45 +80,67 @@ class ApplicationGUI:
             header_frame = Frame(self.master)
             header_frame.grid(row=0, column=0, sticky="ew", padx=10, pady=5)
             header_frame.grid_columnconfigure(0, weight=1)
-            Label(header_frame, text="Welcome to the GeoTIFF Processor!",
-                  font=("Helvetica", 16, "bold")).grid(row=0, column=0, sticky="ew")
+            Label(header_frame, text="DEM Surface Roughness Calculator",
+                  font=("Helvetica", 16, "bold"), anchor='w').grid(row=0, column=0, sticky="ew")
             Label(header_frame, text="Adjust the settings below and load your GeoTIFF files to begin processing.",
-                  font=("Helvetica", 10)).grid(row=1, column=0, sticky="ew")
+                  font=("Helvetica"), anchor='w').grid(row=1, column=0, sticky="ew")
 
             # Input and Output configuration
             config_frame = Frame(self.master)
             config_frame.grid(row=1, column=0, sticky="ew", padx=10, pady=5)
             config_frame.grid_columnconfigure(1, weight=1)
+
+            # Input field
             Label(config_frame, text="Input TIFF Path:").grid(row=0, column=0, sticky='w')
             self.input_path_entry = Entry(config_frame)
             self.input_path_entry.grid(row=0, column=1, sticky="ew")
             Button(config_frame, text="Browse", command=self.load_input).grid(row=0, column=2)
 
-            Label(config_frame, text="Output Directory:").grid(row=1, column=0, sticky='w')
+            # Empty label for spacing
+            Label(config_frame, text="").grid(row=1, column=0)
+
+            # Output field
+            Label(config_frame, text="Output Directory:").grid(row=2, column=0, sticky='w')
             self.output_dir_entry = Entry(config_frame)
-            self.output_dir_entry.grid(row=1, column=1, sticky="ew")
-            Button(config_frame, text="Browse", command=self.set_output_dir).grid(row=1, column=2)
+            self.output_dir_entry.grid(row=2, column=1, sticky="ew")
+            Button(config_frame, text="Browse", command=self.set_output_dir).grid(row=2, column=2)
+
+            # Detailed description for the Output field
+            Label(config_frame, text="Output is optional. If you want to save the file only after seeing a preview, "
+                                     "leave this field empty.",
+                  font=("Helvetica")).grid(row=3, column=1, columnspan=3, sticky='w')
+
+            # Empty label for spacing
+            Label(config_frame, text="").grid(row=1, column=0)
 
             # Processing options
             options_frame = Frame(self.master)
             options_frame.grid(row=2, column=0, sticky="ew", padx=10, pady=5)
-            Label(options_frame, text="Processing Options:").grid(row=0, column=0, sticky="w", columnspan=3)
+            (Label(options_frame,text="Further Processing Options are all optional and use default values "
+                                      "if not defined by the user.").grid(row=0, column=0, sticky="w", columnspan=3))
 
-            Label(options_frame, text="Window Size (m):").grid(row=1, column=0, sticky='w')
-            self.window_size_entry = Entry(options_frame, width=10)
+            # window_size
+            Label(options_frame, text="Window Size (m): (Default is 1.0 meter)").grid(row=1, column=0, sticky='e')
+            self.window_size_entry = Entry(options_frame, width=15)
             self.window_size_entry.grid(row=1, column=1, sticky='w')
 
-            Label(options_frame, text="Band Number:").grid(row=2, column=0, sticky='w')
-            self.band_number_entry = Entry(options_frame, width=10)
-            self.band_number_entry.grid(row=2, column=1, sticky='w')
+            # band_number
+            (Label(options_frame, text="Band Number: (Default is 1, only in rare cases different)").
+             grid(row=2, column=0, sticky='e'))
+            self.band_number_entry = Entry(options_frame, width=15)
+            self.band_number_entry.grid(row=2, column=1, sticky='e')
 
-            Label(options_frame, text="High Value Threshold:").grid(row=3, column=0, sticky='w')
-            self.high_value_threshold_entry = Entry(options_frame, width=10)
-            self.high_value_threshold_entry.grid(row=3, column=1, sticky='w')
+            # high_value_threshold
+            (Label(options_frame, text="High Value Threshold: (Default is 1.0, should often be lower, rarely higher)").
+             grid(row=3, column=0, sticky='e'))
+            self.high_value_threshold_entry = Entry(options_frame, width=15)
+            self.high_value_threshold_entry.grid(row=3, column=1, sticky='e')
 
-            Label(options_frame, text="Categorical Thresholds (comma-separated):").grid(row=4, column=0, sticky='w')
-            self.categorical_thresholds_entry = Entry(options_frame, width=30)
-            self.categorical_thresholds_entry.grid(row=4, column=1, sticky='w')
+            # categorical_thresholds
+            (Label(options_frame, text="Categorical Thresholds (comma-separated): (Default is None)").
+             grid(row=4, column=0, sticky='e'))
+            self.categorical_thresholds_entry = Entry(options_frame, width=15)
+            self.categorical_thresholds_entry.grid(row=4, column=1, sticky='e')
 
             Button(self.master, text="Start Processing", command=self.start_processing).grid(row=3, column=0,
                                                                                              pady=20, sticky="ew")
