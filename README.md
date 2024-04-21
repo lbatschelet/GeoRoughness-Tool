@@ -11,7 +11,7 @@ the standard deviation of the height information in a window of a given size.
 
 ## Current state
 
-- [ ] [`geo_tiff_processor.py`](./roughness_calculator/geo_tiff_processor.py) - Module for processing GeoTIFF files
+- [ ] [`geo_tiff_processor.py`](./roughness_calculator/classes/geo_tiff_processor.py) - Module for processing GeoTIFF files
   - [X] Load GeoTIFF file
   - [X] Read GeoTIFF file metadata
   - [X] Calculate roughness of GeoTIFF file using a given window size by calculating the standard deviation of the height
@@ -25,44 +25,43 @@ the standard deviation of the height information in a window of a given size.
     - [X] Accept `category_thresholds` as parameter.
   - [X] ~~Add functionality to only save the file when wanted after seeing the preview.~~ _saving responsibility
         has been moved to the driver_
+  - [X] Add docstrings
+  - [X] Add clearer logging
+  - [X] Add error handling
+  - [X] Add type hints
   - [ ] Add tests
-  - [ ] Add documentation
-  - [ ] Add clearer logging
-  - [ ] Add error handling
-  - [ ] Add type hints
-- [ ] [`application_driver.py`](./roughness_calculator/application_driver.py) - Module for running the application
+- [ ] [`application_driver.py`](./roughness_calculator/classes/application_driver.py) - Module for running the application
   - [X] Implement interface to run the application both as a CLI and a GUI
-  - [X] Implement functionality to handover the generated GeoTIFF file to the GUI
+  - [X] Implement functionality to hand over the generated GeoTIFF file to the GUI
   - [X] Implement function to save the GeoTIFF file
     - [X] directly when using the CLI or an output directory is provided in the GUI
     - [X] only when wanted after seeing the preview in the GUI
   - [X] Implement function to generate a pseudo-colored preview of the GeoTIFF file
+  - [X] Add docstrings
+  - [X] Add clearer logging
+  - [X] Add error handling
+  - [X] Add type hints
   - [ ] Add tests
-  - [ ] Add documentation
-  - [ ] Add clearer logging
-  - [ ] Add error handling
-  - [ ] Add type hints
 - [ ] [`gui_main.py`](./roughness_calculator/gui_main.py) - GUI programm
   - [X] Create GUI to run the programm
   - [X] Add functionality to browse for a GeoTIFF file
   - [X] Add functionality to set all parameters for the roughness calculation
   - [X] Add functionality to save the result as a new GeoTIFF file only when wanted and after seeing the preview
+  - [X] Add documentation
+  - [X] Add clearer logging
+  - [X] Add error handling
+  - [X] Add type hints
   - [ ] Add some description of the parameters
   - [ ] Clean up the layout
   - [ ] Fix window resizing
   - [ ] Add tests
-  - [ ] Add documentation
-  - [ ] Add clearer logging
-  - [ ] Add error handling
-  - [ ] Add type hints
 - [ ] [`cli_main.py`](./roughness_calculator/cli_main.py) - CLI programm
   - [X] Create CLI to run the programm
   - [X] Add functionality to set all parameters for the roughness calculation
+  - [X] Add documentation
+  - [X] Add clearer logging
+  - [X] Add type hints
   - [ ] Add tests
-  - [ ] Add documentation
-  - [ ] Add clearer logging
-  - [ ] Add error handling
-  - [ ] Add type hints
 
 
 ## How to get going
