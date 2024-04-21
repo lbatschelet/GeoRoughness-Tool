@@ -16,14 +16,15 @@ the standard deviation of the height information in a window of a given size.
   - [X] Read GeoTIFF file metadata
   - [X] Calculate roughness of GeoTIFF file using a given window size by calculating the standard deviation of the height
         information in the window
-  - [X] Save GeoTIFF file
-  - [X] Generate pseudocolored preview of GeoTIFF file for GUI
+  - [X] ~~Save GeoTIFF file~~ has been moved to the driver
+  - [X] ~~Generate pseudo-colored preview of GeoTIFF file for GUI~~ _has been moved to the driver_
   - [X] Added following functionality:
     - [X] Accept `window_size` in meters as parameter.
     - [X] Accept `band_number` as parameter.
     - [X] Accept `high_value_threshold` as parameter.
     - [X] Accept `category_thresholds` as parameter.
-  - [ ] Add functionality to only save the file when wanted after seeing the preview.
+  - [X] ~~Add functionality to only save the file when wanted after seeing the preview.~~ _saving responsibility
+        has been moved to the driver_
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
@@ -31,21 +32,32 @@ the standard deviation of the height information in a window of a given size.
   - [ ] Add type hints
 - [ ] [`application_driver.py`](./roughness_calculator/application_driver.py) - Module for running the application
   - [X] Implement interface to run the application both as a CLI and a GUI
-  - [ ] Implement functionality to handover the generated GeoTIFF file to the GUI
+  - [X] Implement functionality to handover the generated GeoTIFF file to the GUI
+  - [X] Implement function to save the GeoTIFF file
+    - [X] directly when using the CLI or an output directory is provided in the GUI
+    - [X] only when wanted after seeing the preview in the GUI
+  - [X] Implement function to generate a pseudo-colored preview of the GeoTIFF file
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
   - [ ] Add error handling
   - [ ] Add type hints
-- [ ] [`dem_roughness_calculator.py`](./roughness_calculator/dem_roughness_calculator.py) - GUI programm
+- [ ] [`gui_main.py`](./roughness_calculator/gui_main.py) - GUI programm
   - [X] Create GUI to run the programm
-  - [X] Add functionality to load a GeoTIFF file
-  - [X] Add functionality to set the window size for the roughness calculation
-  - [X] Add functionality to set the band number of the GeoTIFF file
-  - [X] Add functionality to set the high value threshold for the roughness calculation
-  - [X] Add functionality to calculate the roughness of the GeoTIFF file
-  - [X] Add functionality to save the result as a new GeoTIFF file
-  - [ ] implement funcionality to only save the file when wanted after seeing the preview.
+  - [X] Add functionality to browse for a GeoTIFF file
+  - [X] Add functionality to set all parameters for the roughness calculation
+  - [X] Add functionality to save the result as a new GeoTIFF file only when wanted and after seeing the preview
+  - [ ] Add some description of the parameters
+  - [ ] Clean up the layout
+  - [ ] Fix window resizing
+  - [ ] Add tests
+  - [ ] Add documentation
+  - [ ] Add clearer logging
+  - [ ] Add error handling
+  - [ ] Add type hints
+- [ ] [`cli_main.py`](./roughness_calculator/cli_main.py) - CLI programm
+  - [X] Create CLI to run the programm
+  - [X] Add functionality to set all parameters for the roughness calculation
   - [ ] Add tests
   - [ ] Add documentation
   - [ ] Add clearer logging
@@ -55,7 +67,7 @@ the standard deviation of the height information in a window of a given size.
 
 ## How to get going
 
-For a detailed quide on how to get started with the project, see the
+For a detailed guide on how to get started with the project, see the
 [Getting Started wiki page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/How-to-get-going) guide.
 This guide will walk you through the steps needed to set up the project and run the GUI version of the application.
 

@@ -1,5 +1,5 @@
 """
-dem_roughness_calculator.py
+gui_main.py
 -----------
 Version: 1.1.0
 Author: Lukas Batschelet
@@ -8,17 +8,20 @@ Date: 18.04.2024
 This module contains the ApplicationGUI class which is
 responsible for creating the graphical user interface (GUI) of the application.
 """
-
-import tkinter as tk
-from tkinter import filedialog, messagebox, Label, Button, Entry
-
 from PIL import Image, ImageTk
 
 from roughness_calculator.classes.application_driver import ApplicationDriver
 
-
 import tkinter as tk
 from tkinter import filedialog, messagebox, Label, Button, Entry, Frame
+import logging
+from .log_config import setup_logging
+
+# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
+setup_logging()
+
+logger = logging.getLogger(__name__)
+
 
 class ApplicationGUI:
     def __init__(self, master):
@@ -88,7 +91,8 @@ class ApplicationGUI:
         self.categorical_thresholds_entry = Entry(options_frame, width=30)
         self.categorical_thresholds_entry.grid(row=4, column=1, sticky='w')
 
-        Button(self.master, text="Start Processing", command=self.start_processing).grid(row=3, column=0, pady=20, sticky="ew")
+        Button(self.master, text="Start Processing", command=self.start_processing).grid(row=3, column=0,
+                                                                                         pady=20, sticky="ew")
 
         # Image display label and description
         self.image_frame = Frame(self.master)
@@ -99,6 +103,9 @@ class ApplicationGUI:
         self.image_label = Label(self.image_frame, borderwidth=2, relief="groove")
         self.image_label.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.image_frame.grid_columnconfigure(0, weight=1)  # Ensure the image frame takes up full width
+
+        self.save_button = Button(self.master, text="Save Processed Image", command=self.save_image, state='disabled')
+        self.save_button.grid(row=5, column=0, pady=20, sticky="ew")
 
     def load_input(self):
         filename = filedialog.askopenfilename(filetypes=[("TIFF files", "*.tif *.tiff")])
@@ -114,33 +121,40 @@ class ApplicationGUI:
 
     def start_processing(self):
         input_path = self.input_path_entry.get()
-        output_dir = self.output_dir_entry.get()
-        if not input_path or not output_dir:
-            messagebox.showerror("Error", "Please specify both input and output directory.")
+        if not input_path:
+            messagebox.showerror("Error", "Input path is required.")
             return
 
+        # Gather parameters from the GUI, setting to None if not provided
+        output_dir = self.output_dir_entry.get() or None
+        window_size = float(self.window_size_entry.get()) if self.window_size_entry.get() else None
+        band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else None
+        high_value_threshold = float(
+            self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else None
+        thresholds_text = self.categorical_thresholds_entry.get()
+        categorical_thresholds = [float(x) for x in thresholds_text.split(',')] if thresholds_text else None
+
+        # Filter parameters to exclude None values, allowing for flexible argument passing
+        params = {
+            'output_dir': output_dir,
+            'window_size': window_size,
+            'band_number': band_number,
+            'high_value_threshold': high_value_threshold,
+            'categorical_thresholds': categorical_thresholds
+        }
+        filtered_params = {k: v for k, v in params.items() if v is not None}
+
         try:
-            window_size = float(self.window_size_entry.get()) if self.window_size_entry.get() else None
-            band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else None
-            high_value_threshold = float(
-                self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else None
-
-            # Parse categorical thresholds if provided
-            thresholds_text = self.categorical_thresholds_entry.get()
-            categorical_thresholds = list(map(float, thresholds_text.split(','))) if thresholds_text else None
-
-            if (window_size and window_size <= 0 or band_number and band_number <= 0
-                    or high_value_threshold and high_value_threshold <= 0):
-                raise ValueError("Window size, band number, and high value threshold must be positive numbers.")
-
-            driver = ApplicationDriver(input_path, output_dir, window_size, band_number, high_value_threshold,
-                                       categorical_thresholds)
-            driver.run()
-            preview = driver.get_preview()  # Retrieve the image directly from the driver
+            self.driver = ApplicationDriver(input_path, **filtered_params)
+            self.driver.run()
+            preview = self.driver.get_preview()
             if preview:
-                self.display_preview(preview)  # Pass the PIL Image directly to display_preview
+                self.display_preview(preview)
+                if 'output_dir' not in filtered_params:
+                    self.save_button.config(state='normal')
             else:
-                messagebox.showerror("Display Error", "No preview is available to display.")
+                messagebox.showerror("Display Error", "No preview available.")
+
             messagebox.showinfo("Success", "Processing completed successfully.")
 
         except FileNotFoundError as e:
@@ -150,30 +164,48 @@ class ApplicationGUI:
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
+    def save_image(self):
+        # Allow user to select save location through a dialog
+        output_path = filedialog.asksaveasfilename(filetypes=[("TIFF files", "*.tif")])
+        if output_path:
+            self.driver.save_processed_data(output_path)
+            messagebox.showinfo("Success", "Image saved successfully.")
+
     def display_preview(self, image):
         """Display the given PIL Image in the GUI, resized to fit the label."""
         try:
-            self.processed_image = image  # Directly use the PIL image passed to the function
+            self.preview = image  # Directly use the PIL image passed to the function
             self.resize_and_display_image()  # Call to resize and display the image appropriately
         except Exception as e:
             messagebox.showerror("Error", f"Failed to display preview: {str(e)}")
+            logging.error(f"Error displaying preview: {e}")
 
     def resize_and_display_image(self):
-        """Resize and display the image to fully utilize the label dimensions while maintaining aspect ratio."""
-        if self.processed_image:
+        """Resize and display the image to fully utilize the label dimensions while maintaining aspect ratio and pixel integrity."""
+        if self.preview:
             label_width = self.image_label.winfo_width()
             label_height = self.image_label.winfo_height()
-            original_width, original_height = self.processed_image.size
+            original_width, original_height = self.preview.size
+
+            # Log the dimensions to help with debugging
+            logging.debug(
+                f"Label dimensions: {label_width}x{label_height}, Image dimensions: {original_width}x{original_height}")
+
             ratio = min(label_width / original_width, label_height / original_height)
             new_size = (int(original_width * ratio), int(original_height * ratio))
-            resized_image = self.processed_image.resize(new_size, Image.Resampling.LANCZOS)
+
+            logging.debug(f"Resizing image to: {new_size} using nearest neighbor interpolation.")
+
+            # Resize with nearest neighbor interpolation to avoid altering pixel values
+            resized_image = self.preview.resize(new_size, Image.Resampling.NEAREST)
             self.photo_image = ImageTk.PhotoImage(resized_image)  # Convert PIL image to PhotoImage
             self.image_label.config(image=self.photo_image)
             self.image_label.image = self.photo_image  # Keep a reference to avoid garbage collection
 
     def on_window_resize(self, event):
         """Handle the window resize event."""
-        if self.processed_image:  # Check if there's an image to resize
+        logging.debug("Window resized, adjusting preview image...")
+        if self.preview:  # Check if there's an image to resize
             self.resize_and_display_image()
 
     def adjust_image_label_height(self, event):
@@ -192,6 +224,7 @@ def main():
     root = tk.Tk()
     app = ApplicationGUI(root)
     root.mainloop()
+
 
 if __name__ == '__main__':
     main()

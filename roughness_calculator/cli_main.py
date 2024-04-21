@@ -1,5 +1,5 @@
 """
-dem_roughness_calculator_cli.py
+cli_main.py
 -----------
 Version: 0.2.0
 Author: Lukas Batschelet
@@ -8,6 +8,13 @@ Date: 18.04.2024
 """
 import argparse
 from roughness_calculator.classes.application_driver import ApplicationDriver
+import logging
+from .log_config import setup_logging
+
+# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
+setup_logging()
+
+logger = logging.getLogger(__name__)
 
 class CLIMain:
     def __init__(self):
