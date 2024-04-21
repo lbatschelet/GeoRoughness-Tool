@@ -1,9 +1,9 @@
 """
 application_driver.py
 ---------------------
-Version: 1.1.0
+Version: 1.0.0
 Author: Lukas Batschelet
-Date: 18.04.2024
+Date: 21.04.2024
 ---------------------
 This module contains the ApplicationDriver class which is responsible for running the application.
 It acts as a sort of interface between the calling User Interface (UI) and the GeoTIFFProcessor class.

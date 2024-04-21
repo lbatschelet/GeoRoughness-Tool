@@ -1,9 +1,9 @@
 """
 cli_main.py
 -----------
-Version: 0.2.0
+Version: 1.0.0
 Author: Lukas Batschelet
-Date: 18.04.2024
+Date: 21.04.2024
 -----------
 """
 import argparse
