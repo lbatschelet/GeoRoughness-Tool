@@ -23,97 +23,28 @@ Before you begin, ensure that your system meets the following requirements:
 
 ### Step-by-Step Installation
 
-<details>
-<summary>Windows</summary>
+Follow these steps to install the DEM Roughness Calculator on your system. The software supports Windows, macOS, and Linux.
 
-#### Windows
+#### 1. Install Python
+Ensure you have Python 3.12 or later installed on your computer:
+- **Windows**: Download from the [official Python website](https://www.python.org/downloads/). Make sure to add Python to PATH during installation.
+- **macOS**: Install using Homebrew with `brew install python@3.12`.
+- **Linux**: Use your package manager, e.g., for Ubuntu: `sudo apt install python3.12 python3-pip`.
 
-1. **Install Python**:
-   - Visit the [official Python website](https://www.python.org/downloads/).
-   - Download the installer for Python 3.12 or later.
-   - Run the installer. Ensure to check the box that says "Add Python 3.12 to PATH" at the beginning of the installation process.
-   - Complete the installation.
+#### 2. Verify Installation
+Check Python and pip installation:
+```bash
+python3 --version
+pip3 --version
+```
 
-2. **Verify Installation**:
-   - Open Command Prompt and type:
-     ```
-     python --version
-     ```
-     This should display the Python version installed.
-   - Check pip is installed:
-     ```
-     pip --version
-     ```
+#### 3. Install DEM Roughness Calculator
+Install the package via pip:
+```bash
+pip3 install dem-roughness-calculator
+```
 
-3. **Install DEM Roughness Calculator**:
-   - In the Command Prompt, run:
-     ```
-     pip install dem-roughness-calculator
-     ```
-</details>
-
-<details>
-<summary>macOS</summary>
-
-#### macOS
-
-1. **Install Python**:
-   - You can install Python using Homebrew (a package manager for macOS). If you do not have Homebrew installed, you can install it by pasting the following command in a Terminal window:
-     ```
-     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-     ```
-   - Once Homebrew is installed, install Python by running:
-     ```
-     brew install python@3.12
-     ```
-
-2. **Verify Installation**:
-   - In the Terminal, run:
-     ```
-     python3 --version
-     ```
-     - This should return the version of Python installed.
-   - Ensure pip is working:
-     ```
-     pip3 --version
-     ```
-
-3. **Install DEM Roughness Calculator**:
-   - In the Terminal, run:
-     ```
-     pip3 install dem-roughness-calculator
-     ```
-</details>
-
-<details>
-<summary>Linux</summary>
-
-#### Linux
-
-1. **Install Python**:
-   - Most Linux distributions come with Python pre-installed. If not, you can install it using your distribution’s package manager. For Ubuntu, use:
-     ```
-     sudo apt update
-     sudo apt install python3.12 python3-pip
-     ```
-
-2. **Verify Installation**:
-   - Check Python installation:
-     ```
-     python3 --version
-     ```
-   - Check pip installation:
-     ```
-     pip3 --version
-     ```
-
-3. **Install DEM Roughness Calculator**:
-   - Use pip to install:
-     ```
-     pip3 install dem-roughness-calculator
-     ```
-</details>
-
+For more detailed instructions on getting started with the DEM Roughness Calculator, including how to run the software and troubleshoot common issues, please refer to our [Getting Started page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/Getting-Started).
 ## Usage
 
 ### GUI Application
