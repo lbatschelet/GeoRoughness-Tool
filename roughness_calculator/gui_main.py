@@ -156,9 +156,21 @@ class ApplicationGUI:
             self.image_label.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
             self.image_frame.grid_columnconfigure(0, weight=1)  # Ensure the image frame takes up full width
 
-            self.save_button = Button(self.master, text="Save Processed Image", command=self.save_image,
+            # Create a frame for the buttons
+            button_frame = Frame(self.master)
+            button_frame.grid(row=5, column=0, pady=20, sticky="ew")
+
+            # Now place buttons inside this frame
+            self.help_button = Button(button_frame, text="Help", command=self.show_help)
+            self.help_button.grid(row=0, column=0, padx=5, sticky="ew")
+
+            self.save_button = Button(button_frame, text="Save Processed Image", command=self.save_image,
                                       state='disabled')
-            self.save_button.grid(row=5, column=0, pady=20, sticky="ew")
+            self.save_button.grid(row=0, column=1, padx=5, sticky="ew")
+
+            # Configure the button frame column weights if necessary
+            button_frame.grid_columnconfigure(0, weight=1)
+            button_frame.grid_columnconfigure(1, weight=1)
         except Exception as e:
             # Log the error and raise the original exception
             logging.error("Error setting up the GUI: " + str(e))
@@ -426,6 +438,44 @@ class ApplicationGUI:
             # Log the error and raise the original exception
             logging.error("Error adjusting image label height: " + str(e))
             raise RuntimeError("Error adjusting image label height: " + str(e))
+
+    def show_help(self):
+        help_text = """
+        DEM Roughness Calculator Help:
+
+
+        Input TIFF Path:
+        Path to the input GeoTIFF file.
+        
+        
+        Output Directory:
+        Directory where the output files will be saved.
+        (Optional, if not set you can choose to save the processed image after previewing it.)
+
+        Window Size (m):
+        Defines the size of the square window in meters to calculate roughness. 
+        (Optional, default is 1.0)
+        
+        
+        Band Number:
+        Specifies the band of the GeoTIFF to be processed.
+        (Optional, default is 1, only different in rare cases where the GeoTIFF has multiple bands including a DEM)
+        
+        
+        High Value Threshold:
+        Sets the threshold above which values are considered as noise and set to nodata.
+        (Optional, default is 1.0, should often be lower, rarely higher)
+        
+        
+        Categorical Thresholds:
+        Comma-separated thresholds for categorizing the roughness values.
+        (Optional, default is None. Grouping roughness values into categories can help in visualizing the data.)
+
+
+        For more detailed information, visit the GitHub wiki at:
+        https://github.com/lbatschelet/dem-roughness-calculator/wiki
+        """
+        messagebox.showinfo("Help", help_text)
 
 
 def main():
