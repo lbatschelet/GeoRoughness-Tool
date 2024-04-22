@@ -3,11 +3,32 @@ message: "If you use this software in your work, please cite it using the follow
 title: "DEM Roughness Calculator"
 version: 1.0.8
 date-released: 2024-04-22
+place-of-publication: "Bern, Switzerland"
+company: "University of Bern"
 
 authors:
   - family-names: "Batschelet"
     given-names: "Lukas"
     orcid: "0009-0005-0696-0285"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+    email: "78535538+lbatschelet@users.noreply.github.com"
+  - family-names: "Mohaupt"
+    given-names: "Florian"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+  - family-names: "Röthlisberger"
+    given-names: "Stefanie"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+
+keywords:
+  - "DEM"
+  - "Surface Roughness"
+  - "Topography"
+  - "Python"
+  - "Geospatial"
+  - "Remote Sensing"
+  - "Digital Elevation Model"
+  - "Geocomputation"
+
 
 repository-code: "https://github.com/lbatschelet/dem-roughness-calculator"
 
