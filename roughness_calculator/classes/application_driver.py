@@ -1,7 +1,7 @@
 """
 application_driver.py
 ---------------------
-Version: 1.0.7
+Version: 1.0.8
 Author: Lukas Batschelet
 Date: 22.04.2024
 ---------------------
@@ -71,7 +71,7 @@ class ApplicationDriver:
             window_size: Optional[float] = None,
             band_number: Optional[int] = None,
             high_value_threshold: Optional[float] = None,
-            categorical_thresholds: Optional[List[float]] = None
+            category_thresholds: Optional[List[float]] = None
     ):
         """
         Initializes the ApplicationDriver with necessary parameters for processing a GeoTIFF file.
@@ -82,7 +82,7 @@ class ApplicationDriver:
             window_size (float, optional): Side length of the square window in meters for roughness calculation.
             band_number (int, optional): Specific band number to process.
             high_value_threshold (float, optional): Threshold value to filter out high data values.
-            categorical_thresholds (List[float], optional): Thresholds for categorizing data values.
+            category_thresholds (List[float], optional): Thresholds for categorizing data values.
 
         Raises:
             FileNotFoundError: If the input path or output directory is not valid.
@@ -98,7 +98,7 @@ class ApplicationDriver:
         self.window_size = window_size
         self.band_number = band_number
         self.high_value_threshold = high_value_threshold
-        self.categorical_thresholds = categorical_thresholds
+        self.category_thresholds = category_thresholds
 
         self.processed_data = None  # This will hold the processed data after running the processor
         self.preview = None  # This will hold the image preview of the processed data
@@ -113,7 +113,7 @@ class ApplicationDriver:
             'window_size': window_size,
             'band_number': band_number,
             'high_value_threshold': high_value_threshold,
-            'categorical_thresholds': categorical_thresholds
+            'category_thresholds': category_thresholds
         }
         filtered_params = {k: v for k, v in params.items() if v is not None}
 

@@ -1,7 +1,7 @@
 """
 gui_main.py
 -----------
-Version: 1.0.7
+Version: 1.0.8
 Author: Lukas Batschelet
 Date: 22.04.2024
 -----------
@@ -136,11 +136,11 @@ class ApplicationGUI:
             self.high_value_threshold_entry = Entry(options_frame, width=15)
             self.high_value_threshold_entry.grid(row=3, column=1, sticky='e')
 
-            # categorical_thresholds
-            (Label(options_frame, text="Categorical Thresholds (comma-separated): (Default is None)").
+            # category_thresholds
+            (Label(options_frame, text="category Thresholds (comma-separated): (Default is None)").
              grid(row=4, column=0, sticky='e'))
-            self.categorical_thresholds_entry = Entry(options_frame, width=15)
-            self.categorical_thresholds_entry.grid(row=4, column=1, sticky='e')
+            self.category_thresholds_entry = Entry(options_frame, width=15)
+            self.category_thresholds_entry.grid(row=4, column=1, sticky='e')
 
             Button(self.master, text="Start Processing", command=self.start_processing).grid(row=3, column=0,
                                                                                              pady=20, sticky="ew")
@@ -254,8 +254,8 @@ class ApplicationGUI:
             band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else None
             high_value_threshold = float(
                 self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else None
-            thresholds_text = self.categorical_thresholds_entry.get()
-            categorical_thresholds = [float(x) for x in thresholds_text.split(',')] if thresholds_text else None
+            thresholds_text = self.category_thresholds_entry.get()
+            category_thresholds = [float(x) for x in thresholds_text.split(',')] if thresholds_text else None
 
             # Filter parameters to exclude None values, allowing for flexible argument passing
             params = {
@@ -263,7 +263,7 @@ class ApplicationGUI:
                 'window_size': window_size,
                 'band_number': band_number,
                 'high_value_threshold': high_value_threshold,
-                'categorical_thresholds': categorical_thresholds
+                'category_thresholds': category_thresholds
             }
             filtered_params = {k: v for k, v in params.items() if v is not None}
 
@@ -467,7 +467,7 @@ class ApplicationGUI:
         (Optional, default is 1.0, should often be lower, rarely higher)
         
         
-        Categorical Thresholds:
+        category Thresholds:
         Comma-separated thresholds for categorizing the roughness values.
         (Optional, default is None. Grouping roughness values into categories can help in visualizing the data.)
 

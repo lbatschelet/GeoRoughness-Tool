@@ -1,7 +1,7 @@
 """
 cli_main.py
 -----------
-Version: 1.0.7
+Version: 1.0.8
 Author: Lukas Batschelet
 Date: 22.04.2024
 -----------
@@ -62,8 +62,8 @@ class CLIMain:
         self.parser.add_argument('--high_value_threshold', type=float, default=1.0,
                                  help='The threshold for high values to be filtered out. Default is 1.0.')
 
-        # Add optional argument for the categorical thresholds
-        self.parser.add_argument('--categorical_thresholds', type=float, nargs='+',
+        # Add optional argument for the category thresholds
+        self.parser.add_argument('--category_thresholds', type=float, nargs='+',
                                  help='List of thresholds to categorize data.')
 
     def run(self) -> None:
@@ -86,7 +86,7 @@ class CLIMain:
             window_size=args.window_size,
             band_number=args.band_number,
             high_value_threshold=args.high_value_threshold,
-            categorical_thresholds=args.categorical_thresholds
+            category_thresholds=args.category_thresholds
         )
 
         # Run the ApplicationDriver
