@@ -6,10 +6,11 @@ Author: Lukas Batschelet
 Date: 21.04.2024
 -----------
 """
-import argparse
 from roughness_calculator.classes.application_driver import ApplicationDriver
 import logging
 from .log_config import setup_logging
+import argparse
+from typing import NoReturn
 
 # Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
 setup_logging()
@@ -18,46 +19,67 @@ logger = logging.getLogger(__name__)
 
 
 class CLIMain:
-    def __init__(self) -> None:
+    def __init__(self) -> NoReturn:
         """
-        Initializes the command line interface for the application.
+        Initialize the command line interface for the application.
 
         This method sets up the argument parser for the command line interface.
+
+        Returns:
+            None
         """
-        self.parser = (argparse.ArgumentParser(
-            description="CLI tool for processing GeoTIFF files to calculate surface roughness."))
+        # Initialize the argument parser with a description
+        self.parser = argparse.ArgumentParser(
+            description="CLI tool for processing GeoTIFF files to calculate surface roughness."
+        )
+        # Set up the command line arguments
         self.setup_arguments()
 
     def setup_arguments(self) -> None:
         """
-        Defines the command line arguments for the application.
+        Set up command line arguments.
 
-        This method adds the necessary arguments to the argument parser.
+        This method configures the command line arguments for the application.
+
+        Returns:
+            None
         """
-        # Define command line arguments
-        self.parser.add_argument('input_path', type=str,
-                                 help='The path to the input GeoTIFF file.')
-        self.parser.add_argument('output_dir', type=str,
-                                 help='The path to the output directory.')
+        # Add argument for the input GeoTIFF file path
+        self.parser.add_argument('input_path', type=str, help='The path to the input GeoTIFF file.')
+
+        # Add argument for the output directory path
+        self.parser.add_argument('output_dir', type=str, help='The path to the output directory.')
+
+        # Add optional argument for the window size with a default value of 1.0
         self.parser.add_argument('--window_size', type=float, default=1.0,
                                  help='The side length of the square window in meters. Default is 1.')
+
+        # Add optional argument for the band number to be processed with a default value of 1
         self.parser.add_argument('--band_number', type=int, default=1,
                                  help='The band number to be processed. Default is 1.')
+
+        # Add optional argument for the high value threshold with a default value of 1.0
         self.parser.add_argument('--high_value_threshold', type=float, default=1.0,
                                  help='The threshold for high values to be filtered out. Default is 1.0.')
+
+        # Add optional argument for the categorical thresholds
         self.parser.add_argument('--categorical_thresholds', type=float, nargs='+',
                                  help='List of thresholds to categorize data.')
 
     def run(self) -> None:
         """
-        Runs the application with the provided command line arguments.
+        Execute the command line interface.
 
-        This method parses the command line arguments and creates an instance of the
-        ApplicationDriver class with these arguments. It then runs the application driver.
+        This method parses the command line arguments and initializes the ApplicationDriver with these arguments.
+        It then runs the ApplicationDriver.
+
+        Returns:
+            None
         """
+        # Parse the command line arguments
         args = self.parser.parse_args()
 
-        # Create and run the application driver with provided arguments
+        # Initialize the ApplicationDriver with the parsed arguments
         driver = ApplicationDriver(
             input_path=args.input_path,
             output_dir=args.output_dir,
@@ -66,9 +88,26 @@ class CLIMain:
             high_value_threshold=args.high_value_threshold,
             categorical_thresholds=args.categorical_thresholds
         )
+
+        # Run the ApplicationDriver
         driver.run()
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """
+    Entry point for the CLI.
+
+    This method initializes the CLIMain class and runs it.
+
+    Returns:
+        None
+    """
+    # Initialize the CLIMain class
     cli = CLIMain()
+
+    # Run the CLIMain class
     cli.run()
+
+
+if __name__ == '__main__':
+    main()
