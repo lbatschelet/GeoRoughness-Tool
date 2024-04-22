@@ -2,6 +2,15 @@
 
 The DEM Roughness Calculator is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
 
+> [!NOTE]
+> **AI-Assisted Development**
+> 
+> This project leverages artificial intelligence, including OpenAI's GPT-4 and GitHub Copilot, to assist in generating parts of the code and documentation. These tools provide suggestions that enhance the development process and help in crafting more robust and comprehensive materials. While AI tools have been instrumental in accelerating development and improving productivity, the final decisions on the inclusion and modification of the generated content rest solely with the human developers. This ensures that each aspect of the project aligns with our quality standards and functional requirements. 
+> 
+> Please note that while AI has contributed to the project, it may not capture the full complexity or context of the development practices. As such, any anomalies or errors introduced by AI-generated content have been reviewed and rectified to the best of our capabilities. However, users should exercise their judgment and discretion when using or modifying this software. 
+> 
+> For any concerns or questions about the AI-generated content within this project, please feel free to contact us through the repository's issues section or directly via the contact methods provided on this page.
+
 ## Features
 
 - **GeoTIFF Support**: Load and process DEM data directly from GeoTIFF files.
@@ -13,12 +22,16 @@ The DEM Roughness Calculator is a comprehensive tool designed for geospatial ana
 
 ## Documentation
 
-For more detailed information about the tool's capabilities and additional configurations, please refer to the [Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
-
+For more detailed information about the tool's capabilities and additional configurations, 
+please refer to the [Project's Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
 
 ## Installation Guide for DEM Roughness Calculator
 
-This guide provides detailed steps for installing the DEM Roughness Calculator on Windows, macOS, and Linux systems. Please follow the instructions specific to your operating system.
+Follow these steps to install the DEM Roughness Calculator on your system. The program is available
+as a Python package and can therefore be installed on any major operating system.
+
+> [!TIP]
+> If you are not that experienced using command line tools or experience any problems during installation, please refer to the [Getting Started Wiki Page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/Getting-Started) for a more detailed and OS specific installation guide.
 
 ### Prerequisites
 
@@ -27,8 +40,6 @@ Before you begin, ensure that your system meets the following requirements:
 - **pip**: Python's package installer, used to install the DEM Roughness Calculator.
 
 ### Step-by-Step Installation
-
-Follow these steps to install the DEM Roughness Calculator on your system. The software supports Windows, macOS, and Linux.
 
 #### 1. Install Python
 Ensure you have Python 3.12 or later installed on your computer:
@@ -49,7 +60,6 @@ Install the package via pip:
 pip3 install dem-roughness-calculator
 ```
 
-For more detailed instructions on getting started with the DEM Roughness Calculator, including how to run the software and troubleshoot common issues, please refer to our [Getting Started page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/Getting-Started).
 ## Usage
 
 ### GUI Application
@@ -67,7 +77,7 @@ The graphical interface allows you to browse for input files, set processing par
 For those who prefer working in a command-line environment, the CLI provides a robust solution. Here’s how to use it:
 
 ```bash
-demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_size 1.0 --band_number 1 --high_value_threshold 1.0 --categorical_thresholds 0.1 0.2 0.3
+demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_size 1.0 --band_number 1 --high_value_threshold 1.0 --categorical_thresholds 0.1, 0.2, 0.3
 ```
 
 ### Parameters
@@ -82,16 +92,6 @@ demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_s
 ## Contributing
 
 We welcome contributions! If you have suggestions or want to report bugs, please use the [Issues](https://github.com/lbatschelet/dem-roughness-calculator/issues) section of this repository.
-
-## Disclaimer
-
-### AI-Assisted Development
-
-This project leverages artificial intelligence, including OpenAI's GPT-4 and GitHub Copilot, to assist in generating parts of the code and documentation. These tools provide suggestions that enhance the development process and help in crafting more robust and comprehensive materials. While AI tools have been instrumental in accelerating development and improving productivity, the final decisions on the inclusion and modification of the generated content rest solely with the human developers. This ensures that each aspect of the project aligns with our quality standards and functional requirements.
-
-Please note that while AI has contributed to the project, it may not capture the full complexity or context of the development practices. As such, any anomalies or errors introduced by AI-generated content have been reviewed and rectified to the best of our capabilities. However, users should exercise their judgment and discretion when using or modifying this software.
-
-For any concerns or questions about the AI-generated content within this project, please feel free to contact us through the repository's issues section or directly via the contact methods provided on this page.
 
 ## License
 
