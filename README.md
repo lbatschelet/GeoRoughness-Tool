@@ -1,114 +1,156 @@
 # DEM Roughness Calculator
 
-This is a Python script that calculates the roughness of a Digital Elevation Model (DEM) using
-the standard deviation of the height information in a window of a given size.
+The DEM Roughness Calculator is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
 
-> [!important]
-> This module is still in development, especially the user interface and general documentation are lacking.
-> If you have any questions or suggestions, feel free to contact me.
-> Errors and bugs can be reported in the issues section of the repository.
+## Features
 
+- **GeoTIFF Support**: Load and process DEM data directly from GeoTIFF files.
+- **Flexible Window Sizes**: Specify the window size in meters for roughness calculations.
+- **Advanced Thresholding**: Configure high value and categorical thresholds to refine processing.
+- **Dual Interface**: Operate through a user-friendly GUI or a powerful CLI.
+- **Dynamic Previews**: Generate and view pseudo-colored previews of the processed DEM within the GUI.
+- **Selective Saving**: Choose when to save processed outputs after reviewing results.
 
-## Current state
+## Installation Guide for DEM Roughness Calculator
 
-- [ ] [`geo_tiff_processor.py`](./roughness_calculator/classes/geo_tiff_processor.py) - Module for processing GeoTIFF files
-  - [X] Load GeoTIFF file
-  - [X] Read GeoTIFF file metadata
-  - [X] Calculate roughness of GeoTIFF file using a given window size by calculating the standard deviation of the height
-        information in the window
-  - [X] ~~Save GeoTIFF file~~ has been moved to the driver
-  - [X] ~~Generate pseudo-colored preview of GeoTIFF file for GUI~~ _has been moved to the driver_
-  - [X] Added following functionality:
-    - [X] Accept `window_size` in meters as parameter.
-    - [X] Accept `band_number` as parameter.
-    - [X] Accept `high_value_threshold` as parameter.
-    - [X] Accept `category_thresholds` as parameter.
-  - [X] ~~Add functionality to only save the file when wanted after seeing the preview.~~ _saving responsibility
-        has been moved to the driver_
-  - [X] Add docstrings
-  - [X] Add clearer logging
-  - [X] Add error handling
-  - [X] Add type hints
-  - [ ] Add tests
-- [ ] [`application_driver.py`](./roughness_calculator/classes/application_driver.py) - Module for running the application
-  - [X] Implement interface to run the application both as a CLI and a GUI
-  - [X] Implement functionality to hand over the generated GeoTIFF file to the GUI
-  - [X] Implement function to save the GeoTIFF file
-    - [X] directly when using the CLI or an output directory is provided in the GUI
-    - [X] only when wanted after seeing the preview in the GUI
-  - [X] Implement function to generate a pseudo-colored preview of the GeoTIFF file
-  - [X] Add docstrings
-  - [X] Add clearer logging
-  - [X] Add error handling
-  - [X] Add type hints
-  - [ ] Add tests
-- [ ] [`gui_main.py`](./roughness_calculator/gui_main.py) - GUI programm
-  - [X] Create GUI to run the programm
-  - [X] Add functionality to browse for a GeoTIFF file
-  - [X] Add functionality to set all parameters for the roughness calculation
-  - [X] Add functionality to save the result as a new GeoTIFF file only when wanted and after seeing the preview
-  - [X] Add documentation
-  - [X] Add clearer logging
-  - [X] Add error handling
-  - [X] Add type hints
-  - [ ] Add some description of the parameters
-  - [ ] Clean up the layout
-  - [ ] Fix window resizing
-  - [ ] Add tests
-- [ ] [`cli_main.py`](./roughness_calculator/cli_main.py) - CLI programm
-  - [X] Create CLI to run the programm
-  - [X] Add functionality to set all parameters for the roughness calculation
-  - [X] Add documentation
-  - [X] Add clearer logging
-  - [X] Add type hints
-  - [ ] Add tests
+This guide provides detailed steps for installing the DEM Roughness Calculator on Windows, macOS, and Linux systems. Please follow the instructions specific to your operating system.
 
+### Prerequisites
 
-## How to get going
+Before you begin, ensure that your system meets the following requirements:
+- **Python 3.12 or later**: The software is built to run with Python 3.12 and above.
+- **pip**: Python's package installer, used to install the DEM Roughness Calculator.
 
-For a detailed guide on how to get started with the project, see the
-[Getting Started wiki page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/How-to-get-going) guide.
-This guide will walk you through the steps needed to set up the project and run the GUI version of the application.
+### Step-by-Step Installation
 
-For a detailed guide on how to use the CLI version of the application, see the
-[CLI Usage wiki page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/GeoTIFF-Surface-Roughness-Calculator-CLI)
+<details>
+<summary>Windows</summary>
 
+#### Windows
 
-## Functionality
+1. **Install Python**:
+   - Visit the [official Python website](https://www.python.org/downloads/).
+   - Download the installer for Python 3.12 or later.
+   - Run the installer. Ensure to check the box that says "Add Python 3.12 to PATH" at the beginning of the installation process.
+   - Complete the installation.
 
-The program allows you to calculate the surface roughness of a Digital Elevation Model (DEM).
-You can load a DEM file in the GeoTIFF format and set the window size for the calculation. It then calculates
-the roughness of the DEM by computing the standard deviation of the height information in the window of the given size.
-The result is output in a new GeoTIFF file.
+2. **Verify Installation**:
+   - Open Command Prompt and type:
+     ```
+     python --version
+     ```
+     This should display the Python version installed.
+   - Check pip is installed:
+     ```
+     pip --version
+     ```
 
-## How to use the program
+3. **Install DEM Roughness Calculator**:
+   - In the Command Prompt, run:
+     ```
+     pip install dem-roughness-calculator
+     ```
+</details>
 
-1. Select the DEM file you want to calculate the roughness with.
-2. Select an output directory where the result will be saved.
-3. Set the side length of the square window size in meters for the calculation.
-   If left empty it will default to 1 meter.
-4. Set the band number of the DEM file.
-   If left empty it will default to 1.
-5. Set the high value threshold for the roughness calculation. This value is used to filter out abnormally high 
-   roughness values that are likely to be errors that would skew the results. 
-   If left empty it will default to 1. Should not need to be changed in most cases.
+<details>
+<summary>macOS</summary>
 
+#### macOS
 
-## Needed libraries
+1. **Install Python**:
+   - You can install Python using Homebrew (a package manager for macOS). If you do not have Homebrew installed, you can install it by pasting the following command in a Terminal window:
+     ```
+     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+     ```
+   - Once Homebrew is installed, install Python by running:
+     ```
+     brew install python@3.12
+     ```
 
-The script uses the following libraries:
+2. **Verify Installation**:
+   - In the Terminal, run:
+     ```
+     python3 --version
+     ```
+     - This should return the version of Python installed.
+   - Ensure pip is working:
+     ```
+     pip3 --version
+     ```
 
-- [Affine (2.4.0):](https://pypi.org/project/affine/) Matrices describing affine transformation of the plane
-- [Attrs (23.2.0):](https://www.attrs.org/en/stable/) Classes Without Boilerplate
-- [Certifi (2024.2.2):](https://pypi.org/project/certifi/) Python package for providing Mozilla's CA Bundle.
-- [Click (8.1.7):](https://click.palletsprojects.com/en/8.0.x/) Composable command line interface toolkit
-- [Click-Plugins (1.1.1):](https://pypi.org/project/click-plugins/) An extension module for click to enable registering
-  CLI commands via setuptools entry-points.
-- [Cligj (0.7.2):](https://pypi.org/project/cligj/) Click params for common GIS formats
-- [NumPy (1.26.4):](https://numpy.org/) The fundamental package for scientific computing with Python
-- [Pyparsing (3.1.2):](https://pypi.org/project/pyparsing/) Python parsing module
-- [Rasterio (1.3.10):](https://rasterio.readthedocs.io/en/latest/) access to geospatial raster data
-- [SciPy (1.13.0):](https://www.scipy.org/) Fundamental algorithms for scientific computing in Python
-- [Setuptools (69.5.1):](https://pypi.org/project/setuptools/) Easily download, build, install, upgrade, and 
-  uninstall Python packages
-- [Snuggs (1.4.7):](https://pypi.org/project/snuggs/) Snuggs are s-expressions for numpy
+3. **Install DEM Roughness Calculator**:
+   - In the Terminal, run:
+     ```
+     pip3 install dem-roughness-calculator
+     ```
+</details>
+
+<details>
+<summary>Linux</summary>
+
+#### Linux
+
+1. **Install Python**:
+   - Most Linux distributions come with Python pre-installed. If not, you can install it using your distribution’s package manager. For Ubuntu, use:
+     ```
+     sudo apt update
+     sudo apt install python3.12 python3-pip
+     ```
+
+2. **Verify Installation**:
+   - Check Python installation:
+     ```
+     python3 --version
+     ```
+   - Check pip installation:
+     ```
+     pip3 --version
+     ```
+
+3. **Install DEM Roughness Calculator**:
+   - Use pip to install:
+     ```
+     pip3 install dem-roughness-calculator
+     ```
+</details>
+
+## Usage
+
+### GUI Application
+
+To launch the GUI, simply run the following command in your terminal:
+
+```bash
+demgui
+```
+
+The graphical interface allows you to browse for input files, set processing parameters, and view the roughness map interactively before deciding to save the output.
+
+### CLI Application
+
+For those who prefer working in a command-line environment, the CLI provides a robust solution. Here’s how to use it:
+
+```bash
+demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_size 1.0 --band_number 1 --high_value_threshold 1.0 --categorical_thresholds 0.1 0.2 0.3
+```
+
+### Parameters
+
+- **`--input_path`**: Path to the input GeoTIFF file.
+- **`--output_dir`**: Directory where the output files will be saved.
+- **`--window_size`** (optional): The size of the window in meters for calculating roughness.
+- **`--band_number`** (optional): The specific band of the DEM to process.
+- **`--high_value_threshold`** (optional): Threshold to filter out high elevation values.
+- **`--categorical_thresholds`** (optional): Set of thresholds to categorize the elevation data.
+
+## Documentation
+
+For more detailed information about the tool's capabilities and additional configurations, please refer to the [Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
+
+## Contributing
+
+We welcome contributions! If you have suggestions or want to report bugs, please use the [Issues](https://github.com/lbatschelet/dem-roughness-calculator/issues) section of this repository.
+
+## License
+
+This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
