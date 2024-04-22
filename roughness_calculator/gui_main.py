@@ -1,9 +1,9 @@
 """
 gui_main.py
 -----------
-Version: 1.0.5
+Version: 1.0.6
 Author: Lukas Batschelet
-Date: 21.04.2024
+Date: 22.04.2024
 -----------
 This module contains the ApplicationGUI class which is
 responsible for creating the graphical user interface (GUI) of the application.
