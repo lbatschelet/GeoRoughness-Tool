@@ -11,6 +11,11 @@ The DEM Roughness Calculator is a comprehensive tool designed for geospatial ana
 - **Dynamic Previews**: Generate and view pseudo-colored previews of the processed DEM within the GUI.
 - **Selective Saving**: Choose when to save processed outputs after reviewing results.
 
+## Documentation
+
+For more detailed information about the tool's capabilities and additional configurations, please refer to the [Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
+
+
 ## Installation Guide for DEM Roughness Calculator
 
 This guide provides detailed steps for installing the DEM Roughness Calculator on Windows, macOS, and Linux systems. Please follow the instructions specific to your operating system.
@@ -73,10 +78,6 @@ demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_s
 - **`--band_number`** (optional): The specific band of the DEM to process.
 - **`--high_value_threshold`** (optional): Threshold to filter out high elevation values.
 - **`--categorical_thresholds`** (optional): Set of thresholds to categorize the elevation data.
-
-## Documentation
-
-For more detailed information about the tool's capabilities and additional configurations, please refer to the [Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
 
 ## Contributing
 
