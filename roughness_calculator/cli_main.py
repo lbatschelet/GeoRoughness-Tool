@@ -1,9 +1,9 @@
 """
 cli_main.py
 -----------
-Version: 1.0.8
+Version: 1.0.9
 Author: Lukas Batschelet
-Date: 22.04.2024
+Date: 08.05.2024
 -----------
 """
 from roughness_calculator.classes.application_driver import ApplicationDriver
