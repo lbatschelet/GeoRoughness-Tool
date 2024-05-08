@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='dem-roughness-calculator',
-    version='1.0.8',
+    version='1.0.9',
     packages=find_packages(),  # Automatically find all packages in the directory
     url='https://github.com/lbatschelet/dem-roughness-calculator',
     license='GPL-3.0',

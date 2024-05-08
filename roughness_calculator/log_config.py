@@ -1,3 +1,13 @@
+"""
+log_comnfig.py
+-----------
+Version: 1.0.9
+Author: Lukas Batschelet
+Date: 08.05.2024
+-----------
+This module sets up the logging for the application.
+"""
+
 import os
 import logging
 

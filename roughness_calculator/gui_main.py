@@ -1,9 +1,9 @@
 """
 gui_main.py
 -----------
-Version: 1.0.8
+Version: 1.0.9
 Author: Lukas Batschelet
-Date: 22.04.2024
+Date: 08.05.2024
 -----------
 This module contains the ApplicationGUI class which is
 responsible for creating the graphical user interface (GUI) of the application.
@@ -131,7 +131,7 @@ class ApplicationGUI:
             self.band_number_entry.grid(row=2, column=1, sticky='e')
 
             # high_value_threshold
-            (Label(options_frame, text="High Value Threshold: (Default is 1.0, should often be lower, rarely higher)").
+            (Label(options_frame, text="High Value Threshold: (Default is 10.0, used to cut off crazy values at file borders)").
              grid(row=3, column=0, sticky='e'))
             self.high_value_threshold_entry = Entry(options_frame, width=15)
             self.high_value_threshold_entry.grid(row=3, column=1, sticky='e')

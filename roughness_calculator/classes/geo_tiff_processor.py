@@ -1,9 +1,9 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.0.8
+Version: 1.0.9
 Author: Lukas Batschelet
-Date: 22.04.2024
+Date: 08.05.2024
 ---------------------
 This module contains the GeoTIFFProcessor class which is responsible for processing GeoTIFF files.
 It provides methods for loading, processing, and saving GeoTIFF files.
@@ -29,14 +29,14 @@ class GeoTIFFProcessor:
         input_path (str): The path to the input GeoTIFF file.
         window_size (float): The side length of the square window in meters for which to calculate roughness. Default 1
         band_number (int): The band number to be processed. Default 1.
-        high_value_threshold (float): The threshold for high values to be filtered out. Default 1.
+        high_value_threshold (float): The threshold for high values to be filtered out. Default 10.0.
         category_thresholds (Optional[List[float]]): The thresholds for categorizing the roughness values.
         dataset (Optional[rasterio.DatasetReader]): The rasterio dataset object representing the GeoTIFF file.
         processed_data (Optional[np.ndarray]): The processed data.
         profile (Optional[Dict]): The profile of the GeoTIFF file.
     """
     def __init__(self, input_path: str, window_size: float = 1.0, band_number: int = 1,
-                 high_value_threshold: float = 1.0, category_thresholds: Optional[List[float]] = None) -> None:
+                 high_value_threshold: float = 10.0, category_thresholds: Optional[List[float]] = None) -> None:
         """
         Initializes the GeoTIFFProcessor with the given parameters.
 
