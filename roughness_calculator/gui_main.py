@@ -1,9 +1,9 @@
 """
 gui_main.py
 -----------
-Version: 1.0.9
+Version: 1.1.0
 Author: Lukas Batschelet
-Date: 08.05.2024
+Date: 09.05.2024
 -----------
 This module contains the ApplicationGUI class which is
 responsible for creating the graphical user interface (GUI) of the application.
@@ -15,6 +15,8 @@ from roughness_calculator.classes.application_driver import ApplicationDriver
 import tkinter as tk
 from tkinter import filedialog, messagebox, Label, Button, Entry, Frame
 import logging
+
+from roughness_calculator.classes.processing_parameters import ProcessingParameters
 from .log_config import setup_logging
 
 # Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
@@ -232,9 +234,9 @@ class ApplicationGUI:
         """
         Starts the processing of the GeoTIFF file with the provided parameters.
 
-        This method gathers the parameters from the GUI, filters out None values,
-        and creates an instance of the ApplicationDriver class with these parameters.
-        It then runs the application driver and handles any exceptions that might occur.
+        This method gathers the parameters from the GUI, creates an instance of the ProcessingParameters class,
+        initializes the ApplicationDriver with these parameters, and manages the processing flow,
+        including displaying results and handling errors.
 
         Raises:
             FileNotFoundError: If the input file is not found.
@@ -242,33 +244,24 @@ class ApplicationGUI:
             RuntimeError: If there's an error during processing.
         """
         try:
-            # Get the input path from the GUI
-            input_path = self.input_path_entry.get()
-            if not input_path:
-                messagebox.showerror("Error", "Input path is required.")
-                return
-
-            # Gather parameters from the GUI, setting to None if not provided
-            output_dir = self.output_dir_entry.get() or None
-            window_size = float(self.window_size_entry.get()) if self.window_size_entry.get() else None
-            band_number = int(self.band_number_entry.get()) if self.band_number_entry.get() else None
-            high_value_threshold = float(
-                self.high_value_threshold_entry.get()) if self.high_value_threshold_entry.get() else None
-            thresholds_text = self.category_thresholds_entry.get()
-            category_thresholds = [float(x) for x in thresholds_text.split(',')] if thresholds_text else None
-
-            # Filter parameters to exclude None values, allowing for flexible argument passing
-            params = {
-                'output_dir': output_dir,
-                'window_size': window_size,
-                'band_number': band_number,
-                'high_value_threshold': high_value_threshold,
-                'category_thresholds': category_thresholds
+            # Gather parameters from the GUI
+            params_dict = {
+                "input_path": self.input_path_entry.get() or None,
+                "output_dir": self.output_dir_entry.get() or None,
+                "window_size": self.window_size_entry.get() or None,
+                "band_number": self.band_number_entry.get() or None,
+                "high_value_threshold": self.high_value_threshold_entry.get() or None,
+                "category_thresholds": self.category_thresholds_entry.get() or None
             }
-            filtered_params = {k: v for k, v in params.items() if v is not None}
 
-            # Create and run the application driver with provided arguments
-            self.driver = ApplicationDriver(input_path, **filtered_params)
+            # Filter out None values to allow optional parameters to use defaults
+            filtered_params = {k: v for k, v in params_dict.items() if v is not None}
+
+            # Create ProcessingParameters instance using the factory method
+            processing_params = ProcessingParameters.create_from_dict(filtered_params)
+
+            # Initialize and run the application driver with the validated and converted parameters
+            self.driver = ApplicationDriver(processing_params)
             self.driver.run()
 
             # Get the preview of the processed data
