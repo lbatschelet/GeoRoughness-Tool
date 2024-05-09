@@ -14,24 +14,22 @@ in the class.
 
 from dataclasses import dataclass, field
 import os
-from typing import Optional, List
+from typing import Optional, List, Final
 
 import logging
 
 import rasterio
-
-from ..log_config import setup_logging
 
 logger = logging.getLogger(__name__)
 
 
 class Defaults:
     """Constants for default values used in processing parameters."""
-    OUTPUT_DIR = None
-    WINDOW_SIZE = 1.0
-    BAND_NUMBER = 1
-    HIGH_VALUE_THRESHOLD = 10.0
-    CATEGORY_THRESHOLDS = None
+    OUTPUT_DIR: Final[Optional[str]] = None
+    WINDOW_SIZE: Final[float] = 1.0
+    BAND_NUMBER: Final[int] = 1
+    HIGH_VALUE_THRESHOLD: Final[float] = 10.0
+    CATEGORY_THRESHOLDS: Final[Optional[List[float]]] = None
 
 
 @dataclass
@@ -49,11 +47,11 @@ class ProcessingParameters:
         category_thresholds (Optional[List[float]]): List of thresholds for categorizing data. Optional.
     """
     input_path: str
-    output_dir: Optional[str] = None
+    output_dir: Optional[str] = field(default_factory=lambda: Defaults.OUTPUT_DIR)
     window_size: float = field(default_factory=lambda: Defaults.WINDOW_SIZE)
     band_number: int = field(default_factory=lambda: Defaults.BAND_NUMBER)
     high_value_threshold: float = field(default_factory=lambda: Defaults.HIGH_VALUE_THRESHOLD)
-    category_thresholds: Optional[List[float]] = None
+    category_thresholds: Optional[List[float]] = field(default_factory=lambda: Defaults.CATEGORY_THRESHOLDS)
 
     def __post_init__(self):
         logger.info("Initializing ProcessingParameters...")
