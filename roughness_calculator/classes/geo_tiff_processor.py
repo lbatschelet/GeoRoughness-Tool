@@ -1,9 +1,9 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.0.9
+Version: 1.1.0
 Author: Lukas Batschelet
-Date: 08.05.2024
+Date: 09.05.2024
 ---------------------
 This module contains the GeoTIFFProcessor class which is responsible for processing GeoTIFF files.
 It provides methods for loading, processing, and saving GeoTIFF files.
@@ -12,6 +12,8 @@ Until now, only a method to calculate the roughness of a GeoTIFF file has been i
 import numpy as np
 import rasterio
 import logging
+
+from .processing_parameters import ProcessingParameters
 from ..log_config import setup_logging
 from typing import Optional, List, Tuple
 
@@ -35,26 +37,19 @@ class GeoTIFFProcessor:
         processed_data (Optional[np.ndarray]): The processed data.
         profile (Optional[Dict]): The profile of the GeoTIFF file.
     """
-    def __init__(self, input_path: str, window_size: float = 1.0, band_number: int = 1,
-                 high_value_threshold: float = 10.0, category_thresholds: Optional[List[float]] = None) -> None:
+    def __init__(self, params: ProcessingParameters) -> None:
         """
         Initializes the GeoTIFFProcessor with the given parameters.
 
         Args:
-            input_path (str): The path to the input GeoTIFF file.
-            window_size (float, optional): The side length of the square window in meters for which to calculate
-                                           roughness. Defaults to 1.0.
-            band_number (int, optional): The band number to be processed. Defaults to 1.
-            high_value_threshold (float, optional): The threshold for high values to be filtered out. Defaults to 1.0.
-            category_thresholds (Optional[List[float]], optional): The thresholds for categorizing the roughness values.
-                                                                   Defaults to None.
+            params (ProcessingParameters): The processing parameters for the GeoTIFFProcessor.
         """
         # Store the input parameters
-        self.input_path = input_path
-        self.window_size = window_size
-        self.band_number = band_number
-        self.high_value_threshold = high_value_threshold
-        self.category_thresholds = category_thresholds
+        self.input_path = params.input_path
+        self.window_size = params.window_size
+        self.band_number = params.band_number
+        self.high_value_threshold = params.high_value_threshold
+        self.category_thresholds = params.category_thresholds
 
         # Initialize the dataset, processed_data, and profile attributes to None
         self.dataset = None
@@ -127,13 +122,7 @@ class GeoTIFFProcessor:
             RuntimeError: If the file could not be opened with rasterio.
         """
         try:
-            # Check if the file at the input path is a valid TIFF file
-            if not self.is_valid_tiff(self.input_path):
-                # If the file is not a valid TIFF file, log an error message
-                logging.error(f"Invalid TIFF file: {self.input_path}")
-                # Raise a ValueError with a descriptive error message
-                raise ValueError("Invalid TIFF file.")
-            # If the file is a valid TIFF file, open it with rasterio and store the
+            # open the file with rasterio and store the
             # dataset object in the dataset attribute
             self.dataset = rasterio.open(self.input_path, mode='r')
             # Log a confirmation message
@@ -236,82 +225,6 @@ class GeoTIFFProcessor:
             logging.error(f"Failed to calculate roughness: {str(e)}")
             # Raise the original exception
             raise
-
-    @classmethod
-    def is_valid_tiff(cls, filepath: str) -> bool:
-        """
-        Checks if the file at the given path is a valid TIFF file.
-
-        This method first checks if a file path is provided. If not, it logs an error message and raises a ValueError.
-        Then, it checks if the file at the given path is a TIFF file by calling the `is_tiff_file` method.
-        If the file is not a TIFF file, it logs an error message and raises a ValueError.
-        If the file is a TIFF file, it logs a confirmation message and returns True.
-
-        Args:
-            filepath (str): The path to the file to be checked.
-
-        Returns:
-            bool: True if the file is a valid TIFF file, False otherwise.
-
-        Raises:
-            ValueError: If no file path is provided or the file is not a valid TIFF file.
-        """
-        # Check if a file path is provided
-        if not filepath:
-            # If not, log an error message
-            logger.error(f"No file selected for the path: {filepath}")
-            # Raise a ValueError with a descriptive error message
-            raise ValueError("No file selected.")
-        # Check if the file at the given path is a TIFF file
-        if not cls.is_tiff_file(filepath):
-            # If the file is not a TIFF file, log an error message
-            logger.error(f"Invalid TIFF file selected: {filepath}")
-            # Raise a ValueError with a descriptive error message
-            raise ValueError(f"Invalid TIFF file selected: {filepath}")
-
-        # If the file is a TIFF file, log a confirmation message
-        logger.info(f"Valid TIFF file confirmed: {filepath}")
-        # Return True
-        return True
-
-    @staticmethod
-    def is_tiff_file(filepath: str) -> bool:
-        """
-        Checks if the file at the given path is a TIFF file by reading the first 4 bytes of the file.
-
-        This method attempts to open the file at the given path in binary mode and read the first 4 bytes.
-        It checks if these bytes match the magic number for TIFF files in both little-endian and big-endian formats.
-        If the file is a TIFF file, it logs a confirmation message and returns True.
-        If the file is not a TIFF file or an error occurs during the process,
-        it logs an error message and returns False.
-
-        Args:
-            filepath (str): The path to the file to be checked.
-
-        Returns:
-            bool: True if the file is a TIFF file, False otherwise.
-        """
-        try:
-            # Open the file at the given path in binary mode
-            with open(filepath, 'rb') as file:
-                # Read the first 4 bytes of the file
-                magic_number = file.read(4)
-            # Check if these bytes match the magic number for TIFF files in both little-endian and big-endian formats
-            if magic_number not in (b'II\x2A\x00', b'MM\x00\x2A'):
-                # If the file is not a TIFF file, log an info message
-                logger.info("File does not have a valid TIFF magic number.")
-                # Return False
-                return False
-            # If the file is a TIFF file, open it with rasterio and log a confirmation message
-            with rasterio.open(filepath) as src:
-                logger.info(f"TIFF file opened successfully with rasterio: {src.meta}")
-            # Return True
-            return True
-        except (IOError, rasterio.errors.RasterioIOError) as e:
-            # If an error occurs during the process, log an error message
-            logger.error(f"Failed to open or process TIFF file: {e}")
-            # Return False
-            return False
 
     def log_tiff_metadata(self) -> None:
         """
@@ -466,60 +379,3 @@ class GeoTIFFProcessor:
 
         logging.info("Data categorized based on thresholds.")
         return categorized_data
-
-    def sort_thresholds(self) -> None:
-        """
-        Sorts the category thresholds in ascending order.
-
-        This method checks if the category thresholds are defined and not already sorted.
-        If they are not sorted, it sorts them and raises a ValueError.
-
-        Raises:
-            ValueError: If the category thresholds were not sorted.
-        """
-        # Check if category thresholds are defined
-        if self.category_thresholds is not None:
-            # Check if category thresholds are not sorted
-            if sorted(self.category_thresholds) != self.category_thresholds:
-                # Sort the category thresholds
-                self.category_thresholds.sort()
-                # Raise a ValueError indicating that the thresholds were not sorted
-                raise ValueError("Thresholds were not sorted. They have been sorted now.")
-
-    def check_max_threshold(self) -> None:
-        """
-        Checks if any category threshold exceeds the high value threshold.
-
-        This method checks if the category thresholds are defined and if any of them exceed the high value threshold.
-        If any threshold exceeds the high value threshold, it removes it and raises a ValueError.
-
-        Raises:
-            ValueError: If some thresholds exceeded the high value threshold and were removed.
-        """
-        # Check if category thresholds are defined
-        if self.category_thresholds:
-            # Check if any category threshold exceeds the high value threshold
-            if max(self.category_thresholds) >= self.high_value_threshold:
-                # Remove thresholds that exceed the high value threshold
-                self.category_thresholds = [th for th in self.category_thresholds if th < self.high_value_threshold]
-                # Raise a ValueError indicating that some thresholds exceeded the high value threshold and were removed
-                raise ValueError("Some thresholds exceeded the high value threshold and were removed.")
-
-    def check_positive_thresholds(self) -> None:
-        """
-        Checks if any category threshold is non-positive.
-
-        This method checks if the category thresholds are defined and if any of them are non-positive.
-        If any threshold is non-positive, it removes it and raises a ValueError.
-
-        Raises:
-            ValueError: If non-positive thresholds were removed.
-        """
-        # Check if category thresholds are defined
-        if self.category_thresholds:
-            # Check if any category threshold is non-positive
-            if any(th <= 0 for th in self.category_thresholds):
-                # Remove non-positive thresholds
-                self.category_thresholds = [th for th in self.category_thresholds if th > 0]
-                # Raise a ValueError indicating that non-positive thresholds were removed
-                raise ValueError("Non-positive thresholds were removed.")

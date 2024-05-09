@@ -1,27 +1,27 @@
 """
 application_driver.py
 ---------------------
-Version: 1.0.9
+Version: 1.1.0
 Author: Lukas Batschelet
-Date: 08.05.2024
+Date: 09.05.2024
 ---------------------
 This module contains the ApplicationDriver class which is responsible for running the application.
 It acts as a sort of interface between the calling User Interface (UI) and the GeoTIFFProcessor class.
 This enables the separation of concerns and allows for easier testing and maintenance of the code.
 (i.e. the UI does not need to know how the processing is done, it just needs to know how to call the processing.)
 """
-from typing import List, Optional, Union
 import datetime
+import logging
 import os
+from typing import Union
 
+import matplotlib.pyplot as plt
 import numpy as np
 import rasterio
 from PIL import Image
-import matplotlib.pyplot as plt
 
 from .geo_tiff_processor import GeoTIFFProcessor
-
-import logging
+from .processing_parameters import ProcessingParameters
 from ..log_config import setup_logging
 
 # Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
@@ -64,61 +64,34 @@ def check_positive_number(value: Union[int, float], parameter_name: str) -> floa
 
 
 class ApplicationDriver:
-    def __init__(
-            self,
-            input_path: str,
-            output_dir: Optional[str] = None,
-            window_size: Optional[float] = None,
-            band_number: Optional[int] = None,
-            high_value_threshold: Optional[float] = None,
-            category_thresholds: Optional[List[float]] = None
-    ):
+    def __init__(self, params: ProcessingParameters):
         """
         Initializes the ApplicationDriver with necessary parameters for processing a GeoTIFF file.
 
         Args:
-            input_path (str): Path to the input GeoTIFF file.
-            output_dir (str, optional): Path to the output directory. If None, data is processed but not saved.
-            window_size (float, optional): Side length of the square window in meters for roughness calculation.
-            band_number (int, optional): Specific band number to process.
-            high_value_threshold (float, optional): Threshold value to filter out high data values.
-            category_thresholds (List[float], optional): Thresholds for categorizing data values.
+            params (ProcessingParameters): The processing parameters for the ApplicationDriver.
 
         Raises:
             FileNotFoundError: If the input path or output directory is not valid.
         """
 
-        self.input_path = input_path  # Store the path to the input GeoTIFF file
-        self.output_dir = output_dir  # Store the path to the output directory if provided
+        self.input_path = params.input_path  # Store the path to the input GeoTIFF file
+        self.output_dir = params.output_dir  # Store the path to the output directory if provided
 
         # Attempt to create an output filename if an output directory is provided
-        self.output_path = self.create_output_filename() if output_dir else None
+        self.output_path = self.create_output_filename() if params.output_dir else None
 
         # Store additional processing parameters
-        self.window_size = window_size
-        self.band_number = band_number
-        self.high_value_threshold = high_value_threshold
-        self.category_thresholds = category_thresholds
+        self.window_size = params.window_size
+        self.band_number = params.band_number
+        self.high_value_threshold = params.high_value_threshold
+        self.category_thresholds = params.category_thresholds
 
         self.processed_data = None  # This will hold the processed data after running the processor
         self.preview = None  # This will hold the image preview of the processed data
 
-        # Validate the input path and output directory if provided
-        self.check_input_path()
-        if output_dir:
-            self.check_output_dir()
-
-        # Create a dictionary of processing parameters, excluding None values
-        params = {
-            'window_size': window_size,
-            'band_number': band_number,
-            'high_value_threshold': high_value_threshold,
-            'category_thresholds': category_thresholds
-        }
-        filtered_params = {k: v for k, v in params.items() if v is not None}
-
-        # Initialize the GeoTIFFProcessor with filtered parameters
-        self.processor = GeoTIFFProcessor(input_path, **filtered_params)
+        # Initialize the GeoTIFFProcessor with the parameters
+        self.processor = GeoTIFFProcessor(params)
 
     def run(self) -> None:
         """
@@ -142,48 +115,13 @@ class ApplicationDriver:
 
         # If an output directory is provided or running in CLI mode, save the processed data immediately
         if self.output_dir:
-            self.save_processed_data(self.processed_data)
+            self.save_processed_data(self.output_dir)
 
         # Otherwise, generate a preview of the processed data
         else:
             self.produce_preview()
 
         logging.info("Processing completed.")
-
-    def check_input_path(self) -> None:
-        """
-        Checks if the input path is valid.
-        If the input path is not valid, it logs an error message and raises a FileNotFoundError.
-
-        Raises:
-            FileNotFoundError: If the input path is not valid.
-        """
-        # Check if the input path is a file
-        if not os.path.isfile(self.input_path):
-            # If the input path is not a file, log and raise an error message
-            logging.error(f"Invalid input path: {self.input_path}")
-            raise FileNotFoundError(f"No file found at specified input path: {self.input_path}")
-
-        logging.info(f"Valid input path: {self.input_path}")
-
-    def check_output_dir(self) -> None:
-        """
-        Checks if the output directory exists.
-        If the output directory does not exist, it logs an error message and raises a FileNotFoundError.
-
-        Raises:
-            FileNotFoundError: If the output directory does not exist.
-        """
-        # Extract the directory name from the output directory path
-        output_dir = os.path.dirname(self.output_dir)
-
-        # Check if the directory exists
-        if not os.path.isdir(output_dir):
-            # If the directory does not exist, log an error and raise an exception
-            logging.error(f"Invalid output directory: {output_dir}")
-            raise FileNotFoundError(f"The directory for the output path does not exist: {output_dir}")
-
-        logging.info(f"Valid output directory: {output_dir}")
 
     def produce_preview(self, nodata_value: int = -9999) -> None:
         """

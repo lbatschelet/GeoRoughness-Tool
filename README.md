@@ -1,4 +1,4 @@
-# DEM Roughness Calculator
+# DEM Surface Roughness Calculator
 
 The DEM Roughness Calculator is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
 
@@ -58,7 +58,7 @@ pip3 install dem-roughness-calculator
 To launch the GUI, simply run the following command in your terminal:
 
 ```bash
-demgui
+surface-roughness
 ```
 
 The graphical interface allows you to browse for input files, set processing parameters, and view the roughness map interactively before deciding to save the output.
@@ -68,7 +68,7 @@ The graphical interface allows you to browse for input files, set processing par
 For those who prefer working in a command-line environment, the CLI provides a robust solution. Here’s how to use it:
 
 ```bash
-demcli --input_path "path/to/input.tif" --output_dir "path/to/output" --window_size 1.0 --band_number 1 --high_value_threshold 1.0 --categorical_thresholds 0.1, 0.2, 0.3
+surface-roughness --input_path "path/to/input.tif" --output_dir "path/to/output" --window_size 1.0 --band_number 1 --high_value_threshold 1.0 --categorical_thresholds 0.1, 0.2, 0.3
 ```
 
 ### Parameters
