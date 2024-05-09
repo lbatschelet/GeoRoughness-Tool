@@ -14,22 +14,15 @@ in the class.
 
 from dataclasses import dataclass, field
 import os
-from typing import Optional, List, Final
+from typing import Optional, List
+
+from .defaults import Defaults
 
 import logging
 
 import rasterio
 
 logger = logging.getLogger(__name__)
-
-
-class Defaults:
-    """Constants for default values used in processing parameters."""
-    OUTPUT_DIR: Final[Optional[str]] = None
-    WINDOW_SIZE: Final[float] = 1.0
-    BAND_NUMBER: Final[int] = 1
-    HIGH_VALUE_THRESHOLD: Final[float] = 10.0
-    CATEGORY_THRESHOLDS: Final[Optional[List[float]]] = None
 
 
 @dataclass

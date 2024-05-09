@@ -13,50 +13,17 @@ This enables the separation of concerns and allows for easier testing and mainte
 import datetime
 import logging
 import os
-from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
 import rasterio
 from PIL import Image
 
+from .defaults import Defaults
 from .geo_tiff_processor import GeoTIFFProcessor
 from .processing_parameters import ProcessingParameters
 
 logger = logging.getLogger(__name__)
-
-
-def check_positive_number(value: Union[int, float], parameter_name: str) -> float:
-    """
-    Validates that the given parameter is a positive number.
-
-    This function attempts to convert the input value to a float and checks if it is a positive number.
-    If the value is not a positive number, it raises a ValueError with a descriptive error message.
-    If the value is a positive number, it logs a confirmation message and returns the value.
-
-    Args:
-        value (Union[int, float]): The value to be checked.
-        parameter_name (str): The name of the parameter, used in error messages.
-
-    Returns:
-        float: The validated value, guaranteed to be a positive number.
-
-    Raises:
-        ValueError: If the value is not a positive number or cannot be converted to a float.
-    """
-    try:
-        # Attempt to convert the value to a float
-        value = float(value)
-        # If the value is not a positive number, raise a ValueError
-        if value <= 0:
-            raise ValueError(f"{parameter_name} must be a positive number, got {value}.")
-    except ValueError:
-        # If the value cannot be converted to a float, raise a ValueError
-        raise ValueError(f"{parameter_name} must be a positive number, got {value}.")
-    # If the value is a positive number, log a confirmation message
-    logging.info(f"Valid {parameter_name}: {value}")
-
-    return value
 
 
 class ApplicationDriver:
@@ -171,7 +138,7 @@ class ApplicationDriver:
             # Raise a new error, preserving the original traceback
             raise RuntimeError("Failed to produce preview due to an error.") from e
 
-    def save_processed_data(self, output_path: str, nodata: int = -9999, dtype: str = 'float32') -> None:
+    def save_processed_data(self, output_path: str, nodata: int = -9999, dtype: str = Defaults.DTYPE) -> None:
         """
         Saves the processed data to a GeoTIFF file using the stored profile.
 

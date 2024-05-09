@@ -14,7 +14,8 @@ import rasterio
 import logging
 
 from .processing_parameters import ProcessingParameters
-from typing import Optional, List, Tuple, Final
+from .defaults import Defaults
+from typing import Optional, List, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +34,6 @@ class GeoTIFFProcessor:
         processed_data (Optional[np.ndarray]): The processed data.
         profile (Optional[Dict]): The profile of the GeoTIFF file.
     """
-
-    DEFAULT_NODATA_VALUE: Final[int] = -9999
 
     def __init__(self, params: ProcessingParameters) -> None:
         """
@@ -247,7 +246,7 @@ class GeoTIFFProcessor:
             logger.error(f"Failed to open GeoTIFF: {e}")
             raise ValueError(f"Invalid GeoTIFF file: {self.input_path}")
 
-    def apply_filter(self, roughness: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
+    def apply_filter(self, roughness: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
         """
         Filters out high values from the roughness array.
 
@@ -273,7 +272,7 @@ class GeoTIFFProcessor:
 
         return roughness
 
-    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
+    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
         """
         Applies nodata value and filters out zero values from the roughness array.
 
@@ -332,7 +331,7 @@ class GeoTIFFProcessor:
             logging.error("Error accessing transform of the dataset: " + str(e))
             raise
 
-    def apply_thresholds(self, data: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
+    def apply_thresholds(self, data: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
         """
         Applies thresholds to the data array.
 
