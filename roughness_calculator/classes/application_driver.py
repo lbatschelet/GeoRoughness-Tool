@@ -22,10 +22,6 @@ from PIL import Image
 
 from .geo_tiff_processor import GeoTIFFProcessor
 from .processing_parameters import ProcessingParameters
-from ..log_config import setup_logging
-
-# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
-setup_logging()
 
 logger = logging.getLogger(__name__)
 

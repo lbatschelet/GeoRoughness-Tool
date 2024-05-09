@@ -17,10 +17,6 @@ from tkinter import filedialog, messagebox, Label, Button, Entry, Frame
 import logging
 
 from roughness_calculator.classes.processing_parameters import ProcessingParameters
-from .log_config import setup_logging
-
-# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
-setup_logging()
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +35,9 @@ class ApplicationGUI:
             RuntimeError: If there's an error setting up the GUI.
         """
         try:
+            logger.debug("Setting up the GUI...")
+
+            # Set the master window and title
             self.master = master
             self.master.title("Surface Roughness Calculator")
 
@@ -59,6 +58,9 @@ class ApplicationGUI:
 
             # Bind the window resize event to adjust the image label height dynamically
             self.master.bind("<Configure>", self.adjust_image_label_height)
+
+            logger.debug("GUI setup complete.")
+
         except Exception as e:
             # Log the error and raise the original exception
             logging.error("Error setting up the GUI: " + str(e))

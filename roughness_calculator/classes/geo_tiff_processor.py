@@ -14,11 +14,7 @@ import rasterio
 import logging
 
 from .processing_parameters import ProcessingParameters
-from ..log_config import setup_logging
 from typing import Optional, List, Tuple
-
-# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
-setup_logging()
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +40,7 @@ class GeoTIFFProcessor:
         Args:
             params (ProcessingParameters): The processing parameters for the GeoTIFFProcessor.
         """
+        logger.info("Initializing GeoTIFFProcessor...")
         # Store the input parameters
         self.input_path = params.input_path
         self.window_size = params.window_size
@@ -55,6 +52,8 @@ class GeoTIFFProcessor:
         self.dataset = None
         self.processed_data = None
         self.profile = None
+
+        logger.info(f"GeoTIFFProcessor initialized with parameters: {params}")
 
     def process_tiff(self) -> np.ndarray:
         """
@@ -71,6 +70,7 @@ class GeoTIFFProcessor:
         Raises:
             RuntimeError: If the TIFF dataset could not be opened, or an error occurred during processing.
         """
+        logger.info("Processing GeoTIFF file...")
         try:
             # Load the GeoTIFF file
             self.load_tiff()

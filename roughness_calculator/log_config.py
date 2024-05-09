@@ -1,5 +1,5 @@
 """
-log_comnfig.py
+log_config.py
 -----------
 Version: 1.0.9
 Author: Lukas Batschelet
@@ -11,32 +11,44 @@ This module sets up the logging for the application.
 import os
 import logging
 
+def setup_logging():
+    log_directory = os.path.join(os.path.dirname(__file__), 'logs')
+    os.makedirs(log_directory, exist_ok=True)
 
-def setup_logging() -> None:
-    """
-    Sets up the logging for the application.
+    # Set up file handlers for each level
+    levels = {
+        'debug': logging.DEBUG,
+        'info': logging.INFO,
+        'warning': logging.WARNING,
+        'error': logging.ERROR,
+        'critical': logging.CRITICAL
+    }
 
-    This method creates a 'logs' directory if it doesn't exist, sets the log file path, and configures the logger.
+    handlers = {}
+    for level_name, level in levels.items():
+        handler = logging.FileHandler(os.path.join(log_directory, f'{level_name}.log'))
+        handler.setLevel(level)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        handlers[level_name] = handler
 
-    Raises:
-        OSError: If there's an error creating the 'logs' directory or setting up the logger.
-    """
-    try:
-        # Define the log directory
-        log_directory = os.path.join(os.path.dirname(__file__), 'logs')
-        # Create the log directory if it doesn't exist
-        os.makedirs(log_directory, exist_ok=True)
-        # Define the log file path
-        log_file_path = os.path.join(log_directory, 'app.log')
+    # Get the root logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)  # Capture all levels starting from debug
 
-        # Configure the logger
-        logging.basicConfig(level=logging.DEBUG,
-                            format='%(asctime)s - %(levelname)s - %(module)s - %(message)s',
-                            filename=log_file_path,
-                            filemode='w')
-        logger = logging.getLogger()
-        logger.info("Logger configured and ready to use.")
-    except OSError as e:
-        # Log the error and raise the original exception
-        logging.error("Error setting up the logger: " + str(e))
-        raise
+    # Add all handlers to the logger
+    for handler in handlers.values():
+        logger.addHandler(handler)
+
+    # Optionally, add a handler for console output
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    console_handler.setLevel(logging.INFO)  # Adjust as needed
+    logger.addHandler(console_handler)
+
+# Brief description of logging levels:
+# DEBUG: Detailed information, typically of interest only when diagnosing problems.
+# INFO: Confirmation that things are working as expected.
+# WARNING: An indication that something unexpected happened, or indicative of some problem in the near future (e.g. 'disk space low'). The software is still working as expected.
+# ERROR: Due to a more serious problem, the software has not been able to perform some function.
+# CRITICAL: A serious error, indicating that the program itself may be unable to continue running.

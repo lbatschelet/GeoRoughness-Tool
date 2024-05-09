@@ -22,8 +22,6 @@ import rasterio
 
 from ..log_config import setup_logging
 
-setup_logging()
-
 logger = logging.getLogger(__name__)
 
 
@@ -58,12 +56,16 @@ class ProcessingParameters:
     category_thresholds: Optional[List[float]] = None
 
     def __post_init__(self):
+        logger.info("Initializing ProcessingParameters...")
+
         # Validate input_path with updated method that raises exceptions
         self.validate_input_path(self.input_path)
 
         # Validate output_dir if provided
         if self.output_dir:
             self.validate_output_dir(self.output_dir)
+        else:
+            logger.info("No output directory provided.")
 
             # Validate band_number
         self.validate_band_number(self.input_path, self.band_number)
@@ -97,22 +99,29 @@ class ProcessingParameters:
 
     @staticmethod
     def validate_input_path(path: str) -> bool:
-        """Validates that the input path is a file, exists, and is a GeoTIFF."""
+        """
+        Validates that the input path is a valid GeoTIFF file.
+        :param path: Path to the input file
+        :return: bool indicating if the input path is valid
+        """
+        logger.debug("Validating input path...")
         if not os.path.exists(path):
             raise FileNotFoundError(f"The input path {path} does not exist.")
         if not os.path.isfile(path):
             raise ValueError(f"The input path {path} is not a file.")
         if not ProcessingParameters.is_tiff_file(path):
             raise ValueError(f"The input file {path} is not a GeoTIFF.")
+        logger.info(f"Input path {path} is a valid GeoTIFF.")
         return True
 
     @staticmethod
     def is_tiff_file(filepath: str) -> bool:
         """
-        Checks if the file at the given path is a TIFF file by reading the first 4 bytes of the file.
-
-        This method reads the magic number to determine if it's a TIFF file and logs accordingly.
+        Checks if the file at the given path is a valid GeoTIFF file.
+        :param filepath: Path to the file to check
+        :return: bool indicating if the file is a valid GeoTIFF
         """
+        logger.debug(f"Checking if file is a valid GeoTIFF: {filepath}")
         try:
             with open(filepath, 'rb') as file:
                 magic_number = file.read(4)
@@ -122,6 +131,7 @@ class ProcessingParameters:
             # Confirm with rasterio open
             with rasterio.open(filepath) as src:
                 logger.info(f"TIFF file opened successfully with rasterio: {src.meta}")
+            logger.info("File is a valid GeoTIFF.")
             return True
         except (IOError, rasterio.errors.RasterioIOError) as e:
             logger.error(f"Failed to open or process TIFF file: {e}")
@@ -129,47 +139,89 @@ class ProcessingParameters:
 
     @staticmethod
     def validate_output_dir(path: str):
-        """Checks if the output directory exists and is a directory."""
+        """
+        Validates that the output directory exists and is a directory.
+        :param path: Path to the output directory
+        :return: None
+        """
+        logger.debug("Validating output directory...")
         if not os.path.exists(path):
             raise FileNotFoundError(f"The output directory {path} does not exist.")
         if not os.path.isdir(path):
             raise ValueError(f"The output path {path} is not a directory.")
+        logger.info(f"Output directory {path} is valid.")
 
     @staticmethod
     def convert_to_float_list(value_str: Optional[str]) -> Optional[List[float]]:
-        """Converts a comma-separated string of numbers into a list of floats."""
+        """
+        Converts a comma-separated string of values to a list of floats.
+        :param value_str: Input string of comma-separated values
+        :return: List of floats or None if the input is None
+        """
+        logger.debug("Converting string to float list...")
         if not value_str:
+            logger.info("No category thresholds provided.")
             return None
+        logger.info("String converted to float list.")
         return [float(x.strip()) for x in value_str.split(',')]
 
     @staticmethod
     def sort_thresholds(thresholds: List[float]) -> List[float]:
+        """
+        Sorts the category thresholds and logs a warning if they were not initially sorted.
+        :param thresholds: List of thresholds to sort
+        :return: Sorted list of thresholds
+        """
+        logger.debug("Sorting category thresholds...")
         sorted_thresholds = sorted(thresholds)
         if sorted_thresholds != thresholds:
             logger.warning("Category thresholds were not initially sorted.")
             logger.info(f"Sorted thresholds: {sorted_thresholds}")
+        logger.info("Category thresholds are sorted.")
         return sorted_thresholds
 
     @staticmethod
     def check_max_threshold(thresholds: List[float], high_value_threshold: float) -> List[float]:
+        """
+        Removes thresholds that exceed the high value threshold and logs a warning.
+        :param thresholds: List of thresholds to check
+        :param high_value_threshold: singular threshold to compare against
+        :return: List of valid thresholds
+        """
+        logger.debug("Checking max thresholds...")
         valid_thresholds = [t for t in thresholds if t < high_value_threshold]
         if len(valid_thresholds) != len(thresholds):
             logger.warning("Some thresholds exceeded the high value threshold and were removed.")
             logger.info(f"Valid thresholds: {valid_thresholds}")
+        logger.info("All thresholds are below the high value threshold.")
         return valid_thresholds
 
     @staticmethod
     def check_positive_thresholds(thresholds: List[float]) -> List[float]:
+        """
+        Removes non-positive thresholds from the list and logs a warning.
+        :param thresholds: List of thresholds to check if positive
+        :return: List of positive thresholds
+        """
+        logger.debug("Checking positive thresholds...")
         valid_thresholds = [t for t in thresholds if t > 0]
         if len(valid_thresholds) != len(thresholds):
             logger.warning("Non-positive thresholds were removed.")
             logger.info(f"Valid thresholds: {valid_thresholds}")
+        logger.info("All thresholds are positive.")
         return valid_thresholds
 
     @staticmethod
     def validate_band_number(path: str, band_number: int) -> bool:
-        """Validates that the band number is within the valid range for the GeoTIFF file."""
+        """
+        Validates that the band number is within the valid range for the GeoTIFF file.
+        :param path: Path to the GeoTIFF file
+        :param band_number: Band number to validate
+        :return: bool indicating if the band number is valid
+        """
+        logger.debug("Validating band number...")
         with rasterio.open(path) as src:
             if band_number < 1 or band_number > src.count:
                 raise ValueError(f"The band number {band_number} is not valid for the GeoTIFF file {path}.")
+        logger.info(f"Band number {band_number} is valid for the GeoTIFF file {path}.")
         return True
