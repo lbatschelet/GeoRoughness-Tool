@@ -14,7 +14,7 @@ import rasterio
 import logging
 
 from .processing_parameters import ProcessingParameters
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Final
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +33,9 @@ class GeoTIFFProcessor:
         processed_data (Optional[np.ndarray]): The processed data.
         profile (Optional[Dict]): The profile of the GeoTIFF file.
     """
+
+    DEFAULT_NODATA_VALUE: Final[int] = -9999
+
     def __init__(self, params: ProcessingParameters) -> None:
         """
         Initializes the GeoTIFFProcessor with the given parameters.
@@ -244,7 +247,7 @@ class GeoTIFFProcessor:
             logger.error(f"Failed to open GeoTIFF: {e}")
             raise ValueError(f"Invalid GeoTIFF file: {self.input_path}")
 
-    def apply_filter(self, roughness: np.ndarray, nodata_value: int = -9999) -> np.ndarray:
+    def apply_filter(self, roughness: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
         """
         Filters out high values from the roughness array.
 
@@ -253,7 +256,7 @@ class GeoTIFFProcessor:
 
         Args:
             roughness (np.ndarray): The roughness array.
-            nodata_value (int, optional): The value to replace high values with. Defaults to -9999.
+            nodata_value (int, optional): The value to replace high values with.
 
         Returns:
             np.ndarray: The roughness array with high values replaced by the nodata value.
@@ -270,7 +273,7 @@ class GeoTIFFProcessor:
 
         return roughness
 
-    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = -9999) -> np.ndarray:
+    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
         """
         Applies nodata value and filters out zero values from the roughness array.
 
@@ -329,13 +332,13 @@ class GeoTIFFProcessor:
             logging.error("Error accessing transform of the dataset: " + str(e))
             raise
 
-    def apply_thresholds(self, data: np.ndarray, nodata_value: int = -9999) -> np.ndarray:
+    def apply_thresholds(self, data: np.ndarray, nodata_value: int = DEFAULT_NODATA_VALUE) -> np.ndarray:
         """
         Applies thresholds to the data array.
 
         This method replaces values in the data array that are within certain ranges defined by the category thresholds
-        with the corresponding threshold value. Values greater than the highest threshold and less than or equal to the
-        high value threshold are replaced with the high value threshold.
+        with the corresponding category number. Values greater than or equal to the highest threshold and less than or
+        equal to the high value threshold are replaced with the highest category number.
 
         Args:
             data (np.ndarray): The data array.
@@ -366,16 +369,16 @@ class GeoTIFFProcessor:
         for i, threshold in enumerate(self.category_thresholds):
             # Create a mask for values within the current threshold range
             if i == 0:
-                mask = (data > 0) & (data <= threshold) & valid_mask
+                mask = (data >= 0) & (data < threshold) & valid_mask
             else:
-                mask = (data > self.category_thresholds[i - 1]) & (data <= threshold) & valid_mask
-            # Replace values within the current threshold range with the threshold value
-            categorized_data[mask] = threshold
+                mask = (data >= self.category_thresholds[i - 1]) & (data < threshold) & valid_mask
+            # Replace values within the current threshold range with the category number
+            categorized_data[mask] = i
 
         # Create a mask for values within the high value range
-        high_value_mask = (data > self.category_thresholds[-1]) & (data <= self.high_value_threshold) & valid_mask
-        # Replace values within the high value range with the high value threshold
-        categorized_data[high_value_mask] = self.high_value_threshold
+        high_value_mask = (data >= self.category_thresholds[-1]) & (data <= self.high_value_threshold) & valid_mask
+        # Replace values within the high value range with the highest category number
+        categorized_data[high_value_mask] = len(self.category_thresholds)
 
         logging.info("Data categorized based on thresholds.")
         return categorized_data
