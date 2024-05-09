@@ -12,10 +12,6 @@ import sys
 
 from roughness_calculator.classes.application_driver import ApplicationDriver
 from roughness_calculator.classes.processing_parameters import ProcessingParameters
-from .log_config import setup_logging
-
-# Ensure the logger is set up (optional if you know `log_config.py` is already imported elsewhere)
-setup_logging()
 
 logger = logging.getLogger(__name__)
 
