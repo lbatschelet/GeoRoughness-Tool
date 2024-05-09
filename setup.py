@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='dem-roughness-calculator',
-    version='1.0.9',
+    version='1.1.0',
     packages=find_packages(),  # Automatically find all packages in the directory
     url='https://github.com/lbatschelet/dem-roughness-calculator',
     license='GPL-3.0',
@@ -16,8 +16,9 @@ setup(
     python_requires='>=3.12',  # Specify Python version requirement
     entry_points={
         'console_scripts': [
-            'demgui=roughness_calculator.gui_main:main',
-            'demcli=roughness_calculator.cli_main:main'
+            'surface-roughness=roughness_calculator.main:main',
+            'demgui=roughness_calculator.old_entry_points.demgui:main',
+            'demcli=roughness_calculator.old_entry_points.demcli:main',
         ]
     },
     classifiers=[
