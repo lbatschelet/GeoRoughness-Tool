@@ -9,13 +9,14 @@ This module contains the GeoTIFFProcessor class which is responsible for process
 It provides methods for loading, processing, and saving GeoTIFF files.
 Until now, only a method to calculate the roughness of a GeoTIFF file has been implemented.
 """
+import logging
+from typing import Optional, List, Tuple
+
 import numpy as np
 import rasterio
-import logging
 
-from .processing_parameters import ProcessingParameters
 from .defaults import Defaults
-from typing import Optional, List, Tuple
+from .processing_parameters import ProcessingParameters
 
 logger = logging.getLogger(__name__)
 
