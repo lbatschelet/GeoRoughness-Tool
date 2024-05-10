@@ -1,9 +1,9 @@
 """
 cli_main.py
 -----------
-Version: 1.1.0
+Version: 1.2.0
 Author: Lukas Batschelet
-Date: 09.05.2024
+Date: 11.05.2024
 -----------
 """
 import argparse
@@ -94,10 +94,10 @@ def main() -> None:
         None
     """
     # Initialize the CLIMain class
-    cli = CLIMain()
+    cli_main = CLIMain()
 
     # Run the CLIMain class
-    cli.run()
+    cli_main.run()
 
 
 if __name__ == '__main__':

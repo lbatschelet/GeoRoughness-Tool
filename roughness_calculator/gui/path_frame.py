@@ -19,16 +19,25 @@ class PathFrame(ctk.CTkFrame):
         self.grid_rowconfigure(2, weight=1)
 
         self.input_path_field = InputPathField(self, main_gui, "Input Path")
-        self.input_path_field.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
+        self.input_path_field.grid(row=0,
+                                   column=0,
+                                   padx=DEFAULTS.PADX,
+                                   pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                                   sticky="nsew")
 
-        self.output_dir_field = OutputDirField(self, main_gui, "Output Directory")
-        self.output_dir_field.grid(row=1, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="nsew")
+        self.output_dir_field = OutputDirField(self, main_gui, "Output Directory (Optional)")
+        self.output_dir_field.grid(row=1,
+                                   column=0,
+                                   padx=DEFAULTS.PADX,
+                                   pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                                   sticky="nsew")
 
     def get_parameters(self):
         return {
             "input_path": self.input_path_field.get(),
             "output_dir": self.output_dir_field.get() or None
         }
+
 
 class PathField(ctk.CTkFrame, abc.ABC):
     def __init__(self, parent, main_gui, name, **kwargs):
@@ -37,13 +46,24 @@ class PathField(ctk.CTkFrame, abc.ABC):
         self.grid_columnconfigure(0, weight=1)
 
         self.name_label = ctk.CTkLabel(self, text=name, font=self.main_gui.fonts['h3'])
-        self.name_label.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="w")
+        self.name_label.grid(row=0,
+                             column=0,
+                             padx=DEFAULTS.PADX,
+                             pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                             sticky="w")
 
         self.entry = ctk.CTkEntry(self)
-        self.entry.grid(row=1, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")
+        self.entry.grid(row=1,
+                        column=0,
+                        padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
+                        pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                        sticky="ew")
 
         self.browse_button = ctk.CTkButton(self, text="Browse", command=self.browse)
-        self.browse_button.grid(row=1, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY))
+        self.browse_button.grid(row=1,
+                                column=1,
+                                padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
+                                pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY))
 
     @abc.abstractmethod
     def browse(self):
@@ -59,12 +79,14 @@ class PathField(ctk.CTkFrame, abc.ABC):
             return False
         return True
 
+
 class InputPathField(PathField):
     def browse(self):
         file_path = filedialog.askopenfilename()
         if file_path:
             self.entry.delete(0, tk.END)
             self.entry.insert(0, file_path)
+
 
 class OutputDirField(PathField):
     def browse(self):

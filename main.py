@@ -1,8 +1,8 @@
 import sys
 
 from roughness_calculator.cli_main import CLIMain
+from roughness_calculator.gui_main import main as main_gui
 from roughness_calculator.log_config import setup_logging
-from roughness_calculator.new_gui_main import main as MainGUI
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
         cli.run()
     else:
         print("Running in GUI mode...")
-        MainGUI()
+        main_gui()
 
 
 if __name__ == "__main__":

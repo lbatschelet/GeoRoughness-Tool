@@ -1,9 +1,9 @@
 """
 processing_parameters.py
 ---
-Version: 1.1.0
+Version: 1.2.0
 Author: Lukas Batschelet
-Date: 09.05.2024
+Date: 11.05.2024
 ---
 Class to encapsulate the processing parameters for the surface roughness calculator application.
 The used dataclass decorator is a Python 3.7 feature that allows for the creation of classes with
@@ -12,15 +12,14 @@ generates special methods like __init__(), __repr__(), and __eq__() based on the
 in the class.
 """
 
-from dataclasses import dataclass, field
+import logging
 import os
+from dataclasses import dataclass, field
 from typing import Optional, List
 
-from .defaults import Defaults
-
-import logging
-
 import rasterio
+
+from .defaults import Defaults
 
 logger = logging.getLogger(__name__)
 

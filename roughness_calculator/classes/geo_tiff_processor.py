@@ -1,9 +1,9 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.1.0
+Version: 1.2.0
 Author: Lukas Batschelet
-Date: 09.05.2024
+Date: 11.05.2024
 ---------------------
 This module contains the GeoTIFFProcessor class which is responsible for processing GeoTIFF files.
 It provides methods for loading, processing, and saving GeoTIFF files.
