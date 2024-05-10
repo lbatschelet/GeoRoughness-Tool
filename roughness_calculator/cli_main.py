@@ -1,7 +1,7 @@
 """
 cli_main.py
 -----------
-Version: 1.2.0
+Version: 1.2.1
 Author: Lukas Batschelet
 Date: 11.05.2024
 -----------
