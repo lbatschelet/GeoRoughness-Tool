@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import filedialog
+
 import customtkinter as ctk
 
 from roughness_calculator.gui.defaults import DEFAULTS
@@ -20,10 +23,27 @@ class ParameterFrame(ctk.CTkFrame):
         self.parameter_input2.grid(row=0, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
 
         self.parameter_input3 = ParameterInput(self, "Band Number", "The band number to use for processing. Defaults to 1.", self.main_gui)
-        self.parameter_input3.grid(row=1, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="nsew")
+        self.parameter_input3.grid(row=1, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
 
         self.parameter_input4 = ParameterInput(self, "High value threshold", "Used to filter out high values at the borders of the data. Defaults to 10.", self.main_gui)
-        self.parameter_input4.grid(row=1, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="nsew")
+        self.parameter_input4.grid(row=1, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
+
+        self.start_processing_button = ctk.CTkButton(self, text="Start Processing", command=self.start_processing)
+        self.start_processing_button.grid(row=2, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")  # Place the button in the new row
+
+        self.save_file_button = ctk.CTkButton(self, text="Save File", command=self.save_file, state=tk.DISABLED)
+        self.save_file_button.grid(row=2, column=1, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")  # Place the button in the new row
+
+    def start_processing(self):
+        # Add your image processing code here
+        # Once the processing is complete, enable the save file button
+        self.save_file_button.config(state=tk.NORMAL)
+
+    def save_file(self):
+        file_path = filedialog.asksaveasfilename(defaultextension=".tif")
+        if file_path:
+            # Add your file saving code here
+            pass
 
 class DescriptionField(ctk.CTkLabel):
     def __init__(self, parent, text, **kwargs):
