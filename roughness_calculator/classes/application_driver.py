@@ -86,7 +86,7 @@ class ApplicationDriver:
 
         logging.info("Processing completed.")
 
-    def produce_preview(self, nodata_value: int = -9999) -> None:
+    def produce_preview(self, nodata_value: int = Defaults.NODATA_VALUE) -> None:
         """
         Generates a preview image from the processed data stored in self.processed_data.
         This method avoids re-reading the data from file, making it more efficient.
@@ -138,7 +138,10 @@ class ApplicationDriver:
             # Raise a new error, preserving the original traceback
             raise RuntimeError("Failed to produce preview due to an error.") from e
 
-    def save_processed_data(self, output_path: str, nodata: int = -9999, dtype: str = Defaults.DTYPE) -> None:
+    def save_processed_data(self,
+                            output_path: str,
+                            nodata: int = Defaults.NODATA_VALUE,
+                            dtype: str = Defaults.DTYPE) -> None:
         """
         Saves the processed data to a GeoTIFF file using the stored profile.
 
