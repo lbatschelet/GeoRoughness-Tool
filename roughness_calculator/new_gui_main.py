@@ -139,8 +139,11 @@ class MainGUI(ctk.CTk):
             RuntimeError: If there's an error opening the file dialog or saving the processed data.
         """
         try:
+            # Generate a default filename using the create_output_filename method
+            default_filename = ApplicationDriver.create_output_filename(self.driver.params, include_path=False)
+
             # Open a file dialog that filters for TIFF files
-            output_path = filedialog.asksaveasfilename(filetypes=[("TIFF files", "*.tif")])
+            output_path = filedialog.asksaveasfilename(initialfile=default_filename, filetypes=[("TIFF files", "*.tif")])
 
             # If a location is selected (i.e., the output_path is not an empty string)
             if output_path:
