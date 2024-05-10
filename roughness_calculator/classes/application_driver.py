@@ -161,6 +161,16 @@ class ApplicationDriver:
         # Update the profile with the provided data type and nodata value
         self.processor.profile.update(dtype=dtype, nodata=nodata)
 
+        # Calculate the new pixel size, width, and height based on the window size
+        pixel_size = self.window_size
+        width = int((self.processor.profile['width'] * self.processor.profile['transform'][0]) / pixel_size)
+        height = int((self.processor.profile['height'] * abs(self.processor.profile['transform'][4])) / pixel_size)
+
+        # Update the transform, width, and height in the profile
+        self.processor.profile['transform'] = rasterio.Affine(pixel_size, 0, self.processor.profile['transform'][2], 0, -pixel_size, self.processor.profile['transform'][5])
+        self.processor.profile['width'] = width
+        self.processor.profile['height'] = height
+
         # Open the output path as a new GeoTIFF file in write mode
         with rasterio.open(output_path, 'w', **self.processor.profile) as dst:
             # Write the processed data to the first band of the GeoTIFF file
