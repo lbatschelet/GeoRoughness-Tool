@@ -86,7 +86,7 @@ class ApplicationDriver:
 
         logging.info("Processing completed.")
 
-    def produce_preview(self, nodata_value: int = -9999) -> None:
+    def produce_preview(self, nodata_value: int = Defaults.NODATA_VALUE) -> None:
         """
         Generates a preview image from the processed data stored in self.processed_data.
         This method avoids re-reading the data from file, making it more efficient.
@@ -138,7 +138,10 @@ class ApplicationDriver:
             # Raise a new error, preserving the original traceback
             raise RuntimeError("Failed to produce preview due to an error.") from e
 
-    def save_processed_data(self, output_path: str, nodata: int = -9999, dtype: str = Defaults.DTYPE) -> None:
+    def save_processed_data(self,
+                            output_path: str,
+                            nodata: int = Defaults.NODATA_VALUE,
+                            dtype: str = Defaults.DTYPE) -> None:
         """
         Saves the processed data to a GeoTIFF file using the stored profile.
 
@@ -157,6 +160,16 @@ class ApplicationDriver:
 
         # Update the profile with the provided data type and nodata value
         self.processor.profile.update(dtype=dtype, nodata=nodata)
+
+        # Calculate the new pixel size, width, and height based on the window size
+        pixel_size = self.window_size
+        width = int((self.processor.profile['width'] * self.processor.profile['transform'][0]) / pixel_size)
+        height = int((self.processor.profile['height'] * abs(self.processor.profile['transform'][4])) / pixel_size)
+
+        # Update the transform, width, and height in the profile
+        self.processor.profile['transform'] = rasterio.Affine(pixel_size, 0, self.processor.profile['transform'][2], 0, -pixel_size, self.processor.profile['transform'][5])
+        self.processor.profile['width'] = width
+        self.processor.profile['height'] = height
 
         # Open the output path as a new GeoTIFF file in write mode
         with rasterio.open(output_path, 'w', **self.processor.profile) as dst:
