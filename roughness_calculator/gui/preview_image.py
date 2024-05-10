@@ -24,15 +24,10 @@ class PreviewImage(ctk.CTkFrame):
     def resize_image(self, event):
         # Calculate the new size while maintaining the aspect ratio
         original_width, original_height = self.original_image.size
-        aspect_ratio = original_width / original_height
+        aspect_ratio = original_height / original_width
 
         new_width = event.width
-        new_height = int(new_width / aspect_ratio)
-
-        # If calculated height exceeds available height, adjust width based on the height
-        if new_height > event.height:
-            new_height = event.height
-            new_width = int(new_height * aspect_ratio)
+        new_height = int(new_width * aspect_ratio)
 
         # Resize the original image
         resized_image = self.original_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
@@ -40,4 +35,7 @@ class PreviewImage(ctk.CTkFrame):
 
         # Update the image on the canvas and reposition it
         self.canvas.itemconfig(self.image_on_canvas, image=self.photo_image)
-        self.canvas.coords(self.image_on_canvas, event.width // 2, event.height // 2)  # Center the image
+        self.canvas.coords(self.image_on_canvas, 0, 0)  # Anchor the image to the top left corner
+
+        # Adjust the height of the canvas to fit the new image
+        self.canvas.config(height=new_height)
