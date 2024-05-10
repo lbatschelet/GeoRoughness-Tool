@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software in your work, please cite it using the following metadata."
 title: "DEM Roughness Calculator"
-version: 1.2.0
+version: 1.2.1
 date-released: 2024-04-22
 
 authors:
