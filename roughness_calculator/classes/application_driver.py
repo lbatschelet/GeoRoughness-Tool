@@ -1,9 +1,9 @@
 """
 application_driver.py
 ---------------------
-Version: 1.1.0
+Version: 1.2.0
 Author: Lukas Batschelet
-Date: 09.05.2024
+Date: 11.05.2024
 ---------------------
 This module contains the ApplicationDriver class which is responsible for running the application.
 It acts as a sort of interface between the calling User Interface (UI) and the GeoTIFFProcessor class.
@@ -38,11 +38,13 @@ class ApplicationDriver:
             FileNotFoundError: If the input path or output directory is not valid.
         """
 
+        self.params = params
+
         self.input_path = params.input_path  # Store the path to the input GeoTIFF file
         self.output_dir = params.output_dir  # Store the path to the output directory if provided
 
         # Attempt to create an output filename if an output directory is provided
-        self.output_path = self.create_output_filename() if params.output_dir else None
+        self.output_path = ApplicationDriver.create_output_filename(params, include_path=True) if params.output_dir else None
 
         # Store additional processing parameters
         self.window_size = params.window_size
@@ -178,28 +180,41 @@ class ApplicationDriver:
 
         logging.info(f"Processed data saved to {output_path}")
 
-    def create_output_filename(self) -> str:
+    @staticmethod
+    def create_output_filename(params: ProcessingParameters, include_path: bool = True) -> str:
         """
         Generates a filename based on the input file, current date, and processing parameters.
 
-        The filename is generated in the following format: YYYYMMDD_basename_Surface-Roughness_windowSize-meter.tif
+        The filename is generated in the following format: YYYYMMDD_basename_Surface-Roughness_windowSize-meter_threshold1_threshold2_...
+
+        Args:
+            params (ProcessingParameters): The processing parameters.
+            include_path (bool): Whether to include the path in the filename.
 
         Returns:
-            str: The generated filename with the full path.
+            str: The generated filename with the full path if include_path is True, otherwise just the filename.
         """
         # Extract the base name from the input path (excluding the extension)
-        base_name = os.path.splitext(os.path.basename(self.input_path))[0]
+        base_name = os.path.splitext(os.path.basename(params.input_path))[0]
 
         # Get the current date in the format YYYYMMDD
         current_date = datetime.datetime.now().strftime("%Y%m%d")
 
-        # Construct the new filename using the current date, base name, and window size
-        new_filename = f"{current_date}_{base_name}_Surface-Roughness_{self.window_size}-meter.tif"
+        # Convert the category thresholds to a string with the format threshold1_threshold2_...
+        # If category_thresholds is None, use an empty string
+        thresholds_str = ""
+        if params.category_thresholds is not None:
+            thresholds_str = "_" + "_".join(str(threshold) for threshold in params.category_thresholds)
 
-        # Join the output directory path with the new filename to get the full path
-        full_path = os.path.join(self.output_dir, new_filename)
+        # Construct the new filename using the current date, base name, window size, and category thresholds
+        new_filename = f"{current_date}_{base_name}_Surface-Roughness_{params.window_size}-meter{thresholds_str}.tif"
 
-        return full_path
+        if include_path:
+            # Join the output directory path with the new filename to get the full path
+            full_path = os.path.join(os.path.dirname(params.input_path), new_filename)
+            return full_path
+        else:
+            return new_filename
 
     def get_preview(self) -> Image:
         """
