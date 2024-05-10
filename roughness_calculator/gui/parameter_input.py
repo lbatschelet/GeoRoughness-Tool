@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import filedialog
 
 import customtkinter as ctk
 
@@ -16,34 +15,32 @@ class ParameterFrame(ctk.CTkFrame):
         self.grid_columnconfigure([0, 1], weight=1)
         self.grid_rowconfigure([0, 1], weight=1)
 
-        self.parameter_input1 = ParameterInput(self, "Window size", "The size of the window to use for processing. Defaults to 1.0.", self.main_gui)
-        self.parameter_input1.grid(row=0, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
+        self.window_size_field = ParameterInput(self, "Window size", "The size of the window to use for processing. Defaults to 1.0.", self.main_gui)
+        self.window_size_field.grid(row=0, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
 
-        self.parameter_input2 = ParameterInput(self, "Category Thresholds", "List of thresholds for categorizing data. Optional.", self.main_gui)
-        self.parameter_input2.grid(row=0, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
+        self.category_thresholds_field = ParameterInput(self, "Category Thresholds", "List of thresholds for categorizing data. Optional.", self.main_gui)
+        self.category_thresholds_field.grid(row=0, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="nsew")
 
-        self.parameter_input3 = ParameterInput(self, "Band Number", "The band number to use for processing. Defaults to 1.", self.main_gui)
-        self.parameter_input3.grid(row=1, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
+        self.band_number_field = ParameterInput(self, "Band Number", "The band number to use for processing. Defaults to 1.", self.main_gui)
+        self.band_number_field.grid(row=1, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
 
-        self.parameter_input4 = ParameterInput(self, "High value threshold", "Used to filter out high values at the borders of the data. Defaults to 10.", self.main_gui)
-        self.parameter_input4.grid(row=1, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
+        self.high_value_threshold_field = ParameterInput(self, "High value threshold", "Used to filter out high values at the borders of the data. Defaults to 10.", self.main_gui)
+        self.high_value_threshold_field.grid(row=1, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
 
-        self.start_processing_button = ctk.CTkButton(self, text="Start Processing", command=self.start_processing)
+        self.start_processing_button = ctk.CTkButton(self, text="Start Processing", command=self.main_gui.start_processing)
         self.start_processing_button.grid(row=2, column=0, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")  # Place the button in the new row
 
-        self.save_file_button = ctk.CTkButton(self, text="Save File", command=self.save_file, state=tk.DISABLED)
-        self.save_file_button.grid(row=2, column=1, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")  # Place the button in the new row
+        self.save_file_button = ctk.CTkButton(self, text="Save File", command=self.main_gui.save_image, state=tk.DISABLED)
+        self.save_file_button.grid(row=2, column=1, padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="ew")  # Place the button in the new row
 
-    def start_processing(self):
-        # Add your image processing code here
-        # Once the processing is complete, enable the save file button
-        self.save_file_button.config(state=tk.NORMAL)
+    def get_parameters(self):
+        return {
+            "window_size": self.window_size_field.get() or None,
+            "category_thresholds": self.category_thresholds_field.get() or None,
+            "band_number": self.band_number_field.get() or None,
+            "high_value_threshold": self.high_value_threshold_field.get() or None
+        }
 
-    def save_file(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".tif")
-        if file_path:
-            # Add your file saving code here
-            pass
 
 class DescriptionField(ctk.CTkLabel):
     def __init__(self, parent, text, **kwargs):

@@ -24,6 +24,12 @@ class PathFrame(ctk.CTkFrame):
         self.output_dir_field = OutputDirField(self, main_gui, "Output Directory")
         self.output_dir_field.grid(row=1, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY), sticky="nsew")
 
+    def get_parameters(self):
+        return {
+            "input_path": self.input_path_field.get(),
+            "output_dir": self.output_dir_field.get() or None
+        }
+
 class PathField(ctk.CTkFrame, abc.ABC):
     def __init__(self, parent, main_gui, name, **kwargs):
         super().__init__(parent, **kwargs)

@@ -16,3 +16,6 @@ class EncapsulatingFrame(ctk.CTkFrame):
         else:
             self.child_frame = frame_class(self, main_gui)
         self.child_frame.grid(row=0, column=0, sticky="nsew")
+
+    def get_parameters(self):
+        return self.child_frame.get_parameters()
