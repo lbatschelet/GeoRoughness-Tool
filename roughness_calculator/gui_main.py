@@ -1,7 +1,7 @@
 """
 gui_main.py
 -----------
-Version: 1.2.1
+Version: 1.2.2
 Author: Lukas Batschelet
 Date: 11.05.2024
 -----------
