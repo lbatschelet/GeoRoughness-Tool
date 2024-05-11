@@ -17,7 +17,7 @@ class Defaults:
         The default high value threshold for categorizing data.
     CATEGORY_THRESHOLDS : Optional[List[float]]
         The default category thresholds for categorizing data. None means no categorization will be applied.
-    NODATA_VALUE : int
+    NO_DATA_VALUE : int
         The default value to use for nodata pixels.
     DTYPE : str
         The default data type for the output data.
@@ -27,5 +27,5 @@ class Defaults:
     BAND_NUMBER: Final[int] = 1
     HIGH_VALUE_THRESHOLD: Final[float] = 10.0
     CATEGORY_THRESHOLDS: Final[Optional[List[float]]] = None
-    NODATA_VALUE: Final[int] = -9999
+    NO_DATA_VALUE: Final[int] = -9999
     DTYPE: Final[str] = 'float32'

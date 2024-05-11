@@ -44,7 +44,8 @@ class ApplicationDriver:
         self.output_dir = params.output_dir  # Store the path to the output directory if provided
 
         # Attempt to create an output filename if an output directory is provided
-        self.output_path = ApplicationDriver.create_output_filename(params, include_path=True) if params.output_dir else None
+        self.output_path = ApplicationDriver.create_output_filename(params,
+                                                                    include_path=True) if params.output_dir else None
 
         # Store additional processing parameters
         self.window_size = params.window_size
@@ -88,7 +89,7 @@ class ApplicationDriver:
 
         logging.info("Processing completed.")
 
-    def produce_preview(self, nodata_value: int = Defaults.NODATA_VALUE) -> None:
+    def produce_preview(self, nodata_value: int = Defaults.NO_DATA_VALUE) -> None:
         """
         Generates a preview image from the processed data stored in self.processed_data.
         This method avoids re-reading the data from file, making it more efficient.
@@ -140,41 +141,23 @@ class ApplicationDriver:
             # Raise a new error, preserving the original traceback
             raise RuntimeError("Failed to produce preview due to an error.") from e
 
-    def save_processed_data(self,
-                            output_path: str,
-                            nodata: int = Defaults.NODATA_VALUE,
-                            dtype: str = Defaults.DTYPE) -> None:
+    def save_processed_data(self, output_path: str) -> None:
         """
-        Saves the processed data to a GeoTIFF file using the stored profile.
+        Saves the processed data to a GeoTIFF file using the stored processed_profile.
 
         Args:
             output_path (str): The path where the processed data will be saved.
-            nodata (int, optional): The value representing 'no data' in the dataset. Defaults to -9999.
-            dtype (str, optional): The data type of the output GeoTIFF file. Defaults to 'float32'.
 
         Raises:
-            ValueError: If the processed data or the profile is not available for saving.
+            ValueError: If the processed data or the processed_profile is not available for saving.
         """
-        # Check if processed data and profile are available
-        if self.processed_data is None or self.processor.profile is None:
-            logging.error("Processed data or profile is not available for saving.")
-            raise ValueError("Processed data or profile is missing.")
-
-        # Update the profile with the provided data type and nodata value
-        self.processor.profile.update(dtype=dtype, nodata=nodata)
-
-        # Calculate the new pixel size, width, and height based on the window size
-        pixel_size = self.window_size
-        width = int((self.processor.profile['width'] * self.processor.profile['transform'][0]) / pixel_size)
-        height = int((self.processor.profile['height'] * abs(self.processor.profile['transform'][4])) / pixel_size)
-
-        # Update the transform, width, and height in the profile
-        self.processor.profile['transform'] = rasterio.Affine(pixel_size, 0, self.processor.profile['transform'][2], 0, -pixel_size, self.processor.profile['transform'][5])
-        self.processor.profile['width'] = width
-        self.processor.profile['height'] = height
+        # Check if processed data and processed_profile are available
+        if self.processed_data is None or self.processor.processed_profile is None:
+            logging.error("Processed data or processed_profile is not available for saving.")
+            raise ValueError("Processed data or processed_profile is missing.")
 
         # Open the output path as a new GeoTIFF file in write mode
-        with rasterio.open(output_path, 'w', **self.processor.profile) as dst:
+        with rasterio.open(output_path, 'w', **self.processor.processed_profile) as dst:
             # Write the processed data to the first band of the GeoTIFF file
             dst.write(self.processed_data, 1)
 
@@ -185,7 +168,8 @@ class ApplicationDriver:
         """
         Generates a filename based on the input file, current date, and processing parameters.
 
-        The filename is generated in the following format: YYYYMMDD_basename_Surface-Roughness_windowSize-meter_threshold1_threshold2_...
+        The filename is generated in the following format:
+        YYYYMMDD_basename_Surface-Roughness_windowSize-meter_threshold1_threshold2_...
 
         Args:
             params (ProcessingParameters): The processing parameters.
