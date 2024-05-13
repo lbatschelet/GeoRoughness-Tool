@@ -205,14 +205,14 @@ class GUIMain(ctk.CTk):
 
         # Calculate the number of categories
         parameter_params = self.parameter_frame.get_parameters()
-        number_of_categories = len(parameter_params['category_thresholds'])
 
         # Call the calculate_quality method and return the result
         quality = ThresholdOptimizer.calculate_quality(
-            manual_data, categorized_calculated_data, number_of_categories)
+            manual_data, categorized_calculated_data, parameter_params['category_thresholds'])
 
-        # Update the label in the calculate_quality_frame
-        quality_string = "Quality = {:.1f} %".format(quality * 100)
+        quality_string = "{:.2f}".format(quality * 100)
+
+        # Update the quality label in the parameter frame
         self.parameter_frame.child_frame.analyze_and_optimize_frame.calculate_quality_frame.update_label(quality_string)
 
         return quality
@@ -232,15 +232,15 @@ class GUIMain(ctk.CTk):
             manual_data = src.read(1)
 
         # Get the uncategorized calculated data from the driver
-        uncategorized_calculated_data = self.driver.processed_data
+        uncategorized_calculated_data = self.driver.processed_uncategorized_data
 
         # Call the calculate_optimized_thresholds method and get the result
         optimized_thresholds = ThresholdOptimizer.calculate_optimized_thresholds(
-            manual_data, uncategorized_calculated_data, category_thresholds)
+            manual_data, uncategorized_calculated_data, len(category_thresholds) + 1)
 
-        # Update the category thresholds in the parameter frame
-        optimized_thresholds_string = "Optimized Thresholds: " + ", ".join("{:.2f}".format(threshold) for threshold in optimized_thresholds)
-        self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(optimized_thresholds_string)
+        optimized_thresholds_string = ", ".join("{:.2f}".format(threshold) for threshold in optimized_thresholds)
+        self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
+            optimized_thresholds_string)
 
         return optimized_thresholds
 

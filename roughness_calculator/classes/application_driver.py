@@ -56,6 +56,9 @@ class ApplicationDriver:
         self.processed_data = None  # This will hold the processed data after running the processor
         self.preview = None  # This will hold the image preview of the processed data
 
+        self.processed_uncategorized_data = None
+        self.processed_profile = None
+
         # Initialize the GeoTIFFProcessor with the parameters
         self.processor = GeoTIFFProcessor(params)
 
@@ -78,6 +81,8 @@ class ApplicationDriver:
 
         # Process the GeoTIFF file and store the result in self.processed_data
         self.processed_data = self.processor.process_tiff()
+        self.processed_uncategorized_data = self.processor.processed_uncategorized_data
+        self.processed_profile = self.processor.processed_profile
 
         # If an output directory is provided or running in CLI mode, save the processed data immediately
         if self.output_dir:
