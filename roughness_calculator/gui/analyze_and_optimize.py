@@ -23,7 +23,7 @@ class AnalyzeAndOptimizeFrame(ctk.CTkFrame):
                                            sticky="nsew")
 
         # Right column, upper row: calculate quality button and label
-        self.calculate_quality_frame = CalculationFrame(self, "Calculate Quality", main_gui.calculate_quality, label_prefix='Calculated quality of the thresholds: ')
+        self.calculate_quality_frame = CalculationFrame(self, "Calculate Quality", main_gui.calculate_quality, label_prefix='Calculated quality of the thresholds (in %): ')
         self.calculate_quality_frame.grid(row=0, column=1, sticky="nsew", padx=(DEFAULTS.PADX* 0.5, DEFAULTS.PADX), pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5))
 
         # Right column, lower row: optimize thresholds button and label

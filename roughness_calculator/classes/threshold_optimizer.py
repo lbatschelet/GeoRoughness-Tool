@@ -17,31 +17,45 @@ class ThresholdOptimizer:
                           ) -> float:
         """
         Calculates the quality of categorization based on a comparison of manual and categorized calculated data.
+        Each data point is classified into a category based on provided thresholds, and the method evaluates how well the
+        categorized data matches the manual data.
 
         Args:
             manual_data (np.ndarray): An array of manually categorized data.
-            categorized_calculated_data (np.ndarray): An array of automatically categorized data.
+            categorized_calculated_data (np.ndarray): An array of automatically derived raw data values.
             thresholds (List[float]): A list of thresholds that define the boundaries between categories.
 
         Returns:
             float: The quality percentage, representing the average scoring across the data, where the scoring penalizes
             differences between manual and calculated categorizations more severely as the difference increases.
         """
-        # Create a mask of the pixels that are actually categorized in both the manual data and the calculated data
-        mask = (manual_data != Defaults.NO_DATA_VALUE) & (categorized_calculated_data != Defaults.NO_DATA_VALUE)
+        if not thresholds:
+            logging.error("Thresholds list is empty or not properly defined.")
+            raise ValueError("Thresholds list must be non-empty and properly defined.")
 
-        # Apply the mask to the manual data and the calculated data
-        masked_manual_data = manual_data[mask]
-        masked_categorized_calculated_data = categorized_calculated_data[mask]
+            # Ensure thresholds are a NumPy array with a float type
+        if not isinstance(thresholds, np.ndarray):
+            thresholds = np.array(thresholds, dtype=float)
 
-        # Calculate the absolute difference between the manual category and the calculated category
-        diff = np.abs(masked_manual_data - masked_categorized_calculated_data)
+        valid_mask = (manual_data != Defaults.NO_DATA_VALUE) & (categorized_calculated_data != Defaults.NO_DATA_VALUE)
+        if not np.any(valid_mask):
+            logging.error("No valid data available after excluding NO_DATA_VALUE.")
+            raise ValueError("No valid data available after filtering.")
 
-        # Using a quadratic error to penalize larger errors more heavily
-        score = 1 - (diff ** 2 / (len(thresholds) - 1) ** 2)
+        valid_manual_data = manual_data[valid_mask]
+        valid_calculated_data = categorized_calculated_data[valid_mask]
 
-        # Calculate the quality percentage, including all points
+        # Digitize calculated data into categories based on thresholds
+        try:
+            calculated_categories = np.digitize(valid_calculated_data, thresholds, right=True)
+        except Exception as e:
+            logging.error(f"Error in digitizing data: {str(e)}")
+            raise
+
+        diff = np.abs(valid_manual_data - calculated_categories)
+        score = np.exp(-diff)  # Exponential decay for scoring differences
         quality_percentage = np.mean(score)
+        logging.info(f"Calculated quality percentage: {quality_percentage}%")
 
         return quality_percentage
 

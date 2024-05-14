@@ -205,10 +205,11 @@ class GUIMain(ctk.CTk):
 
         # Calculate the number of categories
         parameter_params = self.parameter_frame.get_parameters()
+        thresholds = [float(x) for x in parameter_params['category_thresholds'].split(',')]
 
         # Call the calculate_quality method and return the result
         quality = ThresholdOptimizer.calculate_quality(
-            manual_data, categorized_calculated_data, parameter_params['category_thresholds'])
+            manual_data, categorized_calculated_data, thresholds)
 
         quality_string = "{:.2f}".format(quality * 100)
 
