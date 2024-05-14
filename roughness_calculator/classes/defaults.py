@@ -1,5 +1,13 @@
+"""
+defaults.py
+-----------
+Version: 1.3.0
+Author: Lukas Batschelet
+Date: 14.05.2024
+-----------
+This module defines default values for the whole package.
+"""
 from typing import Final, Optional, List
-
 
 class Defaults:
     """

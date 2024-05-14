@@ -1,3 +1,13 @@
+"""
+threshold_optimizer.py
+---------------------
+Version: 1.3.0
+Author: Lukas Batschelet
+Date: 14.05.2024
+---------------------
+This module provides a class for optimizing thresholds for surface roughness categorization.
+"""
+
 from typing import List, Optional
 
 import numpy as np

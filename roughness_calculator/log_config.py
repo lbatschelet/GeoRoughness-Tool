@@ -1,9 +1,9 @@
 """
 log_config.py
 -----------
-Version: 1.2.2
+Version: 1.3.0
 Author: Lukas Batschelet
-Date: 11.05.2024
+Date: 14.05.2024
 -----------
 This module sets up the logging for the application.
 """

@@ -1,9 +1,9 @@
 """
 processing_parameters.py
 ---
-Version: 1.2.2
+Version: 1.3.0
 Author: Lukas Batschelet
-Date: 11.05.2024
+Date: 14.05.2024
 ---
 Class to encapsulate the processing parameters for the surface roughness calculator application.
 The used dataclass decorator is a Python 3.7 feature that allows for the creation of classes with

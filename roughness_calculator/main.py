@@ -1,3 +1,13 @@
+"""
+main.py
+-------
+Version: 1.3.0
+Author: Lukas Batschelet
+Date: 14.05.2024
+-------
+This module is the main entry point for the application.
+"""
+
 import sys
 
 from roughness_calculator.cli_main import CLIMain
