@@ -1,8 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 import numpy as np
+import logging
 
 from roughness_calculator.classes.defaults import Defaults
+
+logger = logging.getLogger(__name__)
 
 
 class ThresholdOptimizer:
@@ -45,51 +48,128 @@ class ThresholdOptimizer:
     @staticmethod
     def calculate_optimized_thresholds(manual_data: np.ndarray,
                                        uncategorized_calculated_data: np.ndarray,
-                                       number_of_categories: int
-                                       ) -> List[float]:
+                                       number_of_categories: int) -> List[Optional[float]]:
         """
-        Suggests optimized thresholds for categorization based on training data and uncategorized calculated data.
-        It uses percentiles to minimize the influence of outliers and ensures a more robust
-        categorization threshold setting.
+        Calculates optimized thresholds for categorization based on training and uncategorized data,
+        addressing cases where initial categories might be missing.
 
         Args:
-            manual_data (np.ndarray): An array where each element is a category identifier for training data.
-            uncategorized_calculated_data (np.ndarray): An array of raw values associated with each training data point.
-            number_of_categories (int): The total number of categories including both ends of the value spectrum.
+            manual_data (np.ndarray): Array of category identifiers from training data.
+            uncategorized_calculated_data (np.ndarray): Array of corresponding raw values to categorize.
+            number_of_categories (int): Total number of expected categories.
 
         Returns:
-            List[float]: A list of calculated thresholds that define the boundaries between categories, aimed to
-            minimize misclassification.
+            List[Optional[float]]: Calculated thresholds between categories. None values indicate uncomputable thresholds.
+
+        Raises:
+            ValueError: If input data arrays are empty or if `number_of_categories` is less than 2.
         """
-        # Initialize a dictionary to store the values for each category
+        if manual_data.size == 0 or uncategorized_calculated_data.size == 0:
+            logging.error("Input data arrays cannot be empty.")
+            raise ValueError("Input data arrays cannot be empty.")
+
+        if number_of_categories < 2:
+            logging.error("At least two categories are required to calculate thresholds.")
+            raise ValueError("At least two categories are required to calculate thresholds.")
+
+        valid_data_mask = manual_data != Defaults.NO_DATA_VALUE
+        filtered_manual_data = manual_data[valid_data_mask]
+        filtered_uncategorized_data = uncategorized_calculated_data[valid_data_mask]
+
+        if filtered_manual_data.size == 0:
+            logging.error("No valid data available after filtering out NO_DATA_VALUE.")
+            raise ValueError("No valid data available after filtering out NO_DATA_VALUE.")
+
+        # Initialize storage for category values
         category_values = {i: [] for i in range(number_of_categories)}
+        for category in np.unique(filtered_manual_data):
+            if category >= number_of_categories:
+                continue  # Skip categories outside the expected range
+            mask = filtered_manual_data == category
+            category_values[category].extend(filtered_uncategorized_data[mask])
+            logging.info(f"Category {category} gathered with {len(category_values[category])} entries.")
 
-        # Gather values for each category based on the manual data
-        for category in range(number_of_categories):
-            mask = manual_data == category
-            category_values[category].extend(uncategorized_calculated_data[mask])
+        # Prepare list for thresholds with initial None values
+        thresholds = [None] * (number_of_categories - 1)
 
-        # Compute bounds for each category using percentiles
-        thresholds = []
-        for i in range(number_of_categories):
-            if category_values[i]:  # Ensure there are values to process
-                if i == 0:
-                    # Calculate the first threshold as a logical point between the lowest value of the first category and zero
-                    min_value = np.min(category_values[i])
-                    thresholds.append(
-                        min_value / 2)  # Example: midpoint between zero and the minimum value of the first category
-                if i < number_of_categories - 1:
-                    # Calculate the next threshold as the average of the 95th percentile of the current category and the
-                    # 5th percentile of the next category
-                    next_5th_percentile = np.percentile(category_values[i + 1], 5)
-                    current_95th_percentile = np.percentile(category_values[i], 95)
-                    thresholds.append((next_5th_percentile + current_95th_percentile) / 2)
+        # Handling the first threshold
+        if category_values.get(0):  # Check if category 0 has data
+            if category_values.get(1):  # And category 1 also has data
+                current_95th_percentile = np.percentile(category_values[0], 95)
+                next_5th_percentile = np.percentile(category_values[1], 5)
+                thresholds[0] = (current_95th_percentile + next_5th_percentile) / 2
+                logging.info("First threshold set at {thresholds[0]} using data from categories 0 and 1.")
+            else:  # If category 0 has data but category 1 does not
+                thresholds[0] = np.percentile(category_values[0], 95)
+                logging.info("First threshold set at {thresholds[0]} using data from category 0 only.")
+        elif category_values.get(1):  # No data in category 0, data in category 1
+            min_value = np.min(category_values[1])
+            thresholds[0] = max(min_value / 2, 0)  # Safeguard against negative threshold
+            logging.info(f"First threshold set at {thresholds[0]} using data from category 1 only.")
+        else:
+            logging.warning("No data available for categories 0 and 1. First threshold not yet calculated.")
 
-        # Calculate the top threshold as a point above the maximum value of the last category
-        if category_values[number_of_categories - 1]:
-            max_value_last_category = np.max(category_values[number_of_categories - 1])
-            # Assume the dataset's maximum value as a logical upper bound, e.g., 110% of the maximum observed value
-            logical_upper_bound = max_value_last_category * 1.1
-            thresholds.append(logical_upper_bound)
+        # Calculate thresholds for the rest of the categories with available data
+        for i in range(1, number_of_categories - 1):
+            if category_values.get(i) and category_values.get(i + 1):
+                next_5th_percentile = np.percentile(category_values[i + 1], 5)
+                current_95th_percentile = np.percentile(category_values[i], 95)
+                thresholds[i] = (next_5th_percentile + current_95th_percentile) / 2
+                logging.info(f"Threshold between categories {i} and {i + 1} set at {thresholds[i]}.")
+
+        # Interpolate missing thresholds where necessary
+        for i in range(len(thresholds)):
+            if thresholds[i] is None:
+                thresholds[i] = ThresholdOptimizer.interpolate_thresholds(thresholds, i)
+                logging.info(f"Interpolated threshold at index {i} set to {thresholds[i]} if applicable.")
 
         return thresholds
+
+    @staticmethod
+    def interpolate_thresholds(thresholds: List[Optional[float]], index: int) -> Optional[float]:
+        """
+        Interpolates a missing threshold using adjacent values, ensuring the interpolated value is non-negative.
+
+        Args:
+            thresholds (List[Optional[float]]): The current list of thresholds, some of which may be None.
+            index (int): The index of the threshold to interpolate.
+
+        Returns:
+            Optional[float]: The interpolated threshold value, or None if it cannot be interpolated.
+
+        Note:
+            This method assumes there are valid thresholds available on either side of the missing value for interpolation.
+        """
+        prev = next = None
+        # Search for the nearest non-None value to the left
+        for j in range(index - 1, -1, -1):
+            if thresholds[j] is not None:
+                prev = thresholds[j]
+                break
+        # Search for the nearest non-None value to the right
+        for k in range(index + 1, len(thresholds)):
+            if thresholds[k] is not None:
+                next = thresholds[k]
+                break
+
+        # Log the found values for debugging
+        logging.info(f"Interpolating at index {index}: found previous threshold {prev}, next threshold {next}")
+
+        # Calculate interpolated value
+        if prev is not None and next is not None:
+            interpolated_value = max((prev + next) / 2, 0)
+            logging.info(f"Interpolated value between {prev} and {next} is {interpolated_value}")
+            return interpolated_value
+        elif prev is not None:
+            interpolated_value = max(prev + Defaults.DEFAULT_CATEGORY_INCREMENT, 0)
+            logging.info(f"Only previous threshold available, incremented value is {interpolated_value}")
+            return interpolated_value
+        elif next is not None:
+            interpolated_value = max(next - Defaults.DEFAULT_CATEGORY_INCREMENT, 0)
+            logging.info(f"Only next threshold available, decremented value is {interpolated_value}")
+            return interpolated_value
+
+        # Log and handle cases where interpolation is not possible
+        logging.error("Unable to interpolate threshold: no adjacent thresholds available.")
+        return None  # Return None if no valid interpolation is possible
+

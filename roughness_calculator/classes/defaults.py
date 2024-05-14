@@ -21,6 +21,8 @@ class Defaults:
         The default value to use for nodata pixels.
     DTYPE : str
         The default data type for the output data.
+    DEFAULT_CATEGORY_INCREMENT : float
+        The default increment to use when interpolating missing category thresholds.
     """
     OUTPUT_DIR: Final[Optional[str]] = None
     WINDOW_SIZE: Final[float] = 1.0
@@ -29,3 +31,4 @@ class Defaults:
     CATEGORY_THRESHOLDS: Final[Optional[List[float]]] = None
     NO_DATA_VALUE: Final[int] = -9999
     DTYPE: Final[str] = 'float32'
+    DEFAULT_CATEGORY_INCREMENT: Final[float] = 0.1

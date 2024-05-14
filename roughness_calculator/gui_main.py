@@ -218,33 +218,42 @@ class GUIMain(ctk.CTk):
         return quality
 
     def optimize_thresholds(self):
-        # Gather parameters from the GUI
-        parameter_params = self.parameter_frame.get_parameters()
-        control_input_path = parameter_params['control_input_path']
-        category_thresholds = parameter_params['category_thresholds']
+        try:
+            # Gather parameters from the GUI
+            parameter_params = self.parameter_frame.get_parameters()
+            control_input_path = parameter_params['control_input_path']
+            category_thresholds = parameter_params['category_thresholds']
 
-        # Convert category_thresholds to a list of floats if it's a string
-        if isinstance(category_thresholds, str):
-            category_thresholds = [float(x) for x in category_thresholds.split(',')]
+            # Convert category_thresholds to a list of floats if it's a string
+            if isinstance(category_thresholds, str):
+                category_thresholds = [float(x) for x in category_thresholds.split(',')]
 
-        # Load the manual data from the control_input_path
-        with rasterio.open(control_input_path) as src:
-            manual_data = src.read(1)
+            # Load the manual data from the control_input_path
+            with rasterio.open(control_input_path) as src:
+                manual_data = src.read(1)
 
-        # Get the uncategorized calculated data from the driver
-        uncategorized_calculated_data = self.driver.processed_uncategorized_data
+            # Ensure manual_data and category_thresholds are not empty
+            if manual_data.size == 0:
+                raise ValueError("Loaded manual data is empty.")
+            if len(category_thresholds) < 1:
+                raise ValueError("Category thresholds are not properly defined.")
 
-        # Call the calculate_optimized_thresholds method and get the result
-        optimized_thresholds = ThresholdOptimizer.calculate_optimized_thresholds(
-            manual_data, uncategorized_calculated_data, len(category_thresholds) + 1)
+            # Get the uncategorized calculated data from the driver
+            uncategorized_calculated_data = self.driver.processed_uncategorized_data
 
-        optimized_thresholds_string = ", ".join("{:.2f}".format(threshold) for threshold in optimized_thresholds)
-        self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
-            optimized_thresholds_string)
+            # Call the calculate_optimized_thresholds method and get the result
+            optimized_thresholds = ThresholdOptimizer.calculate_optimized_thresholds(
+                manual_data, uncategorized_calculated_data, (len(category_thresholds) + 1))
 
-        return optimized_thresholds
+            optimized_thresholds_string = ", ".join("{:.3f}".format(threshold) for threshold in optimized_thresholds)
+            self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
+                optimized_thresholds_string)
 
+            return optimized_thresholds
 
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            return None
 
 
 def main():
