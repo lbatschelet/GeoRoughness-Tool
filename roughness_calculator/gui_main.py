@@ -1,9 +1,9 @@
 """
 gui_main.py
 -----------
-Version: 1.2.2
+Version: 1.3.0
 Author: Lukas Batschelet
-Date: 11.05.2024
+Date: 14.05.2024
 -----------
 This module contains the main GUI class for the Surface Roughness Calculator application.
 """
@@ -13,11 +13,13 @@ import tkinter as tk
 from tkinter import messagebox, filedialog
 
 import customtkinter as ctk
+import rasterio
 from PIL import Image
 from customtkinter import CTkScrollableFrame
 
 from roughness_calculator.classes.application_driver import ApplicationDriver
 from roughness_calculator.classes.processing_parameters import ProcessingParameters
+from roughness_calculator.classes.threshold_optimizer import ThresholdOptimizer
 from roughness_calculator.gui.defaults import DEFAULTS
 from roughness_calculator.gui.encapsulating_frame import EncapsulatingFrame
 from roughness_calculator.gui.footer_frame import FooterFrame
@@ -134,6 +136,8 @@ class GUIMain(ctk.CTk):
             preview = self.driver.get_preview()
             if preview:
                 self.display_preview(preview)
+                if 'category_thresholds' in filtered_params:
+                    self.parameter_frame.child_frame.analyze_and_optimize_button.configure(state=tk.NORMAL)
                 if 'output_dir' not in filtered_params:
                     self.parameter_frame.child_frame.save_file_button.configure(state=tk.NORMAL)
             else:
@@ -186,6 +190,71 @@ class GUIMain(ctk.CTk):
             # Log the error and raise the original exception
             logging.error("Error saving image: " + str(e))
             raise RuntimeError("Error saving image: " + str(e))
+
+    def calculate_quality(self):
+        # Gather parameters from the GUI
+        parameter_params = self.parameter_frame.get_parameters()
+        control_input_path = parameter_params['control_input_path']
+
+        # Load the manual data from the control_input_path
+        with rasterio.open(control_input_path) as src:
+            manual_data = src.read(1)
+
+        # Get the categorized calculated data from the driver
+        categorized_calculated_data = self.driver.processed_data
+
+        # Calculate the number of categories
+        parameter_params = self.parameter_frame.get_parameters()
+        thresholds = [float(x) for x in parameter_params['category_thresholds'].split(',')]
+
+        # Call the calculate_quality method and return the result
+        quality = ThresholdOptimizer.calculate_quality(
+            manual_data, categorized_calculated_data, thresholds)
+
+        quality_string = "{:.2f}".format(quality * 100)
+
+        # Update the quality label in the parameter frame
+        self.parameter_frame.child_frame.analyze_and_optimize_frame.calculate_quality_frame.update_label(quality_string)
+
+        return quality
+
+    def optimize_thresholds(self):
+        try:
+            # Gather parameters from the GUI
+            parameter_params = self.parameter_frame.get_parameters()
+            control_input_path = parameter_params['control_input_path']
+            category_thresholds = parameter_params['category_thresholds']
+
+            # Convert category_thresholds to a list of floats if it's a string
+            if isinstance(category_thresholds, str):
+                category_thresholds = [float(x) for x in category_thresholds.split(',')]
+
+            # Load the manual data from the control_input_path
+            with rasterio.open(control_input_path) as src:
+                manual_data = src.read(1)
+
+            # Ensure manual_data and category_thresholds are not empty
+            if manual_data.size == 0:
+                raise ValueError("Loaded manual data is empty.")
+            if len(category_thresholds) < 1:
+                raise ValueError("Category thresholds are not properly defined.")
+
+            # Get the uncategorized calculated data from the driver
+            uncategorized_calculated_data = self.driver.processed_uncategorized_data
+
+            # Call the calculate_optimized_thresholds method and get the result
+            optimized_thresholds = ThresholdOptimizer.calculate_optimized_thresholds(
+                manual_data, uncategorized_calculated_data, (len(category_thresholds) + 1))
+
+            optimized_thresholds_string = ", ".join("{:.3f}".format(threshold) for threshold in optimized_thresholds)
+            self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
+                optimized_thresholds_string)
+
+            return optimized_thresholds
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            return None
 
 
 def main():

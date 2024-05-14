@@ -1,5 +1,13 @@
+"""
+defaults.py
+-----------
+Version: 1.3.0
+Author: Lukas Batschelet
+Date: 14.05.2024
+-----------
+This module defines default values for the whole package.
+"""
 from typing import Final, Optional, List
-
 
 class Defaults:
     """
@@ -17,15 +25,21 @@ class Defaults:
         The default high value threshold for categorizing data.
     CATEGORY_THRESHOLDS : Optional[List[float]]
         The default category thresholds for categorizing data. None means no categorization will be applied.
-    NODATA_VALUE : int
+    NO_DATA_VALUE : int
         The default value to use for nodata pixels.
     DTYPE : str
         The default data type for the output data.
+    DEFAULT_CATEGORY_INCREMENT : float
+        The default increment to use when interpolating missing category thresholds.
+    LOG_UPDATE_INTERVAL : int
+        The default interval for updating the log window.
     """
     OUTPUT_DIR: Final[Optional[str]] = None
     WINDOW_SIZE: Final[float] = 1.0
     BAND_NUMBER: Final[int] = 1
     HIGH_VALUE_THRESHOLD: Final[float] = 10.0
     CATEGORY_THRESHOLDS: Final[Optional[List[float]]] = None
-    NODATA_VALUE: Final[int] = -9999
+    NO_DATA_VALUE: Final[int] = -9999
     DTYPE: Final[str] = 'float32'
+    DEFAULT_CATEGORY_INCREMENT: Final[float] = 0.1
+    LOG_UPDATE_INTERVAL: Final[int] = 1000

@@ -1,9 +1,9 @@
 """
 geo_tiff_processor.py
 ---------------------
-Version: 1.2.2
+Version: 1.3.0
 Author: Lukas Batschelet
-Date: 11.05.2024
+Date: 14.05.2024
 ---------------------
 This module contains the GeoTIFFProcessor class which is responsible for processing GeoTIFF files.
 It provides methods for loading, processing, and saving GeoTIFF files.
@@ -53,8 +53,11 @@ class GeoTIFFProcessor:
 
         # Initialize the dataset, processed_data, and profile attributes to None
         self.dataset = None
-        self.processed_data = None
         self.profile = None
+
+        self.processed_data = None
+        self.processed_uncategorized_data = None
+        self.processed_profile = None
 
         logger.info(f"GeoTIFFProcessor initialized with parameters: {params}")
 
@@ -92,12 +95,21 @@ class GeoTIFFProcessor:
             # Filter out high values from the roughness data
             processed_data = self.apply_filter(processed_data)
 
+            # Store the uncategorized data
+            self.processed_uncategorized_data = processed_data
+
             # If thresholds are defined, apply them to the roughness data
             if self.category_thresholds:
                 processed_data = self.apply_thresholds(processed_data)
             # Store the processed data and the profile of the GeoTIFF file
             self.processed_data = processed_data
             self.profile = self.dataset.profile  # Store profile before closing
+
+            # Create a new profile for the processed data based on the original profile
+            self.processed_profile = self.profile.copy()
+
+            # Update the transform, width, and height in the processed_profile
+            self.update_transform(Defaults.NO_DATA_VALUE, Defaults.DTYPE, self.window_size)
 
             # Return the processed data
             return processed_data
@@ -247,7 +259,7 @@ class GeoTIFFProcessor:
             logger.error(f"Failed to open GeoTIFF: {e}")
             raise ValueError(f"Invalid GeoTIFF file: {self.input_path}")
 
-    def apply_filter(self, roughness: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
+    def apply_filter(self, roughness: np.ndarray, nodata_value: int = Defaults.NO_DATA_VALUE) -> np.ndarray:
         """
         Filters out high values from the roughness array.
 
@@ -273,7 +285,7 @@ class GeoTIFFProcessor:
 
         return roughness
 
-    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
+    def apply_nodata(self, roughness: np.ndarray, nodata_value: int = Defaults.NO_DATA_VALUE) -> np.ndarray:
         """
         Applies nodata value and filters out zero values from the roughness array.
 
@@ -332,7 +344,7 @@ class GeoTIFFProcessor:
             logging.error("Error accessing transform of the dataset: " + str(e))
             raise
 
-    def apply_thresholds(self, data: np.ndarray, nodata_value: int = Defaults.NODATA_VALUE) -> np.ndarray:
+    def apply_thresholds(self, data: np.ndarray, nodata_value: int = Defaults.NO_DATA_VALUE) -> np.ndarray:
         """
         Applies thresholds to the data array.
 
@@ -382,3 +394,16 @@ class GeoTIFFProcessor:
 
         logging.info("Data categorized based on thresholds.")
         return categorized_data
+
+    def update_transform(self, nodata: int, dtype: str, pixel_size: float):
+        # Update the profile with the provided data type and nodata value
+        self.processed_profile.update(dtype=dtype, nodata=nodata)
+
+        # Calculate the new width and height based on the window size
+        width = int((self.processed_profile['width'] * self.processed_profile['transform'][0]) / pixel_size)
+        height = int((self.processed_profile['height'] * abs(self.processed_profile['transform'][4])) / pixel_size)
+
+        # Update the transform, width, and height in the processed_profile
+        self.processed_profile['transform'] = rasterio.Affine(pixel_size, 0, self.processed_profile['transform'][2], 0, -pixel_size, self.processed_profile['transform'][5])
+        self.processed_profile['width'] = width
+        self.processed_profile['height'] = height

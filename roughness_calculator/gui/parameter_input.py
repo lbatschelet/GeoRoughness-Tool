@@ -2,6 +2,7 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from roughness_calculator.gui.analyze_and_optimize import AnalyzeAndOptimizeFrame
 from roughness_calculator.gui.defaults import DEFAULTS
 
 
@@ -60,28 +61,66 @@ class ParameterFrame(ctk.CTkFrame):
                                              pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                              sticky="nsew")
 
+        # Create a new frame for the buttons
+        self.button_frame = ctk.CTkFrame(self)
+        self.button_frame.grid(row=2,
+                               column=0,
+                               columnspan=2,
+                               padx=DEFAULTS.PADX,
+                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                               sticky="ew")
+        # Set equal weights for each column in the button frame
+        self.button_frame.grid_columnconfigure([0, 1, 2], weight=1)
+
         self.start_processing_button = (
-            ctk.CTkButton(self, text="Start Processing", command=self.main_gui.start_processing))
-        self.start_processing_button.grid(row=2,
+            ctk.CTkButton(self.button_frame, text="Start Processing", command=self.main_gui.start_processing))
+        self.start_processing_button.grid(row=0,
                                           column=0,
                                           padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                                          pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
-                                          sticky="ew")  # Place the button in the new row
+                                          pady=DEFAULTS.PADY,
+                                          sticky="ew")
+
+        # Create a new button
+        self.analyze_and_optimize_button = ctk.CTkButton(self.button_frame,
+                                                         text="Analyze and optimize...",
+                                                         command=self.toggle_frame, state=tk.DISABLED)
+        self.analyze_and_optimize_button.grid(row=0,
+                                              column=1,
+                                              padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                                              pady=DEFAULTS.PADY,
+                                              sticky="ew")
 
         self.save_file_button = (
-            ctk.CTkButton(self, text="Save File", command=self.main_gui.save_image, state=tk.DISABLED))
-        self.save_file_button.grid(row=2,
-                                   column=1,
-                                   padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
-                                   pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
-                                   sticky="ew")  # Place the button in the new row
+            ctk.CTkButton(self.button_frame, text="Save File", command=self.main_gui.save_image, state=tk.DISABLED))
+        self.save_file_button.grid(row=0,
+                                   column=2,
+                                   padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                                   pady=DEFAULTS.PADY,
+                                   sticky="ew")
+
+        # Create a new frame and initially hide it
+        self.analyze_and_optimize_frame = AnalyzeAndOptimizeFrame(self, main_gui)
+        self.analyze_and_optimize_frame.grid(row=3,
+                                             column=0,
+                                             columnspan=3,
+                                             padx=DEFAULTS.PADX,
+                                             pady=(0, DEFAULTS.PADY),
+                                             sticky="ew")
+        self.analyze_and_optimize_frame.grid_remove()
+
+    def toggle_frame(self):
+        if self.analyze_and_optimize_frame.winfo_viewable():
+            self.analyze_and_optimize_frame.grid_remove()
+        else:
+            self.analyze_and_optimize_frame.grid()
 
     def get_parameters(self):
         return {
             "window_size": self.window_size_field.get() or None,
             "category_thresholds": self.category_thresholds_field.get() or None,
             "band_number": self.band_number_field.get() or None,
-            "high_value_threshold": self.high_value_threshold_field.get() or None
+            "high_value_threshold": self.high_value_threshold_field.get() or None,
+            "control_input_path": self.analyze_and_optimize_frame.control_input_path_field.get() or None
         }
 
 
