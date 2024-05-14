@@ -23,6 +23,8 @@ class Defaults:
         The default data type for the output data.
     DEFAULT_CATEGORY_INCREMENT : float
         The default increment to use when interpolating missing category thresholds.
+    LOG_UPDATE_INTERVAL : int
+        The default interval for updating the log window.
     """
     OUTPUT_DIR: Final[Optional[str]] = None
     WINDOW_SIZE: Final[float] = 1.0
@@ -32,3 +34,4 @@ class Defaults:
     NO_DATA_VALUE: Final[int] = -9999
     DTYPE: Final[str] = 'float32'
     DEFAULT_CATEGORY_INCREMENT: Final[float] = 0.1
+    LOG_UPDATE_INTERVAL: Final[int] = 1000
