@@ -8,7 +8,7 @@ setup(
     name='geo_roughness_tool',
     version='0.0.1',
     packages=find_packages(),  # Automatically find all packages in the directory
-    url='https://github.com/lbatschelet/geo-rougness-tool',
+    url='https://github.com/lbatschelet/GeoRoughness-Tool',
     license='GPL-3.0',
     author='lbatschelet',
     description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
@@ -16,7 +16,7 @@ setup(
     python_requires='>=3.12',  # Specify Python version requirement
     entry_points={
         'console_scripts': [
-            'geo_roughness_tool=geo_roughness_tool.main:main',
+            'georough=geo_roughness_tool.main:main',
             'demgui=geo_roughness_tool.old_entry_points.demgui:main',
             'demcli=geo_roughness_tool.old_entry_points.demcli:main',
         ]
