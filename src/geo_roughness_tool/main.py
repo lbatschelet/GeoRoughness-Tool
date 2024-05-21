@@ -10,9 +10,9 @@ This module is the main entry point for the application.
 
 import sys
 
-from roughness_calculator.cli_main import CLIMain
-from roughness_calculator.gui_main import main as main_gui
-from roughness_calculator.log_config import setup_logging
+from cli_main import CLIMain
+from gui_main import main as main_gui
+from log_config import setup_logging
 
 
 def main():

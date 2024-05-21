@@ -10,8 +10,8 @@ import argparse
 import logging
 import sys
 
-from roughness_calculator.classes.application_driver import ApplicationDriver
-from roughness_calculator.classes.processing_parameters import ProcessingParameters
+from classes.application_driver import ApplicationDriver
+from classes.processing_parameters import ProcessingParameters
 
 logger = logging.getLogger(__name__)
 

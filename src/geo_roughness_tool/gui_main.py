@@ -17,16 +17,16 @@ import rasterio
 from PIL import Image
 from customtkinter import CTkScrollableFrame
 
-from roughness_calculator.classes.application_driver import ApplicationDriver
-from roughness_calculator.classes.processing_parameters import ProcessingParameters
-from roughness_calculator.classes.threshold_optimizer import ThresholdOptimizer
-from roughness_calculator.gui.defaults import DEFAULTS
-from roughness_calculator.gui.encapsulating_frame import EncapsulatingFrame
-from roughness_calculator.gui.footer_frame import FooterFrame
-from roughness_calculator.gui.header_frame import HeaderFrame
-from roughness_calculator.gui.parameter_input import ParameterFrame
-from roughness_calculator.gui.path_frame import PathFrame
-from roughness_calculator.gui.preview_image import PreviewImage
+from classes.application_driver import ApplicationDriver
+from classes.processing_parameters import ProcessingParameters
+from classes.threshold_optimizer import ThresholdOptimizer
+from gui.defaults import DEFAULTS
+from gui.encapsulating_frame import EncapsulatingFrame
+from gui.footer_frame import FooterFrame
+from gui.header_frame import HeaderFrame
+from gui.parameter_input import ParameterFrame
+from gui.path_frame import PathFrame
+from gui.preview_image import PreviewImage
 
 logger = logging.getLogger(__name__)
 

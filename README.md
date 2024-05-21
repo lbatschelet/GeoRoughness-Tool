@@ -1,6 +1,6 @@
-# DEM Surface Roughness Calculator
+# GeoRoughness Tool
 
-The DEM Roughness Calculator is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
+The GeoRoughness Tool is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
 
 ## Features
 
@@ -14,11 +14,11 @@ The DEM Roughness Calculator is a comprehensive tool designed for geospatial ana
 ## Documentation
 
 For more detailed information about the tool's capabilities and additional configurations, 
-please refer to the [Project's Wiki](https://github.com/lbatschelet/dem-roughness-calculator/wiki).
+please refer to the [Project's Wiki](../../wiki).
 
-## Installation Guide for DEM Roughness Calculator
+## Installation Guide for GeoRoughness Tool
 
-Follow these steps to install the DEM Roughness Calculator on your system. The program is available
+Follow these steps to install the GeoRoughness Tool on your system. The program is available
 as a Python package and can therefore be installed on any major operating system.
 
 > [!TIP]
@@ -28,7 +28,7 @@ as a Python package and can therefore be installed on any major operating system
 
 Before you begin, ensure that your system meets the following requirements:
 - **Python 3.12 or later**: The software is built to run with Python 3.12 and above.
-- **pip**: Python's package installer, used to install the DEM Roughness Calculator.
+- **pip**: Python's package installer, used to install the GeoRoughness Tool.
 
 ### Step-by-Step Installation
 
@@ -45,7 +45,7 @@ python3 --version
 pip3 --version
 ```
 
-#### 3. Install DEM Roughness Calculator
+#### 3. Install GeoRoughness Tool
 Install the package via pip:
 ```bash
 pip3 install dem-roughness-calculator

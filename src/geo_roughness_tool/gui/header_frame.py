@@ -3,7 +3,7 @@ from typing import Any
 
 import customtkinter as ctk
 
-from roughness_calculator.gui.defaults import DEFAULTS
+from src.geo_roughness_tool.gui.defaults import DEFAULTS
 
 # Set up logging
 logger = logging.getLogger(__name__)
