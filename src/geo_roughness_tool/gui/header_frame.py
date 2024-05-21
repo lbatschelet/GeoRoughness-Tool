@@ -1,4 +1,5 @@
 import logging
+import os
 import webbrowser
 from typing import Any
 from PIL import Image
