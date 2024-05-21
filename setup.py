@@ -1,19 +1,30 @@
+import os
 from setuptools import setup, find_packages
 
+# Read the contents of your README file
+def read(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
+        return f.read()
+
 # Read the contents of your requirements file
-with open('requirements.txt') as f:
-    requirements = f.read().splitlines()
+def read_requirements(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
+        return f.read().splitlines()
 
 setup(
-    name='georoughness-tool',
-    version='0.1.0',
+    name='geo-roughness-tool',
+    use_scm_version=True,  # Automatically set the version from Git tags
+    setup_requires=['setuptools_scm'],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
     license='MIT',
-    author='lbatschelet',
+    author='Lukas Batschelet',
+    author_email='your-email@example.com',  # Replace with your email
     description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
-    install_requires=requirements,  # Install dependencies from requirements.txt
+    long_description=read('README.md'),  # Use the README.md as the long description
+    long_description_content_type='text/markdown',
+    install_requires=read_requirements('requirements.txt'),  # Install dependencies from requirements.txt
     python_requires='>=3.12',  # Specify Python version requirement
     entry_points={
         'console_scripts': [
@@ -30,5 +41,11 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.12',
         'Topic :: Scientific/Engineering :: GIS'
-    ]
+    ],
+    project_urls={  # Optional
+        'Documentation': 'https://github.com/lbatschelet/GeoRoughness-Tool/wiki',
+        'Source': 'https://github.com/lbatschelet/GeoRoughness-Tool',
+        'Tracker': 'https://github.com/lbatschelet/GeoRoughness-Tool/issues',
+    },
+    keywords='GIS, GeoTIFF, DEM, surface roughness, geographic information systems',  # Add relevant keywords
 )
