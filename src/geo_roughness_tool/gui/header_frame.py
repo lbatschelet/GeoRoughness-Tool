@@ -53,13 +53,15 @@ class HeaderFrame(ctk.CTkFrame):
         self.grid_columnconfigure(1, weight=0)
         self.grid_rowconfigure([0,1], weight=1)
 
+
         # Load the original images
-        self.original_dark_image = Image.open("src/geo_roughness_tool/resources/GeoRoughness-Banner-lang-dark.png")
-        self.original_light_image = Image.open("src/geo_roughness_tool/resources/GeoRoughness-Banner-lang-Light.png")
+        script_dir = os.path.dirname(__file__)
+        self.original_light_image = Image.open(os.path.join(script_dir, "resources", "GeoRoughness-Banner-lang-Light.png"))
+        self.original_dark_image = Image.open(os.path.join(script_dir, "resources", "GeoRoughness-Banner-lang-dark.png"))
 
         # Create the banner label
         self.banner_label = ctk.CTkLabel(self, text="")
-        self.banner_label.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5), sticky="w", rowspan=2)
+        self.banner_label.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, 0), sticky="w")
         logger.info("Banner label created")
 
         # Create the help button

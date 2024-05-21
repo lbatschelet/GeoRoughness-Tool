@@ -1,4 +1,4 @@
-![GeoRoughness_Banner_dark.png](.github%2Fresources%2FGeoRoughness_Banner_dark.png#gh-dark-mode-only)
+![GeoRoughness_Banner_dark.png](../blob/master.github%2Fresources%2FGeoRoughness_Banner_dark.png#gh-dark-mode-only)
 ![GeoRoughness_Banner_light.png](.github%2Fresources%2FGeoRoughness_Banner_light.png#gh-light-mode-only)
 
 # GeoRoughness Tool

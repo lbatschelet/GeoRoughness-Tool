@@ -13,7 +13,7 @@ def read_requirements(file_name):
 
 setup(
     name='geo-roughness-tool',
-    version='0.2.0',
+    version='0.2.1',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
@@ -24,6 +24,7 @@ setup(
     long_description_content_type='text/markdown',
     install_requires=read_requirements('requirements.txt'),  # Install dependencies from requirements.txt
     python_requires='>=3.12',  # Specify Python version requirement
+    include_package_data=True,  # Include package data specified in MANIFEST.in
     entry_points={
         'console_scripts': [
             'georough=geo_roughness_tool.main:main',
