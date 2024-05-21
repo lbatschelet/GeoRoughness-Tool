@@ -72,7 +72,7 @@ class HeaderFrame(ctk.CTkFrame):
         self.toggle_button = ctk.CTkButton(self, text="Show Advanced", command=self.toggle_advanced_options)
         self.toggle_button.grid(row=0,
                                 column=1,
-                                padx=(DEFAULTS.PADX, DEFAULTS.PADY),
+                                padx=(DEFAULTS.PADX, DEFAULTS.PADY * 2),
                                 pady=(DEFAULTS.PADY, 0),
                                 sticky="e")
         logger.info("Toggle button created")

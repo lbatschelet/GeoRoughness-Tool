@@ -52,8 +52,8 @@ class GUIMain(ctk.CTk):
         }
 
         # Get screen width and height
-        screen_width = int(0.5 * self.winfo_screenwidth())
-        screen_height = int(0.5 * self.winfo_screenheight())
+        screen_width = int(0.65 * self.winfo_screenwidth())
+        screen_height = int(0.7 * self.winfo_screenheight())
 
         # Set window size to screen size
         self.geometry(f"{screen_width}x{screen_height}")
