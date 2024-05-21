@@ -13,7 +13,7 @@ from typing import List, Optional
 import numpy as np
 import logging
 
-from roughness_calculator.classes.defaults import Defaults
+from src.geo_roughness_tool.classes.defaults import Defaults
 
 logger = logging.getLogger(__name__)
 

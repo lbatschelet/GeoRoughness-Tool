@@ -7,8 +7,9 @@ import tkinter.scrolledtext as st
 
 import customtkinter as ctk
 
-from roughness_calculator.classes.defaults import Defaults
-from roughness_calculator.gui.defaults import DEFAULTS
+
+from defaults import DEFAULTS
+from src.geo_roughness_tool.log_config import Defaults
 
 # Set up logging
 logger = logging.getLogger(__name__)

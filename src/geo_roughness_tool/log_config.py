@@ -53,3 +53,7 @@ def setup_logging():
     console_handler.setFormatter(formatter)
     console_handler.setLevel(logging.INFO)
     logger.addHandler(console_handler)
+
+
+class Defaults:
+    LOG_UPDATE_INTERVAL = 1000

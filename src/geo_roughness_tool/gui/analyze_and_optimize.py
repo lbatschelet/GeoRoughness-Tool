@@ -1,8 +1,7 @@
 import customtkinter as ctk
-import tkinter as tk
 
-from roughness_calculator.gui.defaults import DEFAULTS
-from roughness_calculator.gui.path_frame import InputPathField
+from defaults import DEFAULTS
+from path_frame import InputPathField
 
 
 class AnalyzeAndOptimizeFrame(ctk.CTkFrame):
