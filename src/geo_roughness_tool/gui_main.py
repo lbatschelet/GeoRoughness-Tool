@@ -36,6 +36,7 @@ class GUIMain(ctk.CTk):
 
         self.driver = None
         self.title("GeoRoughness Tool")
+        self.show_advanced_options = False
 
         self.preview_image = None
 
@@ -63,7 +64,7 @@ class GUIMain(ctk.CTk):
 
         # Make the GUI responsive
         self.scrolled_frame.grid_columnconfigure(0, weight=1)
-        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3, 4], weight=1)
+        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3, 4, 5], weight=1)
 
         self.header_frame = HeaderFrame(self.scrolled_frame, self)
         self.header_frame.grid(row=0,
@@ -91,6 +92,11 @@ class GUIMain(ctk.CTk):
         self.footer_frame.grid(row=4,
                                column=0,
                                sticky="nsew")
+
+    def toggle_advanced_options(self):
+        self.show_advanced_options = not self.show_advanced_options
+        self.parameter_frame.toggle_advanced_options(self.show_advanced_options)
+        self.path_frame.toggle_advanced_options(self.show_advanced_options)
 
     def start_processing(self) -> None:
         """

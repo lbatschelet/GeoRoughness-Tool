@@ -80,7 +80,6 @@ class ParameterFrame(ctk.CTkFrame):
                                           pady=DEFAULTS.PADY,
                                           sticky="ew")
 
-        # Create a new button
         self.analyze_and_optimize_button = ctk.CTkButton(self.button_frame,
                                                          text="Analyze and optimize...",
                                                          command=self.toggle_frame, state=tk.DISABLED)
@@ -98,6 +97,10 @@ class ParameterFrame(ctk.CTkFrame):
                                    pady=DEFAULTS.PADY,
                                    sticky="ew")
 
+        # Initially hide advanced options
+        self.band_number_field.grid_remove()
+        self.high_value_threshold_field.grid_remove()
+
         # Create a new frame and initially hide it
         self.analyze_and_optimize_frame = AnalyzeAndOptimizeFrame(self, main_gui)
         self.analyze_and_optimize_frame.grid(row=3,
@@ -107,6 +110,14 @@ class ParameterFrame(ctk.CTkFrame):
                                              pady=(0, DEFAULTS.PADY),
                                              sticky="ew")
         self.analyze_and_optimize_frame.grid_remove()
+
+    def toggle_advanced_options(self, show):
+        if show:
+            self.band_number_field.grid()
+            self.high_value_threshold_field.grid()
+        else:
+            self.band_number_field.grid_remove()
+            self.high_value_threshold_field.grid_remove()
 
     def toggle_frame(self):
         if self.analyze_and_optimize_frame.winfo_viewable():

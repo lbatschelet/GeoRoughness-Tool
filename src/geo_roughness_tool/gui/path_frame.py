@@ -12,11 +12,12 @@ class PathFrame(ctk.CTkFrame):
     def __init__(self, parent, main_gui, **kwargs):
         super().__init__(parent, **kwargs)
 
+        self.main_gui = main_gui
+
         # Make the GUI responsive
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
-        self.grid_rowconfigure(2, weight=1)
 
         self.input_path_field = InputPathField(self, main_gui, "Input Path")
         self.input_path_field.grid(row=0,
@@ -29,14 +30,22 @@ class PathFrame(ctk.CTkFrame):
         self.output_dir_field.grid(row=1,
                                    column=0,
                                    padx=DEFAULTS.PADX,
-                                   pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY* 0.5),
+                                   pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                    sticky="nsew")
+        self.output_dir_field.grid_remove()  # Initially hide the output directory field
+
+    def toggle_advanced_options(self, show):
+        if show:
+            self.output_dir_field.grid()
+        else:
+            self.output_dir_field.grid_remove()
 
     def get_parameters(self):
         return {
             "input_path": self.input_path_field.get(),
             "output_dir": self.output_dir_field.get() or None
         }
+
 
 
 class PathField(ctk.CTkFrame, abc.ABC):

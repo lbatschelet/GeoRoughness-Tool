@@ -22,7 +22,6 @@ class HeaderFrame(ctk.CTkFrame):
     description_label : ctk.CTkLabel
         The label that displays the description.
     """
-
     def __init__(self, parent: ctk.CTk, main_gui: Any, **kwargs: Any):
         """
         Constructs all the necessary attributes for the HeaderFrame object.
@@ -39,6 +38,11 @@ class HeaderFrame(ctk.CTkFrame):
         super().__init__(parent, **kwargs)
         logger.info("Initializing HeaderFrame")
         self.main_gui = main_gui
+
+        # Configure the grid
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
+        self.grid_rowconfigure([0, 1], weight=1)
 
         # Create the title label
         self.title_label = (
@@ -60,6 +64,23 @@ class HeaderFrame(ctk.CTkFrame):
         self.description_label.grid(row=1,
                                     column=0,
                                     padx=DEFAULTS.PADX,
-                                    pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY* 0.5),
+                                    pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                     sticky="w")
         logger.info("Description label created")
+
+        # Create the toggle button
+        self.toggle_button = ctk.CTkButton(self, text="Show Advanced", command=self.toggle_advanced_options)
+        self.toggle_button.grid(row=0,
+                                column=1,
+                                padx=(DEFAULTS.PADX, DEFAULTS.PADY),
+                                pady=(DEFAULTS.PADY, 0),
+                                sticky="e")
+        logger.info("Toggle button created")
+
+    def toggle_advanced_options(self):
+        self.main_gui.toggle_advanced_options()
+        if self.main_gui.show_advanced_options:
+            self.toggle_button.configure(text="Hide Advanced")
+        else:
+            self.toggle_button.configure(text="Show Advanced")
+
