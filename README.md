@@ -1,3 +1,6 @@
+![GeoRoughness Banner.png](.github%2Fresources%2FGeoRoughness%20Banner.png#gh-light-mode-only)
+![GeoRoughness Banner_dark.png](.github%2Fresources%2FGeoRoughness%20Banner_dark.png#gh-dark-mode-only)
+
 # GeoRoughness Tool
 
 The GeoRoughness Tool is a comprehensive tool designed for geospatial analysis, allowing users to calculate the surface roughness of Digital Elevation Models (DEMs) using the standard deviation of height within a specified window size. The tool is equipped with both a graphical user interface (GUI) and a command-line interface (CLI), making it versatile for different user preferences and workflows.
