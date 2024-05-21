@@ -57,7 +57,7 @@ class FooterFrame(ctk.CTkFrame):
         self.help_button.grid(row=0,
                               column=0,
                               padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                              pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                              pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                               sticky="nsew")
 
         # Create the log button
@@ -65,7 +65,7 @@ class FooterFrame(ctk.CTkFrame):
         self.log_button.grid(row=0,
                              column=3,
                              padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
-                             pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                             pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                              sticky="nsew")
 
         # Create the info label

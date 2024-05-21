@@ -5,10 +5,10 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='georoughness-tool',  # Use a more conventional package name
-    version='0.0.1',
-    packages=find_packages(where='src'),  # Specify the source directory
-    package_dir={'': 'src'},  # Tell setuptools that the packages are under the src directory
+    name='georoughness-tool',
+    version='0.1.0',
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
     license='MIT',
     author='lbatschelet',

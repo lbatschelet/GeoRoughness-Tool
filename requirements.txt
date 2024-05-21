@@ -4,3 +4,7 @@ numpy>=1.26.4
 Pillow>=10.3.0
 rasterio>=1.3.10
 setuptools>=69.5.1
+
+geo_roughness_tool~=0.0.1
+Markdown~=3.6
+tkinterhtml~=0.7

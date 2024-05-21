@@ -1,10 +1,9 @@
 import tkinter as tk
-
 import customtkinter as ctk
+import webbrowser
 
 from .analyze_and_optimize import AnalyzeAndOptimizeFrame
 from .defaults import DEFAULTS
-
 
 class ParameterFrame(ctk.CTkFrame):
     def __init__(self, parent, main_gui, **kwargs):
@@ -18,31 +17,30 @@ class ParameterFrame(ctk.CTkFrame):
 
         self.window_size_field = (
             ParameterInput(self,
-                           "Window size",
-                           "The size of the window to use for processing. Defaults to 1.0.",
+                           "Window Size (meters)",
+                           "https://github.com/lbatschelet/GeoRoughness-Tool/wiki/Parameter-Explanation#window-size-meters",
                            self.main_gui))
         self.window_size_field.grid(row=0,
                                     column=0,
                                     padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                                    pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                                    pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                     sticky="nsew")
 
         self.category_thresholds_field = (
             ParameterInput(self,
-                           "Category Thresholds",
-                           "List of thresholds for categorizing data. "
-                           "First category starts from first value. (Optional)",
+                           "Categorical Thresholds",
+                           "https://github.com/lbatschelet/GeoRoughness-Tool/wiki/Parameter-Explanation#categorical-thresholds",
                            self.main_gui))
         self.category_thresholds_field.grid(row=0,
                                             column=1,
                                             padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
-                                            pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                                            pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                             sticky="nsew")
 
         self.band_number_field = (
             ParameterInput(self,
                            "Band Number",
-                           "The band number to use for processing. Defaults to 1.",
+                           "https://github.com/lbatschelet/GeoRoughness-Tool/wiki/Parameter-Explanation#band-number",
                            self.main_gui))
         self.band_number_field.grid(row=1,
                                     column=0,
@@ -52,8 +50,8 @@ class ParameterFrame(ctk.CTkFrame):
 
         self.high_value_threshold_field = (
             ParameterInput(self,
-                           "High value threshold",
-                           "Used to filter out high values at the borders of the data. Defaults to 10.",
+                           "High Value Threshold",
+                           "https://github.com/lbatschelet/GeoRoughness-Tool/wiki/Parameter-Explanation#high-value-threshold",
                            self.main_gui))
         self.high_value_threshold_field.grid(row=1,
                                              column=1,
@@ -67,7 +65,7 @@ class ParameterFrame(ctk.CTkFrame):
                                column=0,
                                columnspan=2,
                                padx=DEFAULTS.PADX,
-                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                sticky="ew")
         # Set equal weights for each column in the button frame
         self.button_frame.grid_columnconfigure([0, 1, 2], weight=1)
@@ -80,7 +78,6 @@ class ParameterFrame(ctk.CTkFrame):
                                           pady=DEFAULTS.PADY,
                                           sticky="ew")
 
-        # Create a new button
         self.analyze_and_optimize_button = ctk.CTkButton(self.button_frame,
                                                          text="Analyze and optimize...",
                                                          command=self.toggle_frame, state=tk.DISABLED)
@@ -98,6 +95,10 @@ class ParameterFrame(ctk.CTkFrame):
                                    pady=DEFAULTS.PADY,
                                    sticky="ew")
 
+        # Initially hide advanced options
+        self.band_number_field.grid_remove()
+        self.high_value_threshold_field.grid_remove()
+
         # Create a new frame and initially hide it
         self.analyze_and_optimize_frame = AnalyzeAndOptimizeFrame(self, main_gui)
         self.analyze_and_optimize_frame.grid(row=3,
@@ -107,6 +108,14 @@ class ParameterFrame(ctk.CTkFrame):
                                              pady=(0, DEFAULTS.PADY),
                                              sticky="ew")
         self.analyze_and_optimize_frame.grid_remove()
+
+    def toggle_advanced_options(self, show):
+        if show:
+            self.band_number_field.grid()
+            self.high_value_threshold_field.grid()
+        else:
+            self.band_number_field.grid_remove()
+            self.high_value_threshold_field.grid_remove()
 
     def toggle_frame(self):
         if self.analyze_and_optimize_frame.winfo_viewable():
@@ -124,15 +133,11 @@ class ParameterFrame(ctk.CTkFrame):
         }
 
 
-class DescriptionField(ctk.CTkLabel):
-    def __init__(self, parent, text, **kwargs):
-        super().__init__(parent, text=text, **kwargs)
-
-
 class ParameterInput(ctk.CTkFrame):
-    def __init__(self, parent, name, description, main_gui, **kwargs):
+    def __init__(self, parent, name, url, main_gui, **kwargs):
         super().__init__(parent, **kwargs)
         self.main_gui = main_gui
+        self.url = url
         self.grid_columnconfigure([0, 1], weight=1)
 
         self.name_label = ctk.CTkLabel(self, text=name, font=self.main_gui.fonts['h3'])
@@ -142,7 +147,7 @@ class ParameterInput(ctk.CTkFrame):
                              pady=DEFAULTS.PADY,
                              sticky="w")
 
-        self.description_button = ctk.CTkButton(self, text="Description", command=self.show_description)
+        self.description_button = ctk.CTkButton(self, text="Description", command=self.open_url)
         self.description_button.grid(row=0,
                                      column=1,
                                      padx=(DEFAULTS.PADX * 0.25, DEFAULTS.PADX),
@@ -157,20 +162,8 @@ class ParameterInput(ctk.CTkFrame):
                         pady=(0, DEFAULTS.PADY),
                         sticky="ew")
 
-        self.description_field = DescriptionField(self, description)
-        self.description_field.grid(row=2,
-                                    column=0,
-                                    columnspan=2,
-                                    padx=(DEFAULTS.PADX, DEFAULTS.PADX),
-                                    pady=(0, DEFAULTS.PADY),
-                                    sticky="w")
-        self.description_field.grid_remove()
-
-    def show_description(self):
-        if self.description_field.winfo_viewable():
-            self.description_field.grid_remove()
-        else:
-            self.description_field.grid()
+    def open_url(self):
+        webbrowser.open(self.url)
 
     def get(self):
         return self.entry.get()
