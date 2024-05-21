@@ -13,13 +13,12 @@ def read_requirements(file_name):
 
 setup(
     name='geo-roughness-tool',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
     license='MIT',
     author='Lukas Batschelet',
-    author_email='your-email@example.com',  # Replace with your email
     description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
     long_description=read('README.md'),  # Use the README.md as the long description
     long_description_content_type='text/markdown',
