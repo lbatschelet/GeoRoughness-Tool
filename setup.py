@@ -13,8 +13,7 @@ def read_requirements(file_name):
 
 setup(
     name='geo-roughness-tool',
-    use_scm_version=True,  # Automatically set the version from Git tags
-    setup_requires=['setuptools_scm'],
+    version='0.1.1',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
