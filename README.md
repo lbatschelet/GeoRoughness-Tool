@@ -48,7 +48,7 @@ pip3 --version
 #### 3. Install GeoRoughness Tool
 Install the package via pip:
 ```bash
-pip3 install dem-roughness-calculator
+pip3 install geo-roughness-tool
 ```
 
 ## Usage
