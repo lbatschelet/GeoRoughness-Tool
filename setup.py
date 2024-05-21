@@ -5,11 +5,12 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='geo_roughness_tool',
+    name='georoughness-tool',  # Use a more conventional package name
     version='0.0.1',
-    packages=find_packages(),  # Automatically find all packages in the directory
+    packages=find_packages(where='src'),  # Specify the source directory
+    package_dir={'': 'src'},  # Tell setuptools that the packages are under the src directory
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
-    license='GPL-3.0',
+    license='MIT',
     author='lbatschelet',
     description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
     install_requires=requirements,  # Install dependencies from requirements.txt
@@ -17,12 +18,12 @@ setup(
     entry_points={
         'console_scripts': [
             'georough=geo_roughness_tool.main:main',
-            'demgui=geo_roughness_tool.old_entry_points.demgui:main',
-            'demcli=geo_roughness_tool.old_entry_points.demcli:main',
+            'dingsbums=geo_roughness_tool.main:main',
+            'giraffe=geo_roughness_tool.main:main',
         ]
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 4 - Beta',  # Update as appropriate for your release cycle
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

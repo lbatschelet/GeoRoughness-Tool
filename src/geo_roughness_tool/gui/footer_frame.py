@@ -9,7 +9,7 @@ import customtkinter as ctk
 
 
 from .defaults import DEFAULTS
-from src.geo_roughness_tool.log_config import Defaults
+from geo_roughness_tool.log_config import Defaults
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -52,7 +52,7 @@ class FooterFrame(ctk.CTkFrame):
 
         # Create the help button
         self.help_button = WebsiteButton(self,
-                                         "https://github.com/lbatschelet/dem-roughness-calculator",
+                                         "https://github.com/lbatschelet/GeoRoughness-Tool",
                                          text="Documentation")
         self.help_button.grid(row=0,
                               column=0,
@@ -71,7 +71,7 @@ class FooterFrame(ctk.CTkFrame):
         # Create the info label
         self.info_label = (
             ctk.CTkLabel(self,
-                         text="Surface Roughness Calculator - © 2024 L. Batschelet, F. Mohaupt, S. Röthlisberger. "
+                         text="GeoRoughness Tool - © 2024 L. Batschelet, F. Mohaupt, S. Röthlisberger. "
                               "Licensed under the MIT License.",
                          font=self.main_gui.fonts['small']))
         self.info_label.grid(row=1,
@@ -142,6 +142,10 @@ class LogWindow(tk.Toplevel):
         self.text_area = st.ScrolledText(self, wrap=tk.WORD)
         self.text_area.pack(fill=tk.BOTH, expand=True)
 
+        # Bind the mouse wheel to the text area to handle scrolling independently
+        self.text_area.bind("<Enter>", self._bind_mouse_wheel)
+        self.text_area.bind("<Leave>", self._unbind_mouse_wheel)
+
         # Get the log file handler from the root logger
         root_logger = logging.getLogger()
         self.file_handler = next((handler for handler in root_logger.handlers if isinstance(handler, logging.FileHandler)), None)
@@ -149,24 +153,57 @@ class LogWindow(tk.Toplevel):
         # Set the state to disabled to make the text read-only
         self.text_area.config(state=tk.DISABLED)
 
+        # Store the last log content
+        self.last_log_content = ""
+
         # Start the log update loop
         self.update_logs()
+
+    def _bind_mouse_wheel(self, event):
+        self.text_area.bind_all("<MouseWheel>", self._on_mouse_wheel)
+        self.text_area.bind_all("<Button-4>", self._on_mouse_wheel)  # For Linux systems
+        self.text_area.bind_all("<Button-5>", self._on_mouse_wheel)  # For Linux systems
+
+    def _unbind_mouse_wheel(self, event):
+        self.text_area.unbind_all("<MouseWheel>")
+        self.text_area.unbind_all("<Button-4>")  # For Linux systems
+        self.text_area.unbind_all("<Button-5>")  # For Linux systems
+
+    def _on_mouse_wheel(self, event):
+        if event.num == 4:  # For Linux systems
+            self.text_area.yview_scroll(-1, "units")
+        elif event.num == 5:  # For Linux systems
+            self.text_area.yview_scroll(1, "units")
+        else:  # For Windows and Mac systems
+            self.text_area.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def update_logs(self):
         """
         Updates the logs in the text area.
         """
         if self.file_handler:
-            # Clear the text area
-            self.text_area.config(state=tk.NORMAL)
-            self.text_area.delete(1.0, tk.END)
+            # Save the current scroll position
+            vert_scroll_position = self.text_area.yview()
+            horiz_scroll_position = self.text_area.xview()
 
-            # Read the log file and insert its contents into the text area
+            # Read the log file
             with open(self.file_handler.baseFilename, "r") as log_file:
-                self.text_area.insert(tk.END, log_file.read())
+                log_content = log_file.read()
 
-            # Set the state to disabled to make the text read-only
-            self.text_area.config(state=tk.DISABLED)
+            # Update the text area only if the content has changed
+            if log_content != self.last_log_content:
+                self.last_log_content = log_content
+
+                # Clear the text area and insert new logs
+                self.text_area.config(state=tk.NORMAL)
+                self.text_area.delete(1.0, tk.END)
+                self.text_area.insert(tk.END, log_content)
+                self.text_area.config(state=tk.DISABLED)
+
+                # Restore the scroll position
+                self.text_area.yview_moveto(vert_scroll_position[0])
+                self.text_area.xview_moveto(horiz_scroll_position[0])
 
         # Schedule the next update
         self.after(Defaults.LOG_UPDATE_INTERVAL, self.update_logs)
+

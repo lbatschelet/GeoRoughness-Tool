@@ -10,8 +10,8 @@ import argparse
 import logging
 import sys
 
-from classes.application_driver import ApplicationDriver
-from classes.processing_parameters import ProcessingParameters
+from .classes.application_driver import ApplicationDriver
+from .classes.processing_parameters import ProcessingParameters
 
 logger = logging.getLogger(__name__)
 

@@ -43,7 +43,7 @@ class HeaderFrame(ctk.CTkFrame):
         # Create the title label
         self.title_label = (
             ctk.CTkLabel(self,
-                         text="Surface Roughness Calculator",
+                         text="GeoRoughness Tool",
                          font=self.main_gui.fonts['h1']))
         self.title_label.grid(row=0,
                               column=0,
@@ -55,7 +55,7 @@ class HeaderFrame(ctk.CTkFrame):
         # Create the description label
         self.description_label = (
             ctk.CTkLabel(self,
-                         text="This program calculates the surface roughness of a DEM.",
+                         text="Program to calculate and categorize surface Roughness.",
                          font=self.main_gui.fonts['body']))
         self.description_label.grid(row=1,
                                     column=0,

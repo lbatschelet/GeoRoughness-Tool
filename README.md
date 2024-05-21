@@ -22,7 +22,7 @@ Follow these steps to install the GeoRoughness Tool on your system. The program 
 as a Python package and can therefore be installed on any major operating system.
 
 > [!TIP]
-> If you are not that experienced using command line tools or experience any problems during installation, please refer to the [Getting Started Wiki Page](https://github.com/lbatschelet/dem-roughness-calculator/wiki/Getting-Started) for a more detailed and OS specific installation guide.
+> If you are not that experienced using command line tools or experience any problems during installation, please refer to the [Getting Started Wiki Page](../../wiki/Getting-Started) for a more detailed and OS specific installation guide.
 
 ### Prerequisites
 
@@ -93,7 +93,7 @@ georough --input_path "path/to/input.tif" --output_dir "path/to/output" --window
 
 ## Contributing
 
-We welcome contributions! If you have suggestions or want to report bugs, please use the [Issues](https://github.com/lbatschelet/dem-roughness-calculator/issues) section of this repository.
+We welcome contributions! If you have suggestions or want to report bugs, please use the [Issues](../../issues) section of this repository.
 
 ## License
 

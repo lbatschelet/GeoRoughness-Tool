@@ -10,9 +10,9 @@ This module is the main entry point for the application.
 
 import sys
 
-from cli_main import CLIMain
-from gui_main import main as main_gui
-from log_config import setup_logging
+from .cli_main import CLIMain
+from .gui_main import main as main_gui
+from .log_config import setup_logging
 
 
 def main():

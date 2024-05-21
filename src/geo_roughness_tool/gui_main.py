@@ -17,16 +17,16 @@ import rasterio
 from PIL import Image
 from customtkinter import CTkScrollableFrame
 
-from classes.application_driver import ApplicationDriver
-from classes.processing_parameters import ProcessingParameters
-from classes.threshold_optimizer import ThresholdOptimizer
-from gui.defaults import DEFAULTS
-from gui.encapsulating_frame import EncapsulatingFrame
-from gui.footer_frame import FooterFrame
-from gui.header_frame import HeaderFrame
-from gui.parameter_input import ParameterFrame
-from gui.path_frame import PathFrame
-from gui.preview_image import PreviewImage
+from .classes.application_driver import ApplicationDriver
+from .classes.processing_parameters import ProcessingParameters
+from .classes.threshold_optimizer import ThresholdOptimizer
+from .gui.defaults import DEFAULTS
+from .gui.encapsulating_frame import EncapsulatingFrame
+from .gui.footer_frame import FooterFrame
+from .gui.header_frame import HeaderFrame
+from .gui.parameter_input import ParameterFrame
+from .gui.path_frame import PathFrame
+from .gui.preview_image import PreviewImage
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class GUIMain(ctk.CTk):
         super().__init__()
 
         self.driver = None
-        self.title("Surface Roughness Calculator")
+        self.title("GeoRoughness Tool")
 
         self.preview_image = None
 
