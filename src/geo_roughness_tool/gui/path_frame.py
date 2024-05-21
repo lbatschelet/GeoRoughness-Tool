@@ -5,7 +5,7 @@ from tkinter import filedialog
 
 import customtkinter as ctk
 
-from src.geo_roughness_tool.gui.defaults import DEFAULTS
+from .defaults import DEFAULTS
 
 
 class PathFrame(ctk.CTkFrame):

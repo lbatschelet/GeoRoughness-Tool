@@ -2,8 +2,8 @@ import tkinter as tk
 
 import customtkinter as ctk
 
-from src.geo_roughness_tool.gui.analyze_and_optimize import AnalyzeAndOptimizeFrame
-from src.geo_roughness_tool.gui.defaults import DEFAULTS
+from .analyze_and_optimize import AnalyzeAndOptimizeFrame
+from .defaults import DEFAULTS
 
 
 class ParameterFrame(ctk.CTkFrame):

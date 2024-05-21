@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from src.geo_roughness_tool.gui.defaults import DEFAULTS
-from src.geo_roughness_tool.gui.path_frame import InputPathField
+from .defaults import DEFAULTS
+from .path_frame import InputPathField
 
 
 class AnalyzeAndOptimizeFrame(ctk.CTkFrame):
