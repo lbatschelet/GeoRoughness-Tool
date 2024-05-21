@@ -24,7 +24,7 @@ class ParameterFrame(ctk.CTkFrame):
         self.window_size_field.grid(row=0,
                                     column=0,
                                     padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                                    pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                                    pady=(DEFAULTS.PADY* 0.5, DEFAULTS.PADY * 0.5),
                                     sticky="nsew")
 
         self.category_thresholds_field = (
@@ -36,7 +36,7 @@ class ParameterFrame(ctk.CTkFrame):
         self.category_thresholds_field.grid(row=0,
                                             column=1,
                                             padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
-                                            pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                                            pady=(DEFAULTS.PADY* 0.5, DEFAULTS.PADY * 0.5),
                                             sticky="nsew")
 
         self.band_number_field = (
@@ -67,7 +67,7 @@ class ParameterFrame(ctk.CTkFrame):
                                column=0,
                                columnspan=2,
                                padx=DEFAULTS.PADX,
-                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                sticky="ew")
         # Set equal weights for each column in the button frame
         self.button_frame.grid_columnconfigure([0, 1, 2], weight=1)

@@ -21,7 +21,6 @@ from .classes.application_driver import ApplicationDriver
 from .classes.processing_parameters import ProcessingParameters
 from .classes.threshold_optimizer import ThresholdOptimizer
 from .gui.defaults import DEFAULTS
-from .gui.encapsulating_frame import EncapsulatingFrame
 from .gui.footer_frame import FooterFrame
 from .gui.header_frame import HeaderFrame
 from .gui.parameter_input import ParameterFrame
@@ -64,41 +63,33 @@ class GUIMain(ctk.CTk):
 
         # Make the GUI responsive
         self.scrolled_frame.grid_columnconfigure(0, weight=1)
-        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3], weight=1)
+        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3, 4], weight=1)
 
-        self.header_frame = EncapsulatingFrame(self.scrolled_frame, HeaderFrame, self)
+        self.header_frame = HeaderFrame(self.scrolled_frame, self)
         self.header_frame.grid(row=0,
                                column=0,
-                               padx=DEFAULTS.PADX,
-                               pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
                                sticky="nsew")
 
-        self.path_frame = EncapsulatingFrame(self.scrolled_frame, PathFrame, self)
+        self.path_frame = PathFrame(self.scrolled_frame, self)
         self.path_frame.grid(row=1,
                              column=0,
-                             padx=DEFAULTS.PADX,
-                             pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                              sticky="nsew")
 
-        self.parameter_frame = EncapsulatingFrame(self.scrolled_frame, ParameterFrame, self)
+        self.parameter_frame = ParameterFrame(self.scrolled_frame, self)
         self.parameter_frame.grid(row=2,
                                   column=0,
-                                  padx=DEFAULTS.PADX,
-                                  pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                   sticky="nsew")
 
-        self.preview_frame = EncapsulatingFrame(self.scrolled_frame, PreviewImage, self, self.preview_image)
+        self.preview_frame = PreviewImage(self.scrolled_frame, self, self.preview_image)
         self.preview_frame.grid(row=3,
                                 column=0,
                                 padx=DEFAULTS.PADX,
                                 pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                 sticky="nsew")
 
-        self.footer_frame = EncapsulatingFrame(self.scrolled_frame, FooterFrame, self)
+        self.footer_frame = FooterFrame(self.scrolled_frame, self)
         self.footer_frame.grid(row=4,
                                column=0,
-                               padx=DEFAULTS.PADX,
-                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
                                sticky="nsew")
 
     def start_processing(self) -> None:
@@ -137,9 +128,9 @@ class GUIMain(ctk.CTk):
             if preview:
                 self.display_preview(preview)
                 if 'category_thresholds' in filtered_params:
-                    self.parameter_frame.child_frame.analyze_and_optimize_button.configure(state=tk.NORMAL)
+                    self.parameter_frame.analyze_and_optimize_button.configure(state=tk.NORMAL)
                 if 'output_dir' not in filtered_params:
-                    self.parameter_frame.child_frame.save_file_button.configure(state=tk.NORMAL)
+                    self.parameter_frame.save_file_button.configure(state=tk.NORMAL)
             else:
                 messagebox.showerror("Display Error", "No preview available.")
 
@@ -159,7 +150,7 @@ class GUIMain(ctk.CTk):
         Args:
             preview: The preview image to display.
         """
-        self.preview_frame.child_frame.display_preview(preview)
+        self.preview_frame.display_preview(preview)
 
     def save_image(self) -> None:
         """
@@ -214,7 +205,7 @@ class GUIMain(ctk.CTk):
         quality_string = "{:.2f}".format(quality * 100)
 
         # Update the quality label in the parameter frame
-        self.parameter_frame.child_frame.analyze_and_optimize_frame.calculate_quality_frame.update_label(quality_string)
+        self.parameter_frame.analyze_and_optimize_frame.calculate_quality_frame.update_label(quality_string)
 
         return quality
 
@@ -247,7 +238,7 @@ class GUIMain(ctk.CTk):
                 manual_data, uncategorized_calculated_data, (len(category_thresholds) + 1))
 
             optimized_thresholds_string = ", ".join("{:.3f}".format(threshold) for threshold in optimized_thresholds)
-            self.parameter_frame.child_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
+            self.parameter_frame.analyze_and_optimize_frame.optimize_thresholds_frame.update_label(
                 optimized_thresholds_string)
 
             return optimized_thresholds

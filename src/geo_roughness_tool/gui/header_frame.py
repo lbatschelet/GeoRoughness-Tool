@@ -60,6 +60,6 @@ class HeaderFrame(ctk.CTkFrame):
         self.description_label.grid(row=1,
                                     column=0,
                                     padx=DEFAULTS.PADX,
-                                    pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                                    pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY* 0.5),
                                     sticky="w")
         logger.info("Description label created")
