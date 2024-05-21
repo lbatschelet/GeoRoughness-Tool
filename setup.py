@@ -13,7 +13,7 @@ def read_requirements(file_name):
 
 setup(
     name='geo-roughness-tool',
-    version='0.1.2',
+    version='0.2.0',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
