@@ -18,6 +18,8 @@ import customtkinter as ctk
 import rasterio
 from PIL import Image, ImageTk
 from customtkinter import CTkScrollableFrame
+from screeninfo import get_monitors
+
 
 from .classes.application_driver import ApplicationDriver
 from .classes.processing_parameters import ProcessingParameters
@@ -62,11 +64,22 @@ class GUIMain(ctk.CTk):
             dark_icon_path = os.path.join(script_dir, "gui/resources", "app_icon_dark.png")
             self.set_icon(light_icon_path, dark_icon_path)
 
-        # Get screen width and height
-        screen_width = int(0.65 * self.winfo_screenwidth())
-        screen_height = int(0.7 * self.winfo_screenheight())
+        # Get screen information
+        monitors = get_monitors()
+        primary_monitor = monitors[0]  # Assuming the primary monitor is the first one
 
-        # Set window size to screen size
+        screen_width = int(0.65 * primary_monitor.width)
+        screen_height = int(0.7 * primary_monitor.height)
+
+        # Define minimum and maximum window sizes
+        min_width, min_height = 800, 600
+        max_width, max_height = 1600, 900
+
+        # Adjust the window size within the defined limits
+        screen_width = min(max(screen_width, min_width), max_width)
+        screen_height = min(max(screen_height, min_height), max_height)
+
+        # Set window size
         self.geometry(f"{screen_width}x{screen_height}")
 
         # Create a ScrolledFrame

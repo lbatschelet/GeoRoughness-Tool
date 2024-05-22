@@ -9,7 +9,6 @@ import os
 # Set up logging
 logger = logging.getLogger(__name__)
 
-
 class HeaderFrame(ctk.CTkFrame):
     """
     A class used to create the header frame of the GUI.
@@ -55,7 +54,6 @@ class HeaderFrame(ctk.CTkFrame):
         self.grid_columnconfigure(1, weight=0)
         self.grid_rowconfigure([0,1], weight=1)
 
-
         # Load the original images
         script_dir = os.path.dirname(__file__)
         self.original_light_image = Image.open(os.path.join(script_dir, "resources", "GeoRoughness-Banner-lang-Light.png"))
@@ -90,6 +88,10 @@ class HeaderFrame(ctk.CTkFrame):
 
         # Calculate the new size
         new_width = int(width * 0.6)
+        max_width = 600  # Set a maximum width for the banner
+        if new_width > max_width:
+            new_width = max_width
+
         aspect_ratio = self.original_light_image.width / self.original_light_image.height
         new_height = int(new_width / aspect_ratio)
 
