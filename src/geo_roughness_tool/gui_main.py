@@ -9,12 +9,14 @@ This module contains the main GUI class for the Surface Roughness Calculator app
 """
 
 import logging
+import os
 import tkinter as tk
+import platform
 from tkinter import messagebox, filedialog
 
 import customtkinter as ctk
 import rasterio
-from PIL import Image
+from PIL import Image, ImageTk
 from customtkinter import CTkScrollableFrame
 
 from .classes.application_driver import ApplicationDriver
@@ -50,6 +52,15 @@ class GUIMain(ctk.CTk):
             "tiny": ctk.CTkFont(size=8),
             "monospace": ctk.CTkFont(family="Courier New", size=12)
         }
+
+        # Set window icon
+        script_dir = os.path.dirname(__file__)
+        if platform.system() == "Windows":
+            self.iconbitmap(os.path.join(script_dir, "gui/resources", "app_icon_dark.ico"))
+        else:
+            light_icon_path = os.path.join(script_dir, "gui/resources", "app_icon_light.png")
+            dark_icon_path = os.path.join(script_dir, "gui/resources", "app_icon_dark.png")
+            self.set_icon(light_icon_path, dark_icon_path)
 
         # Get screen width and height
         screen_width = int(0.65 * self.winfo_screenwidth())
@@ -92,6 +103,28 @@ class GUIMain(ctk.CTk):
         self.footer_frame.grid(row=4,
                                column=0,
                                sticky="nsew")
+
+    def set_icon(self, light_icon_path, dark_icon_path):
+        if self.get_appearance_mode() == "Dark":
+            icon_image = Image.open(dark_icon_path)
+        else:
+            icon_image = Image.open(light_icon_path)
+
+        icon_photo = ImageTk.PhotoImage(icon_image)
+        self.iconphoto(True, icon_photo)
+
+    def bind_theme_change_event(self):
+        def on_theme_change(event):
+            if platform.system() != "Windows":
+                self.set_icon(
+                    os.path.join(os.path.dirname(__file__), "resources", "app_icon_light.png"),
+                    os.path.join(os.path.dirname(__file__), "resources", "app_icon_dark.png")
+                )
+
+        self.bind('<<ThemeChanged>>', on_theme_change)
+
+    def get_appearance_mode(self):
+        return ctk.get_appearance_mode()
 
     def toggle_advanced_options(self):
         self.show_advanced_options = not self.show_advanced_options

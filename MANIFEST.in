@@ -1,1 +1,2 @@
 include src/geo_roughness_tool/gui/resources/*.png
+include src/geo_roughness_tool/gui/resources/*.ico
