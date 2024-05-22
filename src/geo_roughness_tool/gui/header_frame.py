@@ -73,7 +73,7 @@ class HeaderFrame(ctk.CTkFrame):
 
         # Create the toggle button
         self.toggle_button = ctk.CTkButton(self, text="Show Advanced", command=self.toggle_advanced_options)
-        self.toggle_button.grid(row=1, column=1, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 2), pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="e")
+        self.toggle_button.grid(row=1, column=1, padx=(DEFAULTS.PADX, DEFAULTS.PADX * 2), pady=(DEFAULTS.PADY * 0.5, 0), sticky="e")
         logger.info("Toggle button created")
 
         # Bind the resize event to update the image size
