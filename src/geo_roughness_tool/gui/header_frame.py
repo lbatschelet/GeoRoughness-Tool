@@ -63,7 +63,7 @@ class HeaderFrame(ctk.CTkFrame):
 
         # Create the banner label
         self.banner_label = ctk.CTkLabel(self, text="")
-        self.banner_label.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, 0), sticky="w")
+        self.banner_label.grid(row=0, column=0, padx=DEFAULTS.PADX, pady=(DEFAULTS.PADY, 0), sticky="nsw", rowspan=2)
         logger.info("Banner label created")
 
         # Create the help button
