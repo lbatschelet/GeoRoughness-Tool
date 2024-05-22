@@ -1,13 +1,14 @@
 import logging
-import os
 import webbrowser
 from typing import Any
 from PIL import Image
 import customtkinter as ctk
 from .defaults import DEFAULTS
+import os
 
 # Set up logging
 logger = logging.getLogger(__name__)
+
 
 class HeaderFrame(ctk.CTkFrame):
     """
