@@ -83,19 +83,27 @@ class HeaderFrame(ctk.CTkFrame):
         self.update_banner_image()
 
     def update_banner_image(self):
+        width = self.winfo_width()
+        if width <= 1:
+            # Sometimes winfo_width returns 1 initially, so we ignore it
+            return
+
         # Calculate the new size
-        new_width = int(self.winfo_width() * 0.6)
+        new_width = int(width * 0.6)
         aspect_ratio = self.original_light_image.width / self.original_light_image.height
         new_height = int(new_width / aspect_ratio)
 
         # Ensure width and height are greater than 0 and differ from the current size
         if new_width > 0 and new_height > 0 and (new_width, new_height) != self.current_size:
+            logger.info(f"Resizing banner image to {new_width}x{new_height}")
+
             # Resize images
             resized_light_image = self.original_light_image.resize((new_width, new_height), Image.LANCZOS)
             resized_dark_image = self.original_dark_image.resize((new_width, new_height), Image.LANCZOS)
 
             # Update the CTkImage
-            self.banner_image = ctk.CTkImage(light_image=resized_light_image, dark_image=resized_dark_image, size=(new_width, new_height))
+            self.banner_image = ctk.CTkImage(light_image=resized_light_image, dark_image=resized_dark_image,
+                                             size=(new_width, new_height))
 
             # Update the banner label
             self.banner_label.configure(image=self.banner_image)
