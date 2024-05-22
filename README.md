@@ -73,51 +73,14 @@ georough
 
 ### CLI Application
 
-> [!NOTE]
-> **Command Line Interface (CLI)**
-> 
-> The CLI version is not maintained anymore. It should still support basic roughness calculations, but for newer
-> features and optimizations, please use the GUI version.
-
-This package also provides a basic command line interface (CLI) for batch processing of DEM files.
-
-To use the CLI tool, run the following command in your terminal:
-
-```bash
-georough --input_path "path/to/input.tif" --output_dir "path/to/output"
-```
-
-#### Additional Parameters
-
-The CLI tool supports the following additional parameters:
-
-- **`--window_size`:** The size of the window in meters for calculating roughness.
-  - Default is `1.0` meter.
-  - Accepts float values.
-  - Example: `--window_size 2.5` for a 2.5-meter window.
-- **`--categorical_thresholds`:** Set of thresholds to categorize the roughness data.
-  - Default is `None`.
-  - Accepts a list of float values separated by commas.
-  - Example: `--categorical_thresholds 0.01,0.1,0.3` for thresholds at 0.01, 0.1, and 0.3.
-  - Creates a category `0` for values below the first threshold, `1` for values between the first and second threshold, and so on.
-- **`--band_number`:** The specific band of the DEM to process. Only applicable for multi-band DEMs.
-  - Default is `1`.
-  - Accepts integer values.
-  - Example: `--band_number 2` for the second band.
-- **`--high_value_threshold`:** Threshold to filter out high roughness values that can be calculated at the borders of the DEM.
-    - Default is `10.0`.
-    - Accepts a float value.
-    - Example: `--high_value_threshold 50.0` to filter out values above 1000.
-
-For information about the parameters and their usage, visit the [Parameters Explained Wiki Page](../../wiki/Parameters-Explained).
+This package also provides a basic command line interface (CLI) for batch processing of DEM files. For more information 
+on how to use the CLI, please refer to the [CLI Documentation](../../wiki/Getting-Started#CLI-Application).
 
 ---
 
-## Disclaimer
+## AI-Assisted Development
 
 > [!NOTE]
-> **AI-Assisted Development**
-> 
 > This project leverages artificial intelligence, including OpenAI's GPT-4, GPT-4o and GitHub Copilot, to assist in generating parts of the code and documentation. These tools provide suggestions that enhance the development process and help in crafting more robust and comprehensive materials. While AI tools have been instrumental in accelerating development and improving productivity, the final decisions on the inclusion and modification of the generated content rest solely with the human developers. This ensures that each aspect of the project aligns with our quality standards and functional requirements. 
 > 
 > Please note that while AI has contributed to the project, it may not capture the full complexity or context of the development practices. As such, any anomalies or errors introduced by AI-generated content have been reviewed and rectified to the best of our capabilities. However, users should exercise their judgment and discretion when using or modifying this software. 
