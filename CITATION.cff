@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software in your work, please cite it using the following metadata."
 title: "GeoRoughness Tool"
-version: 0.3.2
-date-released: 2024-05-22
+version: 0.4.0
+date-released: 2024-05-23
 
 authors:
   - family-names: "Batschelet"
