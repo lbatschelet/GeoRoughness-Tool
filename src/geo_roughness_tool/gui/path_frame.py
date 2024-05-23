@@ -57,22 +57,23 @@ class PathField(ctk.CTkFrame, abc.ABC):
         self.name_label = ctk.CTkLabel(self, text=name, font=self.main_gui.fonts['h3'])
         self.name_label.grid(row=0,
                              column=0,
-                             padx=DEFAULTS.PADX,
-                             pady=(DEFAULTS.PADY, DEFAULTS.PADY * 0.5),
+                             padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                             pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.25),
                              sticky="w")
 
         self.entry = ctk.CTkEntry(self)
         self.entry.grid(row=1,
                         column=0,
-                        padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                        pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
+                        padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                        pady=(DEFAULTS.PADY * 0.25, DEFAULTS.PADY * 0.5),
+                        columnspan=2,
                         sticky="ew")
 
         self.browse_button = ctk.CTkButton(self, text="Browse", command=self.browse)
-        self.browse_button.grid(row=1,
+        self.browse_button.grid(row=0,
                                 column=1,
-                                padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
-                                pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY))
+                                padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                                pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.25))
 
     @abc.abstractmethod
     def browse(self):

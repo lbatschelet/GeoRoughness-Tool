@@ -1,12 +1,12 @@
 import logging
-import logging.handlers
+import os
 import webbrowser
 from typing import Any
 import tkinter as tk
 import tkinter.scrolledtext as st
+from PIL import Image, ImageTk
 
 import customtkinter as ctk
-
 
 from .defaults import DEFAULTS
 from geo_roughness_tool.log_config import Defaults
@@ -48,7 +48,7 @@ class FooterFrame(ctk.CTkFrame):
 
         # Configure the grid
         self.grid_rowconfigure([0, 1], weight=1)
-        self.grid_columnconfigure([0, 1, 2, 3], weight=1)
+        self.grid_columnconfigure([0, 1, 2], weight=1)
 
         # Create the help button
         self.help_button = WebsiteButton(self,
@@ -58,15 +58,31 @@ class FooterFrame(ctk.CTkFrame):
                               column=0,
                               padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
-                              sticky="nsew")
+                              sticky="new")
+
+        # Load the original images
+        script_dir = os.path.dirname(__file__)
+        self.original_light_image = Image.open(
+            os.path.join(script_dir, "resources", "GeoRoughness_Banner_long_light.png"))
+        self.original_dark_image = Image.open(
+            os.path.join(script_dir, "resources", "GeoRoughness_Banner_long_dark.png"))
+
+        # Create the CTkImage
+        self.banner_image = ctk.CTkImage(light_image=self.original_light_image, dark_image=self.original_dark_image,
+                                         size=(200, 40))
+
+        # Create the banner label
+        self.banner_label = ctk.CTkLabel(self, image=self.banner_image, text="")
+        self.banner_label.grid(row=0, column=1, pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5), sticky="nsew")
+        logger.info("Banner label created")
 
         # Create the log button
         self.log_button = ctk.CTkButton(self, text="Show Logs", command=self.open_log_window)
         self.log_button.grid(row=0,
-                             column=3,
+                             column=2,
                              padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX),
                              pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
-                             sticky="nsew")
+                             sticky="new")
 
         # Create the info label
         self.info_label = (
@@ -76,7 +92,7 @@ class FooterFrame(ctk.CTkFrame):
                          font=self.main_gui.fonts['small']))
         self.info_label.grid(row=1,
                              column=0,
-                             columnspan=4,
+                             columnspan=3,
                              padx=DEFAULTS.PADX,
                              pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
                              sticky="nsew")
@@ -206,4 +222,3 @@ class LogWindow(tk.Toplevel):
 
         # Schedule the next update
         self.after(Defaults.LOG_UPDATE_INTERVAL, self.update_logs)
-
