@@ -1,18 +1,9 @@
-"""
-gui_main.py
------------
-Version: 1.3.0
-Author: Lukas Batschelet
-Date: 14.05.2024
------------
-This module contains the main GUI class for the Surface Roughness Calculator application.
-"""
-
 import logging
 import os
 import tkinter as tk
 import platform
-from tkinter import messagebox, filedialog
+from tkinter import messagebox, filedialog, Menu
+import webbrowser
 
 import customtkinter as ctk
 import rasterio
@@ -20,18 +11,17 @@ from PIL import Image, ImageTk
 from customtkinter import CTkScrollableFrame
 from screeninfo import get_monitors
 
-
 from .classes.application_driver import ApplicationDriver
 from .classes.processing_parameters import ProcessingParameters
 from .classes.threshold_optimizer import ThresholdOptimizer
 from .gui.defaults import DEFAULTS
 from .gui.footer_frame import FooterFrame
-from .gui.header_frame import HeaderFrame
 from .gui.parameter_input import ParameterFrame
 from .gui.path_frame import PathFrame
 from .gui.preview_image import PreviewImage
 
 logger = logging.getLogger(__name__)
+
 
 
 class GUIMain(ctk.CTk):
@@ -64,6 +54,16 @@ class GUIMain(ctk.CTk):
             dark_icon_path = os.path.join(script_dir, "gui/resources", "app_icon_dark.png")
             self.set_icon(light_icon_path, dark_icon_path)
 
+        # Set the application name on macOS
+        if platform.system() == "Darwin":
+            try:
+                from Foundation import NSBundle
+                bundle = NSBundle.mainBundle()
+                info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
+                info['CFBundleName'] = "GeoRoughness Tool"
+            except ImportError:
+                pass
+
         # Get screen information
         monitors = get_monitors()
         primary_monitor = monitors[0]  # Assuming the primary monitor is the first one
@@ -82,40 +82,76 @@ class GUIMain(ctk.CTk):
         # Set window size
         self.geometry(f"{screen_width}x{screen_height}")
 
+        # Create the menu
+        self.create_menu()
+
         # Create a ScrolledFrame
         self.scrolled_frame = CTkScrollableFrame(self)
         self.scrolled_frame.pack(fill="both", expand=True)
 
         # Make the GUI responsive
         self.scrolled_frame.grid_columnconfigure(0, weight=1)
-        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3, 4, 5], weight=1)
-
-        self.header_frame = HeaderFrame(self.scrolled_frame, self)
-        self.header_frame.grid(row=0,
-                               column=0,
-                               sticky="nsew")
+        self.scrolled_frame.grid_rowconfigure([0, 1, 2, 3, 4], weight=1)
 
         self.path_frame = PathFrame(self.scrolled_frame, self)
-        self.path_frame.grid(row=1,
+        self.path_frame.grid(row=0,
                              column=0,
                              sticky="nsew")
 
         self.parameter_frame = ParameterFrame(self.scrolled_frame, self)
-        self.parameter_frame.grid(row=2,
+        self.parameter_frame.grid(row=1,
                                   column=0,
                                   sticky="nsew")
 
         self.preview_frame = PreviewImage(self.scrolled_frame, self, self.preview_image)
-        self.preview_frame.grid(row=3,
+        self.preview_frame.grid(row=2,
                                 column=0,
                                 padx=DEFAULTS.PADX,
                                 pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                 sticky="nsew")
 
         self.footer_frame = FooterFrame(self.scrolled_frame, self)
-        self.footer_frame.grid(row=4,
+        self.footer_frame.grid(row=3,
                                column=0,
                                sticky="nsew")
+
+    def create_menu(self):
+        # Create a menu bar
+        self.menubar = Menu(self)
+
+        # Options menu
+        self.options_menu = Menu(self.menubar, tearoff=0)
+        self.advanced_options_label = "Show Advanced Options"
+        self.options_menu.add_command(label=self.advanced_options_label, command=self.toggle_advanced_options)
+        self.menubar.add_cascade(label="Options", menu=self.options_menu)
+
+        # Help menu
+        help_menu = Menu(self.menubar, tearoff=0)
+        help_menu.add_command(label="Wiki", command=self.open_wiki)
+        help_menu.add_command(label="Documentation", command=self.open_documentation)
+        self.menubar.add_cascade(label="Help", menu=help_menu)
+
+        # Set the menu bar
+        self.config(menu=self.menubar)
+
+    def toggle_advanced_options(self):
+        self.show_advanced_options = not self.show_advanced_options
+        self.parameter_frame.toggle_advanced_options(self.show_advanced_options)
+        self.path_frame.toggle_advanced_options(self.show_advanced_options)
+        new_label = "Hide Advanced Options" if self.show_advanced_options else "Show Advanced Options"
+        self.update_menu_label(new_label)
+
+    def update_menu_label(self, new_label):
+        self.advanced_options_label = new_label
+        self.options_menu.entryconfig(0, label=new_label)
+
+    @staticmethod
+    def open_documentation():
+        webbrowser.open("https://github.com/lbatschelet/GeoRoughness-Tool")
+
+    @staticmethod
+    def open_wiki():
+        webbrowser.open("https://github.com/lbatschelet/GeoRoughness-Tool/wiki")
 
     def set_icon(self, light_icon_path, dark_icon_path):
         if self.get_appearance_mode() == "Dark":
@@ -138,11 +174,6 @@ class GUIMain(ctk.CTk):
 
     def get_appearance_mode(self):
         return ctk.get_appearance_mode()
-
-    def toggle_advanced_options(self):
-        self.show_advanced_options = not self.show_advanced_options
-        self.parameter_frame.toggle_advanced_options(self.show_advanced_options)
-        self.path_frame.toggle_advanced_options(self.show_advanced_options)
 
     def start_processing(self) -> None:
         """

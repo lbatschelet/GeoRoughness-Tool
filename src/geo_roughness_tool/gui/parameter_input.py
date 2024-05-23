@@ -10,6 +10,7 @@ class ParameterFrame(ctk.CTkFrame):
         super().__init__(parent, **kwargs)
 
         self.main_gui = main_gui
+        self.advanced_options_visible = False
 
         # Make the GUI responsive
         self.grid_columnconfigure([0, 1], weight=1)
@@ -65,7 +66,7 @@ class ParameterFrame(ctk.CTkFrame):
                                column=0,
                                columnspan=2,
                                padx=DEFAULTS.PADX,
-                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
+                               pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY),
                                sticky="ew")
         # Set equal weights for each column in the button frame
         self.button_frame.grid_columnconfigure([0, 1, 2], weight=1)
@@ -74,8 +75,8 @@ class ParameterFrame(ctk.CTkFrame):
             ctk.CTkButton(self.button_frame, text="Start Processing", command=self.main_gui.start_processing))
         self.start_processing_button.grid(row=0,
                                           column=0,
-                                          padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.5),
-                                          pady=DEFAULTS.PADY,
+                                          padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                                          pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                           sticky="ew")
 
         self.analyze_and_optimize_button = ctk.CTkButton(self.button_frame,
@@ -84,7 +85,7 @@ class ParameterFrame(ctk.CTkFrame):
         self.analyze_and_optimize_button.grid(row=0,
                                               column=1,
                                               padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
-                                              pady=DEFAULTS.PADY,
+                                              pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                               sticky="ew")
 
         self.save_file_button = (
@@ -92,36 +93,43 @@ class ParameterFrame(ctk.CTkFrame):
         self.save_file_button.grid(row=0,
                                    column=2,
                                    padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
-                                   pady=DEFAULTS.PADY,
+                                   pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.5),
                                    sticky="ew")
-
-        # Initially hide advanced options
-        self.band_number_field.grid_remove()
-        self.high_value_threshold_field.grid_remove()
 
         # Create a new frame and initially hide it
         self.analyze_and_optimize_frame = AnalyzeAndOptimizeFrame(self, main_gui)
         self.analyze_and_optimize_frame.grid(row=3,
                                              column=0,
-                                             columnspan=3,
+                                             columnspan=2,
                                              padx=DEFAULTS.PADX,
                                              pady=(0, DEFAULTS.PADY),
                                              sticky="ew")
+
+        # Initially hide advanced options
+        self.band_number_field.grid_remove()
+        self.high_value_threshold_field.grid_remove()
         self.analyze_and_optimize_frame.grid_remove()
 
     def toggle_advanced_options(self, show):
+        self.advanced_options_visible = show
         if show:
             self.band_number_field.grid()
             self.high_value_threshold_field.grid()
+            self.analyze_and_optimize_frame.toggle_calculate_quality(show)
         else:
             self.band_number_field.grid_remove()
             self.high_value_threshold_field.grid_remove()
+            self.analyze_and_optimize_frame.toggle_calculate_quality(show)
 
     def toggle_frame(self):
         if self.analyze_and_optimize_frame.winfo_viewable():
             self.analyze_and_optimize_frame.grid_remove()
         else:
             self.analyze_and_optimize_frame.grid()
+            if self.advanced_options_visible:
+                self.analyze_and_optimize_frame.toggle_calculate_quality(True)
+            else:
+                self.analyze_and_optimize_frame.toggle_calculate_quality(False)
 
     def get_parameters(self):
         return {
@@ -143,23 +151,23 @@ class ParameterInput(ctk.CTkFrame):
         self.name_label = ctk.CTkLabel(self, text=name, font=self.main_gui.fonts['h3'])
         self.name_label.grid(row=0,
                              column=0,
-                             padx=(DEFAULTS.PADX, DEFAULTS.PADX * 0.25),
-                             pady=DEFAULTS.PADY,
+                             padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.25),
+                             pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.25),
                              sticky="w")
 
         self.description_button = ctk.CTkButton(self, text="Description", command=self.open_url)
         self.description_button.grid(row=0,
                                      column=1,
-                                     padx=(DEFAULTS.PADX * 0.25, DEFAULTS.PADX),
-                                     pady=DEFAULTS.PADY,
+                                     padx=(DEFAULTS.PADX * 0.25, DEFAULTS.PADX * 0.5),
+                                     pady=(DEFAULTS.PADY * 0.5, DEFAULTS.PADY * 0.25),
                                      sticky="e")
 
         self.entry = ctk.CTkEntry(self)
         self.entry.grid(row=1,
                         column=0,
                         columnspan=2,
-                        padx=(DEFAULTS.PADX, DEFAULTS.PADX),
-                        pady=(0, DEFAULTS.PADY),
+                        padx=(DEFAULTS.PADX * 0.5, DEFAULTS.PADX * 0.5),
+                        pady=(DEFAULTS.PADY * 0.25, DEFAULTS.PADY * 0.5),
                         sticky="ew")
 
     def open_url(self):
