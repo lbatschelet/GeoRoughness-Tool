@@ -27,6 +27,8 @@ class GUIMain(ctk.CTk):
     def __init__(self):
         super().__init__()
 
+        self.options_menu = None
+        self.advanced_options_label = None
         self.driver = None
         self.title("GeoRoughness Tool")
         self.show_advanced_options = False
