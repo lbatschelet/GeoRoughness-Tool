@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Ensure we fetch all history to prevent shallow clone issues
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -39,24 +39,43 @@ jobs:
           VERSION=$(python setup.py --version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Print Git config for debugging
-        run: |
-          git config --list
-
       - name: Update CITATION.cff
         run: |
           VERSION=${{ env.VERSION }}
           DATE=$(date -u +"%Y-%m-%d")
-          sed -i "s/^version:.*/version: $VERSION/" CITATION.cff
-          sed -i "s/^date-released:.*/date-released: $DATE/" CITATION.cff
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add CITATION.cff
-          git commit -m "Update CITATION.cff for version $VERSION"
-          git remote set-url origin https://$GH_PAT@github.com/${{ github.repository }}.git
-          git push origin HEAD:main
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          cat > CITATION.cff << EOL
+cff-version: 1.2.0
+message: "If you use this software in your work, please cite it using the following metadata."
+title: "GeoRoughness Tool"
+version: $VERSION
+date-released: $DATE
+
+authors:
+  - family-names: "Batschelet"
+    given-names: "Lukas"
+    orcid: "0009-0005-0696-0285"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+    email: "78535538+lbatschelet@users.noreply.github.com"
+  - family-names: "Mohaupt"
+    given-names: "Florian"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+  - family-names: "Röthlisberger"
+    given-names: "Stefanie"
+    affiliation: "Institute of Geography, University of Bern, Switzerland"
+
+keywords:
+  - "DEM"
+  - "Surface Roughness"
+  - "Topography"
+  - "Python"
+  - "Geospatial"
+  - "Remote Sensing"
+  - "Digital Elevation Model"
+  - "Geocomputation"
+
+repository-code: "https://github.com/lbatschelet/dem-roughness-calculator"
+license: "MIT License"
+EOL
 
       - name: Build package
         run: |
