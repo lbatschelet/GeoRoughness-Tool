@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel twine setuptools-scm
+          python -m pip install setuptools wheel twine setuptools-scm
 
       - name: Get version from setuptools-scm
         id: get_version
@@ -40,8 +40,6 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Update CITATION.cff
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           VERSION=${{ env.VERSION }}
           DATE=$(date -u +"%Y-%m-%d")
@@ -52,11 +50,12 @@ jobs:
           git remote set-url origin https://$GH_PAT@github.com/${{ github.repository }}.git
           git add CITATION.cff
           git commit -m "Update CITATION.cff for version $VERSION"
-          git push origin HEAD:main --force
+          git push origin HEAD:main
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
 
       - name: Build package
         run: |
-          python -m pip install --use-pep517
           python setup.py sdist bdist_wheel
 
       - name: Check build
@@ -72,17 +71,3 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
           twine upload dist/*
-
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            ## Changes in this release
-            - Updated version to ${{ env.VERSION }}
-          draft: false
-          prerelease: false
