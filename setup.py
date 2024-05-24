@@ -1,3 +1,4 @@
+import os
 from setuptools import setup, find_packages
 
 # Read the contents of your README file
@@ -12,7 +13,10 @@ def read_requirements(file_name):
 
 setup(
     name='geo-roughness-tool',
-    use_scm_version=True,  # Dynamically use the version from git tags
+    use_scm_version={
+        "local_scheme": "no-local-version",  # Exclude local version identifier
+        "version_scheme": "guess-next-dev",  # Optional, choose a version scheme
+    },
     setup_requires=['setuptools-scm'],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
