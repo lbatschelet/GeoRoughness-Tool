@@ -43,38 +43,14 @@ jobs:
         run: |
           VERSION=${{ env.VERSION }}
           DATE=$(date -u +"%Y-%m-%d")
-          echo "cff-version: 1.2.0" > CITATION.cff
-          echo "message: \"If you use this software in your work, please cite it using the following metadata.\"" >> CITATION.cff
-          echo "title: \"GeoRoughness Tool\"" >> CITATION.cff
-          echo "version: $VERSION" >> CITATION.cff
-          echo "date-released: $DATE" >> CITATION.cff
-          echo "" >> CITATION.cff
-          echo "authors:" >> CITATION.cff
-          echo "  - family-names: \"Batschelet\"" >> CITATION.cff
-          echo "    given-names: \"Lukas\"" >> CITATION.cff
-          echo "    orcid: \"0009-0005-0696-0285\"" >> CITATION.cff
-          echo "    affiliation: \"Institute of Geography, University of Bern, Switzerland\"" >> CITATION.cff
-          echo "    email: \"78535538+lbatschelet@users.noreply.github.com\"" >> CITATION.cff
-          echo "  - family-names: \"Mohaupt\"" >> CITATION.cff
-          echo "    given-names: \"Florian\"" >> CITATION.cff
-          echo "    affiliation: \"Institute of Geography, University of Bern, Switzerland\"" >> CITATION.cff
-          echo "  - family-names: \"Röthlisberger\"" >> CITATION.cff
-          echo "    given-names: \"Stefanie\"" >> CITATION.cff
-          echo "    affiliation: \"Institute of Geography, University of Bern, Switzerland\"" >> CITATION.cff
-          echo "" >> CITATION.cff
-          echo "keywords:" >> CITATION.cff
-          echo "  - \"DEM\"" >> CITATION.cff
-          echo "  - \"Surface Roughness\"" >> CITATION.cff
-          echo "  - \"Geography\"" >> CITATION.cff
-          echo "  - \"Topography\"" >> CITATION.cff
-          echo "  - \"Python\"" >> CITATION.cff
-          echo "  - \"Geospatial\"" >> CITATION.cff
-          echo "  - \"Remote Sensing\"" >> CITATION.cff
-          echo "  - \"Digital Elevation Model\"" >> CITATION.cff
-          echo "  - \"Geocomputation\"" >> CITATION.cff
-          echo "" >> CITATION.cff
-          echo "repository-code: \"https://github.com/lbatschelet/dem-roughness-calculator\"" >> CITATION.cff
-          echo "license: \"MIT License\"" >> CITATION.cff
+          sed -i "s/^version:.*/version: $VERSION/" CITATION.cff
+          sed -i "s/^date-released:.*/date-released: $DATE/" CITATION.cff
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add CITATION.cff
+          git commit -m "Update CITATION.cff for version $VERSION"
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin HEAD:main
 
       - name: Build package
         run: |
@@ -93,7 +69,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
           twine upload dist/*
-          
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
