@@ -23,7 +23,6 @@ from .gui.preview_image import PreviewImage
 logger = logging.getLogger(__name__)
 
 
-
 class GUIMain(ctk.CTk):
     def __init__(self):
         super().__init__()
