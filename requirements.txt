@@ -7,3 +7,6 @@ screeninfo==0.8.1
 setuptools==69.5.1
 requests==2.32.2
 packaging==24.0
+wheel==0.43.0
+twine==5.1.0
+setuptools_scm==8.1.0
