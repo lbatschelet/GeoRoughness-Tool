@@ -29,7 +29,7 @@ def _clean_version():
 
 setup(
     name='geo-roughness-tool',
-    use_scm_version=_clean_version(),  # Use setuptools_scm for versioning
+    use_scm_version=_clean_version,  # Use setuptools_scm for versioning
     setup_requires=["setuptools-scm"],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
