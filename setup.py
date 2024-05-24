@@ -14,10 +14,10 @@ def read_requirements(file_name):
 setup(
     name='geo-roughness-tool',
     use_scm_version={
-        "local_scheme": "no-local-version",  # Exclude local version identifier
-        "version_scheme": "guess-next-dev",  # Optional, choose a version scheme
+        "version_scheme": "post-release",
+        "local_scheme": "no-local-version"
     },
-    setup_requires=['setuptools-scm'],
+    setup_requires=["setuptools-scm"],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
