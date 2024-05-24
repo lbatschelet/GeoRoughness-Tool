@@ -1,29 +1,26 @@
 from setuptools import setup, find_packages
 
-
 # Read the contents of your README file
 def read(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         return f.read()
-
 
 # Read the contents of your requirements file
 def read_requirements(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         return f.read().splitlines()
 
-
 setup(
     name='geo-roughness-tool',
-    use_scm_version=True,
-    setup_requires=['setuptools_scm'],
+    use_scm_version=True,  # Dynamically use the version from git tags
+    setup_requires=['setuptools-scm'],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     url='https://github.com/lbatschelet/GeoRoughness-Tool',
     license='MIT',
     author='Lukas Batschelet',
-    description='A package for calculating and categorizing surface roughness using GeoTIFF DEM files.',
-    long_description=read('README.md'),
+    description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
+    long_description=read('README.md'),  # Use the README.md as the long description
     long_description_content_type='text/markdown',
     install_requires=read_requirements('requirements.txt'),  # Install dependencies from requirements.txt
     python_requires='>=3.12',  # Specify Python version requirement
@@ -36,7 +33,7 @@ setup(
         ]
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 4 - Beta',  # Update as appropriate for your release cycle
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -49,5 +46,5 @@ setup(
         'Source': 'https://github.com/lbatschelet/GeoRoughness-Tool',
         'Tracker': 'https://github.com/lbatschelet/GeoRoughness-Tool/issues',
     },
-    keywords='GIS, GeoTIFF, DEM, surface roughness, geographic information systems',
+    keywords='GIS, GeoTIFF, DEM, surface roughness, geographic information systems',  # Add relevant keywords
 )
