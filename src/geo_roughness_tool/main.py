@@ -1,18 +1,10 @@
-"""
-main.py
--------
-Version: 1.3.0
-Author: Lukas Batschelet
-Date: 14.05.2024
--------
-This module is the main entry point for the application.
-"""
 import os
 import sys
 import requests
+import time
 from packaging import version
 import importlib.metadata
-
+from colorama import Fore, Style
 
 # Ensure the package is in the system path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -41,9 +33,12 @@ def check_for_updates():
         current_version = importlib.metadata.version(package_name)
 
         if version.parse(latest_version) > version.parse(current_version):
+            print(f"\n\n{Fore.RED}{Style.BRIGHT}*** IMPORTANT UPDATE AVAILABLE ***")
             print(f"You are running version {current_version}.")
             print(f"Version {latest_version} is available.")
             print("Run 'pip install --upgrade geo-roughness-tool' to update to the latest version.")
+            print(f"*******************************{Style.RESET_ALL}\n\n")
+            time.sleep(5)  # Pause for 5 seconds to ensure the message is read
             return True, latest_version
     except requests.RequestException as e:
         print(f"Could not check for updates: {e}")
