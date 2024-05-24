@@ -1,32 +1,22 @@
 import os
 from setuptools import setup, find_packages
 
+# Read the contents of your README file
 def read(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         return f.read()
 
+# Read the contents of your requirements file
 def read_requirements(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         return f.read().splitlines()
 
-def _clean_version():
-    """
-    Custom version scheme to avoid .dev and .post versions.
-    """
-    def get_version(version):
-        if version.exact:
-            return version.format_with("{tag}")
-        else:
-            return version.format_next_version("{tag}.post{distance}")
-
-    def empty(version):
-        return ''
-
-    return {'local_scheme': get_version, 'version_scheme': empty}
-
 setup(
     name='geo-roughness-tool',
-    use_scm_version=_clean_version,  # Assign the callable directly
+    use_scm_version={
+        "version_scheme": "post-release",
+        "local_scheme": "no-local-version"
+    },
     setup_requires=["setuptools-scm"],
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
@@ -34,11 +24,11 @@ setup(
     license='MIT',
     author='Lukas Batschelet',
     description='A package for calculating surface roughness using GeoTIFF DEM files with a GUI and CLI',
-    long_description=read('README.md'),
+    long_description=read('README.md'),  # Use the README.md as the long description
     long_description_content_type='text/markdown',
-    install_requires=read_requirements('requirements.txt'),
-    python_requires='>=3.12',
-    include_package_data=True,
+    install_requires=read_requirements('requirements.txt'),  # Install dependencies from requirements.txt
+    python_requires='>=3.12',  # Specify Python version requirement
+    include_package_data=True,  # Include package data specified in MANIFEST.in
     entry_points={
         'console_scripts': [
             'georough=geo_roughness_tool.main:main',
@@ -47,7 +37,7 @@ setup(
         ]
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 4 - Beta',  # Update as appropriate for your release cycle
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -55,10 +45,10 @@ setup(
         'Programming Language :: Python :: 3.12',
         'Topic :: Scientific/Engineering :: GIS'
     ],
-    project_urls={
+    project_urls={  # Optional
         'Documentation': 'https://github.com/lbatschelet/GeoRoughness-Tool/wiki',
         'Source': 'https://github.com/lbatschelet/GeoRoughness-Tool',
         'Tracker': 'https://github.com/lbatschelet/GeoRoughness-Tool/issues',
     },
-    keywords='GIS, GeoTIFF, DEM, surface roughness, geographic information systems',
+    keywords='GIS, GeoTIFF, DEM, surface roughness, geographic information systems',  # Add relevant keywords
 )
