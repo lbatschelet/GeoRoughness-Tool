@@ -39,6 +39,10 @@ jobs:
           VERSION=$(python setup.py --version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      - name: Print Git config for debugging
+        run: |
+          git config --list
+
       - name: Update CITATION.cff
         run: |
           VERSION=${{ env.VERSION }}
