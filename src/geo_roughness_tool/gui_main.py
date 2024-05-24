@@ -227,7 +227,7 @@ class GUIMain(ctk.CTk):
 
     def display_preview(self, preview: Image) -> None:
         """
-        Displays the preview image in the GUI.
+        Displays the preview image.
 
         Args:
             preview: The preview image to display.
