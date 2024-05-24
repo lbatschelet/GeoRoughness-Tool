@@ -39,10 +39,6 @@ jobs:
           VERSION=$(python setup.py --version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Debug version
-        run: |
-          echo "Version: ${{ env.VERSION }}"
-
       - name: Update CITATION.cff
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
@@ -53,13 +49,10 @@ jobs:
           sed -i "s/^date-released:.*/date-released: $DATE/" CITATION.cff
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote add github https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
-          git fetch github
-          git checkout github/main
-          git pull github main
+          git remote add origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
           git add CITATION.cff
           git commit -m "Update CITATION.cff for version $VERSION"
-          git push github HEAD:main
+          git push origin HEAD:main
 
       - name: Build package
         run: |
