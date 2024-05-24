@@ -65,6 +65,7 @@ jobs:
           echo "keywords:" >> CITATION.cff
           echo "  - \"DEM\"" >> CITATION.cff
           echo "  - \"Surface Roughness\"" >> CITATION.cff
+          echo "  - \"Geography\"" >> CITATION.cff
           echo "  - \"Topography\"" >> CITATION.cff
           echo "  - \"Python\"" >> CITATION.cff
           echo "  - \"Geospatial\"" >> CITATION.cff
