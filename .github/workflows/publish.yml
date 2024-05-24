@@ -49,7 +49,7 @@ jobs:
           sed -i "s/^date-released:.*/date-released: $DATE/" CITATION.cff
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote add origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
           git add CITATION.cff
           git commit -m "Update CITATION.cff for version $VERSION"
           git push origin HEAD:main
