@@ -1,5 +1,11 @@
+![GitHub Repo stars](https://img.shields.io/github/stars/lbatschelet/GeoRoughness-Tool)
+![PyPI - License](https://img.shields.io/pypi/l/geo-roughness-tool)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/geo-roughness-tool)
+![PyPI - Version](https://img.shields.io/pypi/v/geo-roughness-tool)
+
 ![GeoRoughness_Banner_dark.png](.github%2Fresources%2FGeoRoughness_Banner_dark.png#gh-dark-mode-only)
 ![GeoRoughness_Banner_light.png](.github%2Fresources%2FGeoRoughness_Banner_light.png#gh-light-mode-only)
+
 
 # GeoRoughness Tool
 
