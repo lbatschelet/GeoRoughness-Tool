@@ -1,0 +1,19 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'Projektdokumentation.blg'
+[30] biber-darwin:340> INFO - === Fri Jun 14, 2024, 13:54:06
+[38] Biber.pm:419> INFO - Reading 'Projektdokumentation.bcf'
+[74] Biber.pm:979> INFO - Found 5 citekeys in bib section 0
+[84] Biber.pm:4419> INFO - Processing section 0
+[89] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[91] bibtex.pm:1713> INFO - LaTeX decoding ...
+[101] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[130] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[130] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[130] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'de-DE'
+[130] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
+[138] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[138] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[138] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'de-DE'
+[138] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
+[143] bbl.pm:660> INFO - Writing 'Projektdokumentation.bbl' with encoding 'UTF-8'
+[148] bbl.pm:763> INFO - Output to Projektdokumentation.bbl

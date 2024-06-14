@@ -1,0 +1,250 @@
+
+\usepackage{multicol}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{ifthen}
+\usepackage{lipsum}
+
+
+\usepackage{authblk}
+
+% Graphische Pakete
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{calc}
+\usepackage{array}
+	\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+	\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+	\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+
+% Listenanpassungen
+\usepackage{enumitem}
+	\setlist{nosep, leftmargin=*} % Reduziert den Einzug in Listen und Abstände zwischen Einträgen
+
+% Mathe-Erweiterungen
+\usepackage{calrsfs}
+	\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{colonequals}
+\usepackage{siunitx}
+	\DeclareSIUnit\century{century}
+	\DeclareSIUnit\year{y}
+\usepackage[version=4]{mhchem}
+\usepackage{empheq}
+\usepackage{bm}
+
+
+% Code und Syntax-Highlighting
+\usepackage[outputdir=../out]{minted}
+\usepackage{shellesc} % Required for using minted package
+
+	% Pfad-Management
+	\newcommand{\resourcesdir}{../resources} % Default path
+	\newcommand{\imgdir}{\resourcesdir/images} % Default image path
+
+	% Pfadanpassung, wenn in GitHub Actions ausgeführt
+	\ifdefined\RESOURCESDIR
+	\renewcommand{\resourcesdir}{\RESOURCESDIR}
+	\renewcommand{\imgdir}{\RESOURCESDIR/images}
+	\fi
+
+
+% Anpassungen für deutsche Sprache
+\addto\captionsngerman{
+	\renewcommand{\figurename}{Abb.}
+	\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+	\renewcommand{\tablename}{Tab.}
+	\renewcommand{\listtablename}{Tabellenverzeichnis}
+	\renewcommand{\refname}{Literaturverzeichnis}
+}
+
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Captions
+	\captionsetup{
+		justification=raggedright,
+		singlelinecheck=false,
+		font={small,rm}, % Schriftart der Captions auf Times setzen
+		labelfont={bf}
+	}
+
+% -------------------------------------------------------------------------------------------------------------------- %
+
+
+
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Section counter behavior
+\usepackage{chngcntr} % Load the package for changing counter behavior
+
+	\counterwithin{figure}{section}   % Figures numbered within sections
+	\counterwithin{table}{section}    % Tables numbered within sections
+	\counterwithin{equation}{section} % Equations numbered within sections
+
+	% (Optional) For numbering within subsections:
+	% \counterwithin{figure}{subsection}  % Figures numbered within subsections
+	% \counterwithin{table}{subsection}   % Tables numbered within subsections
+
+% Raumgestaltung um Sektionen
+\usepackage{xcolor, cancel}
+%	\setlength{\parindent}{0pt}
+%	\setlength{\parskip}{0pt}
+%	\renewcommand{\baselinestretch}{0.8}
+%
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Fonts and Colors
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}  % T1 Font Encoding für ältere Pakete, falls erforderlich
+\usepackage{titlesec}  % Paket zum Anpassen der Überschriften
+
+	% Hauptschriftarten festlegen
+	\setmainfont{Helvetica}  % Setzt die Hauptschriftart auf Times New Roman
+	\setsansfont{Helvetica}  % Setzt die serifenlose Schriftart auf Helvetica
+
+	\setmonofont{JetBrains Mono}[
+		Path=../resources/fonts/JetBrainsMono/,
+		Scale=0.85,
+		Extension = .ttf,
+		UprightFont=*-Regular,
+		BoldFont=*-Bold,
+		ItalicFont=*-Italic,
+		BoldItalicFont=*-BoldItalic
+	]
+
+% Farbe für den Haupttext festlegen
+\usepackage{etoolbox}
+	\definecolor{darkgray}{gray}{0.1}
+	\AtBeginDocument{\color{darkgray}}
+
+% Schriftart für die Überschriften ändern mit titlesec
+	\titleformat{\section}{\normalfont\sffamily\Large\bfseries\color{black}}{\thesection}{1em}{}
+	\titleformat{\subsection}{\normalfont\sffamily\large\bfseries\color{black}}{\thesubsection}{1em}{}
+	\titleformat{\subsubsection}{\normalfont\sffamily\normalsize\bfseries\color{black}}{\thesubsubsection}{1em}{}
+
+	% Schriftart für den Titel ändern
+	%! suppress = Makeatletter
+	\makeatletter
+	\renewcommand{\maketitle}{
+		\begin{center}
+		{\sffamily\LARGE\bfseries\@title\par}
+			\vskip 1em
+				{\large \@author}
+			\vskip 1em
+				{\@date}
+		\end{center}
+	}
+	%! suppress = Makeatletter
+	\makeatother
+
+\usepackage{epigraph}
+
+% -------------------------------------------------------------------------------------------------------------------- %
+	% Makros für den Titel
+	%! suppress = Makeatletter
+	\makeatletter
+	\newcommand{\inserttitle}{\@title}
+	%! suppress = Makeatletter
+	\makeatother
+
+	%! suppress = Makeatletter
+	\makeatletter
+	\newcommand{\insertauthor}{\@author}
+	%! suppress = Makeatletter
+	\makeatother
+
+% -------------------------------------------------------------------------------------------------------------------- %
+
+
+
+
+
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Bibliographie und Zitate
+\usepackage{csquotes}
+
+% Hyperref und Linkfarben
+\usepackage[hidelinks]{hyperref}
+	\pdfstringdefDisableCommands{
+		\def\\{} % example of redefining "\\" for bookmarks
+		\def\mhchem#1{#1} % Handling \mhchem to avoid errors in bookmarks
+	}
+
+	% \hypersetup{
+	% 	colorlinks=true,
+	% 	linkcolor=.,   % Farbe für interne Links
+	% 	citecolor=.,   % Farbe für Zitate
+	% 	filecolor=.,   % Farbe für Links zu Dateien
+	% 	urlcolor=.     % Farbe für externe Links
+	% }
+	% Enhanced referencing with cleveref
+\usepackage{cleveref}
+% -------------------------------------------------------------------------------------------------------------------- %
+
+
+
+
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Header und Footer
+\usepackage{fancyhdr} % Laden des Pakets für Kopf- und Fußzeilen
+
+	\pagestyle{fancy} % Verwenden des "fancy" Stils
+	\fancyhf{} % Alle Kopf- und Fußzeilenfelder bereinigen
+	\renewcommand{\headrulewidth}{0pt} % Keine Linie im Kopfbereich
+	\renewcommand{\footrulewidth}{0.4pt} % Dünne Linie im Fußbereich
+
+	% Kopfzeile
+	\fancyhead[L]{\nouppercase{\leftmark}}
+	\fancyhead[C]{}
+	\fancyhead[R]{Stefanie Röthlisberger, Lukas Batschelet, Florian Mohaupt}
+
+	% Fußzeile
+	\fancyfoot[L]{}
+	\fancyfoot[C]{}
+	\fancyfoot[R]{\thepage}
+
+% License
+\usepackage[
+	type={CC},
+	modifier={by-nc-sa},
+	version={4.0},
+]{doclicense}
+
+\usepackage{fontawesome5}
+
+	%! suppress = Makeatletter
+	\makeatletter
+	\newcommand{\github}[1]{%
+		\href{#1}{\faGithubSquare}%
+	}
+	%! suppress = Makeatletter
+	\makeatother
+
+
+
+% -------------------------------------------------------------------------------------------------------------------- %
+% Diverse Makros
+
+	% Defina a logic equal symbol
+	\newcommand{\logeq}{\ratio\Leftrightarrow}
+
+	% Cancel out terms in equations
+	\newcommand\hcancel[2][black]{\setbox0=\hbox{$#2$}%
+		\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2}
+
+	% Outer Join symbol
+	\newcommand{\ojoin}{\setbox0=\hbox{$\bowtie$}%
+		\rule[-.02ex]{.25em}{.4pt}\llap{\rule[\ht0]{.25em}{.4pt}}}
+		\newcommand{\leftouterjoin}{\mathbin{\ojoin\mkern-5.8mu\bowtie}}
+		\newcommand{\rightouterjoin}{\mathbin{\bowtie\mkern-5.8mu\ojoin}}
+		\newcommand{\fullouterjoin}{\mathbin{\ojoin\mkern-5.8mu\bowtie\mkern-5.8mu\ojoin}}
+% -------------------------------------------------------------------------------------------------------------------- %
+
+
+
+
+

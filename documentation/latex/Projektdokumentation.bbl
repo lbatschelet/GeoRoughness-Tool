@@ -1,0 +1,541 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global}
+    \entry{fehrGeschiebeanalysenGebirgsflussenUmrechnung1987}{report}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cf61af590387ce796999d3f33d692991}{%
+           family={Fehr},
+           familyi={F\bibinitperiod},
+           given={René},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {ETH Zürich}%
+      }
+      \list{location}{1}{%
+        {Zürich}%
+      }
+      \strng{namehash}{cf61af590387ce796999d3f33d692991}
+      \strng{fullhash}{cf61af590387ce796999d3f33d692991}
+      \strng{bibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorbibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authornamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorfullhash}{cf61af590387ce796999d3f33d692991}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{Nr. 92}
+      \field{title}{Geschiebeanalysen in {{Gebirgsflüssen}} - {{Umrechnung}} Und {{Vergleich}} von Verschiedenen {{Analyseverfahren}}}
+      \field{year}{1987}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/WENXPTYU/Fehr - 1987 - Geschiebeanalysen in Gebirgsflüssen - Umrechnung u.pdf
+      \endverb
+    \endentry
+    \entry{fehrEinfacheBestimmungKorngroessenverteilung1987}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cf61af590387ce796999d3f33d692991}{%
+           family={Fehr},
+           familyi={F\bibinitperiod},
+           given={René},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cf61af590387ce796999d3f33d692991}
+      \strng{fullhash}{cf61af590387ce796999d3f33d692991}
+      \strng{bibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorbibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authornamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorfullhash}{cf61af590387ce796999d3f33d692991}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{17}
+      \field{langid}{ngerman}
+      \field{month}{9}
+      \field{title}{Einfache Bestimmung der Korngrössenverteilung von Geschiebematerial mit Hilfe der Linienzahlanalyse}
+      \field{urlday}{5}
+      \field{urlmonth}{5}
+      \field{urlyear}{2024}
+      \field{year}{1987}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.5169/SEALS-76710
+      \endverb
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/2GT554EV/Fehr - 1987 - Einfache Bestimmung der Korngrössenverteilung von .pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.e-periodica.ch/digbib/view?pid=sbz-003:1987:105::688
+      \endverb
+      \verb{url}
+      \verb https://www.e-periodica.ch/digbib/view?pid=sbz-003:1987:105::688
+      \endverb
+    \endentry
+    \entry{hunzingerGewaesserentwicklungskonzeptBernGEKOBE2014}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b6ac3048f76c13073824ae03c2bc4d9a}{%
+           family={Hunzinger},
+           familyi={H\bibinitperiod},
+           given={Lukas},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8ff8cecd9168bc1cb3e2c98f34ef373a}{%
+           family={Pauli},
+           familyi={P\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {AWA Amt für Wasser und Abfall, TBA Tiefbauamt Kanton Bern, LANAT Amt für Landwirtschaft und Natur, AGR Amt für Gemeinden und Raumordnung, Flussbau AG}%
+      }
+      \strng{namehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{fullhash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{bibnamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authorbibnamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authornamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authorfullhash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Im Rahmen der Umsetzung des revidierten Gewässerschutzsgesetzes (GSchG) erarbeitet der Kanton Bern die strategische Planung zur Sanierung des Geschiebehaushaltes seiner Fliessgewässer. Der Schlussbericht beschreibt die Phase I der Sanierungsplanung. Im allgemeinen Teil (vgl. [1]) werden die verwendete Methodik, die fachlichen Grundlagen der Sanierungsplanung und eine Zusammenfassung der Ergebnisse festgehalten. In diesem Teilbericht werden die Resultate für das Gewässersystem Hasliaare dokumentiert.}
+      \field{day}{30}
+      \field{langid}{ngerman}
+      \field{month}{11}
+      \field{shorttitle}{Sanierung des Geschiebehaushaltes im Kanton Bern Schlussbericht – Gewässersystem Hasliaare}
+      \field{title}{Gewässerentwicklungskonzept Bern - GEKOBE.2014, Strategische Planungen nach GSchG/GSchV, Sanierung des Geschiebehaushaltes im Kanton, Schlussbericht – Gewässersystem Hasliaare}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{pages}{39}
+      \range{pages}{1}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/FADPVGBQ/Hunzinger and Pauli - 2014 - Gewässerentwicklungskonzept Bern - GEKOBE.2014, St.pdf
+      \endverb
+    \endentry
+    \entry{keuschSubstratkartierungAlpinenOekosystemen2023}{thesis}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=fdac0b26aa3fb3ba5616540f4f9bf347}{%
+           family={Keusch},
+           familyi={K\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Hochschule für Architektur, Bau und Geomatik Fachhochschule Nordwestschweiz}%
+      }
+      \list{location}{1}{%
+        {Boswil}%
+      }
+      \strng{namehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{fullhash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{bibnamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authorbibnamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authornamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authorfullhash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Die Bedeutung von Wasser und Gewässer ist unbestritten. Die Funktion als Trinkwasser für Mensch und Tier liegt auf der Hand. Flüsse und Seen bieten zudem vielen Lebewesen Nahrung und Schutz und für den Menschen oftmals beliebte Naherholungsgebiete. Dem gegenüber steht die Stromproduktion aus Wasserkraft wie auch die industrielle und landwirtschaftliche Nutzung. Im Gewässerschutzrecht definiert der Bund den umfassenden Schutz der Gewässer und ihrer vielfältigen Funktionen sowie die nachhaltig abgestimmte Nutzung durch den Menschen als zentrale Ziele. Bauten und Anlagen des Menschen stellen unweigerlich einen Eingriff dar. Durch Hochwasserereignisse, Sturzfluten oder Wasserabflüsse aus Kraftwerksanlagen wird dieses sensible Ökosystem zusätzlich belastet. Besonders in alpinen Regionen können durch ausserordentliche Ereignisse grosse Geschiebevolumen die natürliche Ordnung im Gewässer stören, das ökologische Gleichgewicht negativ verändern und die Nutzung bspw. für die Stromproduktion beeinträchtigen. Solche Veränderungen müssen effektiv und genau dokumentiert werden, um daraus Massnahmen zur Verbesserung abzuleiten. Das Substrat ist ein Schlüsselindikator für den ökologischen Zustand eines Gewässers. Konventionelle Substratkartierungen basieren auf manuellen Feldkartierungen und Linienzahlanalysen. Ansätze für die Erfassung mit Laserscanning und Luftbildaufnahmen bestehen, stützen sich aber für die Substratableitung meistens auf geometrische Eigenschaften wie die Rauigkeit und selten auf Einzelbildklassifikationen ab. Grossflächige Kartierungen mit automatisierten bildbasierten Verfahren sind nicht vorhanden. In dieser Arbeit wurden bildbasierte Deep-Learning-Objektdetektoren zur Substratkartierung mit georeferenzierten Bilddaten untersucht. Zwei durchgängige Workflows mit unterschiedlichen Detektionsansätzen (Workflow A mit einer Objektdetektion, Workflow B mit einer Semantischen Segmentation) konnten erstellt, die Netzwerke trainiert und angewendet werden. Weiter wurden die Anforderungen an das Bildmaterial getestet und die Detektionsresultate mit Referenzverteilungen aus einer manuellen Kartierung sowie einer Kartierung nach geometrischen Eigenschaften verglichen. In den Workflows wird georeferenziertes Bildmaterial von lokal gespeicherten Orthophotos aus Drohnenaufnahmen oder vom WMS-Dienst SWISSIMAGE der swisstopo zusammen mit Trainingsdaten aufbereitet und in ein neuronales Netzwerk für das Training und die Detektion eingespiesen. Detektionen werden als georeferenzierte Flächen im Shape-Format ausgegeben und können direkt weiterverarbeitet werden. Die Workflows sind als geodaten- und MultiClass-fähige open-source Anwendungen in Python und auf Google Colaboratory für den breiten Einsatz umgesetzt. In Zusammenarbeit mit der Kraftwerke Oberhasli AG (KWO) und auf Basis ihrer Grundlage- und Trainingsdaten konnte ein Versuchsaufbau im Gadmental realisiert werden. Mit diesem Versuchsaufbau konnte die Leistungsfähigkeit der Workflows und der verwendeten Detektionsansätzen an unterschiedlichen Bodenauflösungen (3cm, 5cm, 10cm, 25cm) und Bildquellen (lokale Orthophotos, SWISSIMAGE) überprüft werden. Für Workflow A Objektdetektion wurde Detectron2/ ResNet50 und für Workflow B Semantische Segmentation U-Net/MobileNet\_v2 und UNet/ ResNet50 verwendet. Ein Trainingseffekt mit vergleichbaren Genauigkeitswerten konnte bei beiden Workflows besonders bei hohen Auflösungen beobachtet werden. Die visuelle Betrachtung der Detektion zeigt für hohe Auflösungen plausible Resultate. Bereiche mit niedrigen Wasserständen werden erkannt und Vegetation oder tiefe Bereiche konsequent ausgeschieden. Vereinzelt sind fehlende Detektionen in dunklen/schattigen Bereichen erkennbar. Für die Beurteilung des ökologischen Gewässerzustandes ist die Verteilung der Substratflächen entscheidend. Eine Histogrammgegenüberstellung der detektierten Flächen mit einer manuellen digitalisierten Referenzverteilung sowie einer Verteilung anhand von geometrischen Rauigkeitsindikatoren über Teilabschnitte zeigt, dass eine Semantische Segmentation mit ResNet50 die Referenzverteilung am treffensten nachmodellieren kann. Eine Verschlechterung mit abnehmender Bodenauflösung ist auch hier feststellbar. Die entwickelten Workflows funktionieren und die offene Umsetzung ist zielführend. Die Semantische Segmentation mit ResNet50 bei 3cm Bodenauflösung zeigt bereits jetzt erfolgsversprechende Resultate, während ab 5cm eine starke Abnahme der Leistung auftritt. Die Validierung anhand der Referenzverteilung zeigt, dass die Eignung von bildbasierten Deep-Learning-Ansätzen für die Substratkartierung gegeben ist. Dies ermöglicht einen kleinen Beitrag für eine bessere ökologische Beurteilung von Gewässern sowie zielgerichtete und ressourcenschonende Verbesserungsmassnahmen.}
+      \field{day}{10}
+      \field{langid}{ngerman}
+      \field{month}{2}
+      \field{pagetotal}{85}
+      \field{title}{Substratkartierung in alpinen Ökosystemen mit Deep-Learning- Objektdetektoren}
+      \field{type}{Masterarbeit}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/9WTSC3JP/Keusch - 2023 - Substratkartierung in alpinen Ökosystemen mit Deep.pdf
+      \endverb
+    \endentry
+    \entry{nitscheGeschiebehaushaltMassnahmen2024}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=be85f3c058a4f0702b86baf5864d5bd5}{%
+           family={Nitsche},
+           familyi={N\bibinitperiod},
+           given={Manuel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6d292f05657822a6287c3158eb665cc}{%
+           family={Pfaundler},
+           familyi={P\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{namea}{5}{}{%
+        {{hash=b6ac3048f76c13073824ae03c2bc4d9a}{%
+           family={Hunzinger},
+           familyi={H\bibinitperiod},
+           given={Lukas},
+           giveni={L\bibinitperiod}}}%
+        {{hash=bc9006585014f488b22ec2984138c87e}{%
+           family={Schälchli},
+           familyi={S\bibinitperiod},
+           given={Ueli},
+           giveni={U\bibinitperiod}}}%
+        {{hash=d68e52be6912625064f570d72d27525b}{%
+           family={Kirchhofer},
+           familyi={K\bibinitperiod},
+           given={Arthur},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c3318ec86c81e52a1aeefcaca25bcf0d}{%
+           family={Rüesch},
+           familyi={R\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod}}}%
+        {{hash=0e884c268c4960ce106fd1b0f5083c82}{%
+           family={Roulier},
+           familyi={R\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Bundesamt für Umwelt BAFU}%
+      }
+      \list{location}{1}{%
+        {Bern}%
+      }
+      \strng{namehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{fullhash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{bibnamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authorbibnamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authornamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authorfullhash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{nameabibnamehash}{bdbe7038ab936dce7816f53892a87adf}
+      \strng{nameanamehash}{9b7b6cc442f7fcc0b42842d3b7d09a84}
+      \strng{nameafullhash}{bdbe7038ab936dce7816f53892a87adf}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Ein Modul der Vollzugshilfe Renaturierung der Gewässer. 2024 Das vorliegende Modul der Vollzugshilfe «Renaturierung der Gewässer» beschreibt das Vorgehen zur Planung von Massnahmen zur Beseitigung oder Verhinderung von Geschiebedefiziten im Gewässer bei Wasserkraftanlagen, Kiesentnahmen, Geschiebe-sammlern, Hochwasserschutz- und Revitalisierungsprojekten und anderen Anlagen. Zur Planung gehören Arbeitsschritte zur Situationsanalyse, zur Zieldefinition und zur Massnahmendefinition. Im Modul wird auch eine pragmatische Methodik zur Bestimmung einer erforderlichen Geschiebefracht vorgeschlagen sowie ein Konzept und Indikatoren für die Wirkungskontrolle von Geschiebemassnahmen.}
+      \field{nameatype}{collaborator}
+      \field{number}{UV-2325-D}
+      \field{title}{Geschiebehaushalt – {{Massnahmen}}}
+      \field{type}{Vollzugshilfe}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/3SG69BNY/Bundesamt für Umwelt BAFU Office fédéral de l'environnement OFEV Ufficio federale dell'ambiente UFAM - Geschiebehaushalt – Massnahmen.pdf;/Users/lukasbatschelet/Zotero/storage/5DHV8JV6/vollzugshilfe-geschiebehaushalt-massnahmen.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.bafu.admin.ch/uv-2325-d
+      \endverb
+      \verb{url}
+      \verb https://www.bafu.admin.ch/uv-2325-d
+      \endverb
+      \keyw{Fliessgewässer,Geschiebehaushalt,Geschiebesanierung,Gewässerschutzgesetz,Sanierungsmassnahmen,Wasserkraftnutzung}
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global}
+    \entry{fehrGeschiebeanalysenGebirgsflussenUmrechnung1987}{report}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cf61af590387ce796999d3f33d692991}{%
+           family={Fehr},
+           familyi={F\bibinitperiod},
+           given={René},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {ETH Zürich}%
+      }
+      \list{location}{1}{%
+        {Zürich}%
+      }
+      \strng{namehash}{cf61af590387ce796999d3f33d692991}
+      \strng{fullhash}{cf61af590387ce796999d3f33d692991}
+      \strng{bibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorbibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authornamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorfullhash}{cf61af590387ce796999d3f33d692991}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{Nr. 92}
+      \field{title}{Geschiebeanalysen in {{Gebirgsflüssen}} - {{Umrechnung}} Und {{Vergleich}} von Verschiedenen {{Analyseverfahren}}}
+      \field{year}{1987}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/WENXPTYU/Fehr - 1987 - Geschiebeanalysen in Gebirgsflüssen - Umrechnung u.pdf
+      \endverb
+    \endentry
+    \entry{fehrEinfacheBestimmungKorngroessenverteilung1987}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cf61af590387ce796999d3f33d692991}{%
+           family={Fehr},
+           familyi={F\bibinitperiod},
+           given={René},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cf61af590387ce796999d3f33d692991}
+      \strng{fullhash}{cf61af590387ce796999d3f33d692991}
+      \strng{bibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorbibnamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authornamehash}{cf61af590387ce796999d3f33d692991}
+      \strng{authorfullhash}{cf61af590387ce796999d3f33d692991}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{17}
+      \field{langid}{ngerman}
+      \field{month}{9}
+      \field{title}{Einfache Bestimmung der Korngrössenverteilung von Geschiebematerial mit Hilfe der Linienzahlanalyse}
+      \field{urlday}{5}
+      \field{urlmonth}{5}
+      \field{urlyear}{2024}
+      \field{year}{1987}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.5169/SEALS-76710
+      \endverb
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/2GT554EV/Fehr - 1987 - Einfache Bestimmung der Korngrössenverteilung von .pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.e-periodica.ch/digbib/view?pid=sbz-003:1987:105::688
+      \endverb
+      \verb{url}
+      \verb https://www.e-periodica.ch/digbib/view?pid=sbz-003:1987:105::688
+      \endverb
+    \endentry
+    \entry{hunzingerGewaesserentwicklungskonzeptBernGEKOBE2014}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b6ac3048f76c13073824ae03c2bc4d9a}{%
+           family={Hunzinger},
+           familyi={H\bibinitperiod},
+           given={Lukas},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8ff8cecd9168bc1cb3e2c98f34ef373a}{%
+           family={Pauli},
+           familyi={P\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {AWA Amt für Wasser und Abfall, TBA Tiefbauamt Kanton Bern, LANAT Amt für Landwirtschaft und Natur, AGR Amt für Gemeinden und Raumordnung, Flussbau AG}%
+      }
+      \strng{namehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{fullhash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{bibnamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authorbibnamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authornamehash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \strng{authorfullhash}{e7a9e5647caeb3824839ef45d7a189b7}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Im Rahmen der Umsetzung des revidierten Gewässerschutzsgesetzes (GSchG) erarbeitet der Kanton Bern die strategische Planung zur Sanierung des Geschiebehaushaltes seiner Fliessgewässer. Der Schlussbericht beschreibt die Phase I der Sanierungsplanung. Im allgemeinen Teil (vgl. [1]) werden die verwendete Methodik, die fachlichen Grundlagen der Sanierungsplanung und eine Zusammenfassung der Ergebnisse festgehalten. In diesem Teilbericht werden die Resultate für das Gewässersystem Hasliaare dokumentiert.}
+      \field{day}{30}
+      \field{langid}{ngerman}
+      \field{month}{11}
+      \field{shorttitle}{Sanierung des Geschiebehaushaltes im Kanton Bern Schlussbericht – Gewässersystem Hasliaare}
+      \field{title}{Gewässerentwicklungskonzept Bern - GEKOBE.2014, Strategische Planungen nach GSchG/GSchV, Sanierung des Geschiebehaushaltes im Kanton, Schlussbericht – Gewässersystem Hasliaare}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{pages}{39}
+      \range{pages}{1}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/FADPVGBQ/Hunzinger and Pauli - 2014 - Gewässerentwicklungskonzept Bern - GEKOBE.2014, St.pdf
+      \endverb
+    \endentry
+    \entry{keuschSubstratkartierungAlpinenOekosystemen2023}{thesis}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=fdac0b26aa3fb3ba5616540f4f9bf347}{%
+           family={Keusch},
+           familyi={K\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Hochschule für Architektur, Bau und Geomatik Fachhochschule Nordwestschweiz}%
+      }
+      \list{location}{1}{%
+        {Boswil}%
+      }
+      \strng{namehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{fullhash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{bibnamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authorbibnamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authornamehash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \strng{authorfullhash}{fdac0b26aa3fb3ba5616540f4f9bf347}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Die Bedeutung von Wasser und Gewässer ist unbestritten. Die Funktion als Trinkwasser für Mensch und Tier liegt auf der Hand. Flüsse und Seen bieten zudem vielen Lebewesen Nahrung und Schutz und für den Menschen oftmals beliebte Naherholungsgebiete. Dem gegenüber steht die Stromproduktion aus Wasserkraft wie auch die industrielle und landwirtschaftliche Nutzung. Im Gewässerschutzrecht definiert der Bund den umfassenden Schutz der Gewässer und ihrer vielfältigen Funktionen sowie die nachhaltig abgestimmte Nutzung durch den Menschen als zentrale Ziele. Bauten und Anlagen des Menschen stellen unweigerlich einen Eingriff dar. Durch Hochwasserereignisse, Sturzfluten oder Wasserabflüsse aus Kraftwerksanlagen wird dieses sensible Ökosystem zusätzlich belastet. Besonders in alpinen Regionen können durch ausserordentliche Ereignisse grosse Geschiebevolumen die natürliche Ordnung im Gewässer stören, das ökologische Gleichgewicht negativ verändern und die Nutzung bspw. für die Stromproduktion beeinträchtigen. Solche Veränderungen müssen effektiv und genau dokumentiert werden, um daraus Massnahmen zur Verbesserung abzuleiten. Das Substrat ist ein Schlüsselindikator für den ökologischen Zustand eines Gewässers. Konventionelle Substratkartierungen basieren auf manuellen Feldkartierungen und Linienzahlanalysen. Ansätze für die Erfassung mit Laserscanning und Luftbildaufnahmen bestehen, stützen sich aber für die Substratableitung meistens auf geometrische Eigenschaften wie die Rauigkeit und selten auf Einzelbildklassifikationen ab. Grossflächige Kartierungen mit automatisierten bildbasierten Verfahren sind nicht vorhanden. In dieser Arbeit wurden bildbasierte Deep-Learning-Objektdetektoren zur Substratkartierung mit georeferenzierten Bilddaten untersucht. Zwei durchgängige Workflows mit unterschiedlichen Detektionsansätzen (Workflow A mit einer Objektdetektion, Workflow B mit einer Semantischen Segmentation) konnten erstellt, die Netzwerke trainiert und angewendet werden. Weiter wurden die Anforderungen an das Bildmaterial getestet und die Detektionsresultate mit Referenzverteilungen aus einer manuellen Kartierung sowie einer Kartierung nach geometrischen Eigenschaften verglichen. In den Workflows wird georeferenziertes Bildmaterial von lokal gespeicherten Orthophotos aus Drohnenaufnahmen oder vom WMS-Dienst SWISSIMAGE der swisstopo zusammen mit Trainingsdaten aufbereitet und in ein neuronales Netzwerk für das Training und die Detektion eingespiesen. Detektionen werden als georeferenzierte Flächen im Shape-Format ausgegeben und können direkt weiterverarbeitet werden. Die Workflows sind als geodaten- und MultiClass-fähige open-source Anwendungen in Python und auf Google Colaboratory für den breiten Einsatz umgesetzt. In Zusammenarbeit mit der Kraftwerke Oberhasli AG (KWO) und auf Basis ihrer Grundlage- und Trainingsdaten konnte ein Versuchsaufbau im Gadmental realisiert werden. Mit diesem Versuchsaufbau konnte die Leistungsfähigkeit der Workflows und der verwendeten Detektionsansätzen an unterschiedlichen Bodenauflösungen (3cm, 5cm, 10cm, 25cm) und Bildquellen (lokale Orthophotos, SWISSIMAGE) überprüft werden. Für Workflow A Objektdetektion wurde Detectron2/ ResNet50 und für Workflow B Semantische Segmentation U-Net/MobileNet\_v2 und UNet/ ResNet50 verwendet. Ein Trainingseffekt mit vergleichbaren Genauigkeitswerten konnte bei beiden Workflows besonders bei hohen Auflösungen beobachtet werden. Die visuelle Betrachtung der Detektion zeigt für hohe Auflösungen plausible Resultate. Bereiche mit niedrigen Wasserständen werden erkannt und Vegetation oder tiefe Bereiche konsequent ausgeschieden. Vereinzelt sind fehlende Detektionen in dunklen/schattigen Bereichen erkennbar. Für die Beurteilung des ökologischen Gewässerzustandes ist die Verteilung der Substratflächen entscheidend. Eine Histogrammgegenüberstellung der detektierten Flächen mit einer manuellen digitalisierten Referenzverteilung sowie einer Verteilung anhand von geometrischen Rauigkeitsindikatoren über Teilabschnitte zeigt, dass eine Semantische Segmentation mit ResNet50 die Referenzverteilung am treffensten nachmodellieren kann. Eine Verschlechterung mit abnehmender Bodenauflösung ist auch hier feststellbar. Die entwickelten Workflows funktionieren und die offene Umsetzung ist zielführend. Die Semantische Segmentation mit ResNet50 bei 3cm Bodenauflösung zeigt bereits jetzt erfolgsversprechende Resultate, während ab 5cm eine starke Abnahme der Leistung auftritt. Die Validierung anhand der Referenzverteilung zeigt, dass die Eignung von bildbasierten Deep-Learning-Ansätzen für die Substratkartierung gegeben ist. Dies ermöglicht einen kleinen Beitrag für eine bessere ökologische Beurteilung von Gewässern sowie zielgerichtete und ressourcenschonende Verbesserungsmassnahmen.}
+      \field{day}{10}
+      \field{langid}{ngerman}
+      \field{month}{2}
+      \field{pagetotal}{85}
+      \field{title}{Substratkartierung in alpinen Ökosystemen mit Deep-Learning- Objektdetektoren}
+      \field{type}{Masterarbeit}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/9WTSC3JP/Keusch - 2023 - Substratkartierung in alpinen Ökosystemen mit Deep.pdf
+      \endverb
+    \endentry
+    \entry{nitscheGeschiebehaushaltMassnahmen2024}{report}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=be85f3c058a4f0702b86baf5864d5bd5}{%
+           family={Nitsche},
+           familyi={N\bibinitperiod},
+           given={Manuel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6d292f05657822a6287c3158eb665cc}{%
+           family={Pfaundler},
+           familyi={P\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{namea}{5}{}{%
+        {{hash=b6ac3048f76c13073824ae03c2bc4d9a}{%
+           family={Hunzinger},
+           familyi={H\bibinitperiod},
+           given={Lukas},
+           giveni={L\bibinitperiod}}}%
+        {{hash=bc9006585014f488b22ec2984138c87e}{%
+           family={Schälchli},
+           familyi={S\bibinitperiod},
+           given={Ueli},
+           giveni={U\bibinitperiod}}}%
+        {{hash=d68e52be6912625064f570d72d27525b}{%
+           family={Kirchhofer},
+           familyi={K\bibinitperiod},
+           given={Arthur},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c3318ec86c81e52a1aeefcaca25bcf0d}{%
+           family={Rüesch},
+           familyi={R\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod}}}%
+        {{hash=0e884c268c4960ce106fd1b0f5083c82}{%
+           family={Roulier},
+           familyi={R\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Bundesamt für Umwelt BAFU}%
+      }
+      \list{location}{1}{%
+        {Bern}%
+      }
+      \strng{namehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{fullhash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{bibnamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authorbibnamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authornamehash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{authorfullhash}{3c662bcd34e04263f6effa3bc4613ef5}
+      \strng{nameabibnamehash}{bdbe7038ab936dce7816f53892a87adf}
+      \strng{nameanamehash}{9b7b6cc442f7fcc0b42842d3b7d09a84}
+      \strng{nameafullhash}{bdbe7038ab936dce7816f53892a87adf}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Ein Modul der Vollzugshilfe Renaturierung der Gewässer. 2024 Das vorliegende Modul der Vollzugshilfe «Renaturierung der Gewässer» beschreibt das Vorgehen zur Planung von Massnahmen zur Beseitigung oder Verhinderung von Geschiebedefiziten im Gewässer bei Wasserkraftanlagen, Kiesentnahmen, Geschiebe-sammlern, Hochwasserschutz- und Revitalisierungsprojekten und anderen Anlagen. Zur Planung gehören Arbeitsschritte zur Situationsanalyse, zur Zieldefinition und zur Massnahmendefinition. Im Modul wird auch eine pragmatische Methodik zur Bestimmung einer erforderlichen Geschiebefracht vorgeschlagen sowie ein Konzept und Indikatoren für die Wirkungskontrolle von Geschiebemassnahmen.}
+      \field{nameatype}{collaborator}
+      \field{number}{UV-2325-D}
+      \field{title}{Geschiebehaushalt – {{Massnahmen}}}
+      \field{type}{Vollzugshilfe}
+      \field{urlday}{15}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /Users/lukasbatschelet/Zotero/storage/3SG69BNY/Bundesamt für Umwelt BAFU Office fédéral de l'environnement OFEV Ufficio federale dell'ambiente UFAM - Geschiebehaushalt – Massnahmen.pdf;/Users/lukasbatschelet/Zotero/storage/5DHV8JV6/vollzugshilfe-geschiebehaushalt-massnahmen.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.bafu.admin.ch/uv-2325-d
+      \endverb
+      \verb{url}
+      \verb https://www.bafu.admin.ch/uv-2325-d
+      \endverb
+      \keyw{Fliessgewässer,Geschiebehaushalt,Geschiebesanierung,Gewässerschutzgesetz,Sanierungsmassnahmen,Wasserkraftnutzung}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

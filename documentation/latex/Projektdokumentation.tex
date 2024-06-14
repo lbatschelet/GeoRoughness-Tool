@@ -1,0 +1,181 @@
+% Basic Layout settings
+\documentclass[10pt]{extarticle}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+
+\usepackage{siunitx}
+    \DeclareSIUnit\century{century}
+    \DeclareSIUnit\year{y}
+
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{authblk}
+
+\usepackage{enumitem}
+
+% Section counter behavior
+\usepackage{chngcntr} % Load the package for changing counter behavior
+
+    \counterwithin{figure}{section}   % Figures numbered within sections
+    \counterwithin{table}{section}    % Tables numbered within sections
+    \counterwithin{equation}{section} % Equations numbered within sections
+
+\usepackage{xcolor, cancel}
+
+% Fonts and Colors
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}  % T1 Font Encoding für ältere Pakete, falls erforderlich
+\usepackage{titlesec}  % Paket zum Anpassen der Überschriften
+
+% Hauptschriftarten festlegen
+\setmainfont{Helvetica}  % Setzt die Hauptschriftart auf Times New Roman
+\setsansfont{Helvetica}  % Setzt die serifenlose Schriftart auf Helvetica
+
+\setmonofont{JetBrains Mono}[
+    Path=../resources/fonts/JetBrainsMono/,
+    Scale=0.85,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+
+% Farbe für den Haupttext festlegen
+\usepackage{etoolbox}
+\definecolor{darkgray}{gray}{0.1}
+\AtBeginDocument{\color{darkgray}}
+
+% Schriftart für die Überschriften ändern mit titlesec
+\titleformat{\section}{\normalfont\sffamily\Large\bfseries\color{black}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\sffamily\large\bfseries\color{black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\sffamily\normalsize\bfseries\color{black}}{\thesubsubsection}{1em}{}
+
+% Anpassungen für deutsche Sprache
+\addto\captionsngerman{
+    \renewcommand{\figurename}{Abb.}
+    \renewcommand{\listfigurename}{Abbildungsverzeichnis}
+    \renewcommand{\tablename}{Tab.}
+    \renewcommand{\listtablename}{Tabellenverzeichnis}
+    \renewcommand{\refname}{Literaturverzeichnis}
+}
+
+\usepackage[hidelinks]{hyperref}
+
+
+% Header und Footer
+\usepackage{fancyhdr} % Laden des Pakets für Kopf- und Fußzeilen
+
+\pagestyle{fancy} % Verwenden des "fancy" Stils
+\fancyhf{} % Alle Kopf- und Fußzeilenfelder bereinigen
+\renewcommand{\headrulewidth}{0pt} % Keine Linie im Kopfbereich
+\renewcommand{\footrulewidth}{0.4pt} % Dünne Linie im Fußbereich
+
+% Kopfzeile
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[C]{}
+\fancyhead[R]{Stefanie Röthlisberger, Lukas Batschelet, Florian Mohaupt}
+
+% Fußzeile
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+
+% License
+\usepackage[
+    type={CC},
+    modifier={by-nc-sa},
+    version={4.0},
+]{doclicense}
+
+\usepackage{fontawesome5}
+
+%! suppress = Makeatletter
+\makeatletter
+\newcommand{\github}[1]{%
+    \href{#1}{\faGithubSquare}%
+}
+%! suppress = Makeatletter
+\makeatother
+
+
+% Literature management
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{references.bib}
+
+% Basic document information
+\title{%
+    Eintwicklung eines Verfahrens zur Korngrössenanalyse mittels digitaler Höhenmodelle\\
+    \normalsize Projektdokumentation}
+\author[1]{Stefanie Röthlisberger}
+\author[2]{Lukas Batschelet}
+\author[3]{Florian Mohaupt}
+
+\affil[1]{stefanie.roethlisberger2@students.unibe.ch, 20-924-346}
+\affil[2]{lukas.batschelet@students.unibe.ch, 16-499-733}
+\affil[3]{florian.mohaupt@students.unibe.ch, 22-125-041}
+\date{\today}
+
+% The Documents setup is super long and complex, therefore I decided to move it into a seperate file
+
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\section*{Abstract}
+    In unserem Projekt haben wir die Korngrössenverteilung oberhalb des Geschiebesammlers Obermad im Gadmertal untersucht und dazu ein Programm entwickelt, welches eine Klassifikation der Korngrössenverteilung auf Basis eines digitalen Höhenmodells ermöglicht.
+    Der Geschiebesammler wurde im Herbst 2023 saniert, um seine Auswirkungen auf Lebensräume, den Hochwasserschutz und den Grundwasserhaushalt zu reduzieren und einer wiederkehrenden Kiesentnahme entgegenzuwirken.
+
+    Ursprünglich beabsichtigten wir, die Auswirkungen der Sanierungsarbeiten auf den Geschiebetransport zu analysieren.
+    Da jedoch seit den Arbeiten nicht genügend Zeit verstrichen war, um eine natürlich fluvial geprägte und sortierte Umgebung wiederherzustellen, verlagerten wir unseren Fokus auf die Entwicklung eines Programms zur Klassifikation der Korngrössenverteilung.
+    Dieses Verfahren nutzt digitale Höhenmodelle und ermöglicht eine effiziente und benutzungsfreundliche Analyse.
+
+\section{Einleitung}\label{sec:einleitung}
+
+    Der Geschiebesammler Obermad wurde 2014 hinsichtlich seiner Auswirkungen auf Tiere, Pflanzen, Lebensräume, den Hochwasserschutz und den Grundwasserhaushalt untersucht.
+    Die Analyse von~\cite{hunzingerGewaesserentwicklungskonzeptBernGEKOBE2014} stellte erhebliche Beeinträchtigungen in allen Bereichen fest, unter anderem aufgrund der jährlichen Entnahme von etwa 4'000 m³ Kies, woraufhin der Geschiebesammler nach Art.\ 43a GSchG als sanierungspflichtig eingestuft wurde.
+    Um die negativen Effekte zu reduzieren und der wiederkehrenden Kiesentnahme entgegenzuwirken, wurde im Herbst 2023 die Durchlassbreite des Sammlers vergrössert.
+    Diese Anpassung beeinflusst den Geschiebetransport und somit auch die Korngrössenverteilung des Geschiebes.
+    Der natürliche Transport von Sand, Kies und Steinen im Wasser ist essenziell für die Bildung vielfältiger Strukturen im oder am Gewässer.
+
+    Die Korngrössenverteilung spielt eine entscheidende Rolle in der Flussmorphologie und der ökologischen Dynamik von Fliessgewässern.
+    Um die Korngrössen- und Geschiebeverteilung auszuwerten und zu analysieren, existieren bereits verschiedene methodische Ansätze.
+    Einerseits gibt es geometrische, teils mit grossem Aufwand verbundene Verfahren, wie die Siebanalyse oder die häufiger angewendete Linienzahlanalyse~\parencite{fehrGeschiebeanalysenGebirgsflussenUmrechnung1987}.
+    Bei der Linienzahlanalyse wird im Feld eine Verteilung der Komponenten manuell ausgemessen, und anschliessend wird die gesamte Korngrössenverteilung mithilfe der Fullerverteilung mathematisch angenähert~\parencite{fehrEinfacheBestimmungKorngroessenverteilung1987}.
+    Nebst den geometrischen Verfahren existieren ebenfalls bereits Ansätze aus der Fotogrammmetrie, wobei anhand von hochaufgelösten Orthofotos die Geschiebeverteilung eines Gebietes analysiert werden kann.
+    In junger Vergangenheit wurden auch Verfahren unter Anwendung von neuronalen Netzen für die Klassifikation entwickelt~\parencite[vgl.]{keuschSubstratkartierungAlpinenOekosystemen2023}.
+    Wichtig bei solchen Verfahren ist die möglichst automatisierte und benutzungsfreundliche Anwendung, damit die entwickelten Verfahren und Methoden für verschiedene Gebiete und Fragestellungen angewendet und reproduziert werden können.
+
+    Um eine möglichst einheitliche und nachvollziehbare Klassifikation des Geschiebehaushalts zu ermöglichen, hat das Bundesamt für Umwelt BAFU in der Vollzugshilfe zur Renaturierung von Gewässern das Substrat in fünf Klassen – Substrattypen – bezüglich Korngrösse eingeteilt.
+    Es handelt sich hierbei um eine relative Klassifizierung, wobei die absoluten Korngrössen gewässerspezifisch abzuleiten sind~\parencite{nitscheGeschiebehaushaltMassnahmen2024}.
+    In diesem Projekt haben wir uns bei der Klassifikation ebenfalls auf diese fünf Klassen bezogen (vgl. Abbildung 3.) % TODO: Add reference to figure
+
+    Unser ursprüngliches Ziel war es, die Veränderungen des Geschiebetransports durch die Anpassung des Geschiebesammlers zu analysieren.
+    Da jedoch nur wenige Monate zwischen der Sanierung und unseren Untersuchungen im Frühjahr 2024 lagen, war das Gebiet noch stark von der Baustelle geprägt.
+    Dies führte dazu, dass sich die Umgebung noch nicht fluvial geprägt und sortiert hatte, was eine Analyse der Veränderungen der Korngrössenverteilung wenig interessant erscheinen liess.
+    Aus diesem Grund fokussierten wir uns auf die Entwicklung eines datengestützten Verfahrens zur Berechnung und Kategorisierung der Korngrössenverteilung, basierend auf der Oberflächenrauheit.
+    Dieses Verfahren, motiviert durch persönliches Interesse und Herausforderungen bestehender Analyseprogramme, ermöglicht eine effiziente und benutzungsfreundliche Analyse der Korngrössenverteilung.
+
+\section{Fragestellung}\label{sec:fragestellung}
+
+    \subsection{Forschungsfrage}\label{subsec:forschungsfrage}
+
+        \textit{Welche Auswirkungen hat die Vergrösserung des Durchlasses des Geschiebesammlers Obermad auf die Korngrössenverteilung im Flussbett des Gadmerwasser?}
+
+        Die Forschungsfrage bezieht sich auf die Auswirkungen der Sanierung des Geschiebesammlers im Jahr 2023. Wir mussten im Verlauf der Arbeit feststellen, dass die effektive Beantwortung dieser Frage den Rahmen dieser Projektarbeit überschreitet. Im Abschnitt Diskussion gehen wir näher auf diese Feststellung ein. Das Ziel der Projektarbeit soll aber sein, mit der Entwicklung einer Auswertungsmethode die Beantwortung dieser Frage theoretisch zu ermöglichen.
+
+
+% Bibliography
+\printbibliography
+
+
+% License
+\section*{License}
+    \doclicenseThis
+    \github{https://github.com/lbatschelet/GeoRoughness-Tool} All material is made available on GitHub:
+    \\ \href{https://github.com/lbatschelet/GeoRoughness-Tool}{https://github.com/lbatschelet/GeoRoughness\-Tool}
+
+\end{document}
